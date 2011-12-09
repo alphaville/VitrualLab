@@ -4,77 +4,93 @@
 addpath('/usr/share/octave/packages/3.2/control-1.0.11/');
 
 if nargin==0
-  % default parameters
-  Kc=1.5;
-  ti=1;
-  td=3;
-  ps=[1];
-  qs=[1 2 3 4 5];
-  delay=0.02;
-  open=0;
-  bode=1;
-  nyquist=1;
-  typeSig=3;
-  ampl=1;
-  freq=10;
+	% default parameters
+	Kc=1.5;
+	ti=1;
+	td=3;
+	ps=[1];
+	qs=[1 2 3 4 5];
+	delay=0.02;
+	open=0;
+	dobode=1;
+	donyquist=1;
+	typeSig=3;
+	ampl=1;
+	freq=10;
+	sessionid="demo";
 else
-  % Read parameters from the command line
-  arg_list = argv();
-  Kc = str2num(arg_list{1});
-  ti = str2num(arg_list{2});
-  td = str2num(arg_list{3});
-  ps = str2num(arg_list{4})
-  qs = str2num(arg_list{5});
-  delay = str2num(arg_list{6});
-  open  = str2num(arg_list{7});
-  bode = str2num(arg_list{8});
-  nyquist = str2num(arg_list{9});
-  typeSig = str2num(arg_list{10});
-  ampl = str2num(arg_list{11});
-  freq = str2num(arg_list{12});
+	% Read parameters from the command line
+	arg_list = argv();
+	Kc = str2num(arg_list{1});
+	ti = str2num(arg_list{2});
+	td = str2num(arg_list{3});
+	ps = str2num(arg_list{4})
+	qs = str2num(arg_list{5});
+	delay = str2num(arg_list{6});
+	open  = str2num(arg_list{7});
+	dobode = str2num(arg_list{8});
+	donyquist = str2num(arg_list{9});
+	typeSig = str2num(arg_list{10});
+	ampl = str2num(arg_list{11});
+	freq = str2num(arg_list{12});
+	sessionid = arg_list{13};
 end
 
-% Calculation of the transfer function of the system...
-if open==1
-  P=conv(ps,[Kc Kc*ti Kc*ti*td]);
-  Q=conv([ti 1],qs);
-  sys=tf(P,Q);
-else
-  
+switch open
+case 1
+	P=conv(ps,[Kc Kc*ti Kc*ti*td]);
+  	Q=conv([ti 1],qs);
+  	sys=tf(P,Q);	
+	if dobode==1 || donyquist==1
+		% Calculate Bode
+		Npoints=800;
+		mag = zeros(Npoints,1);
+		phase = zeros(Npoints,1);
+		omega = zeros(Npoints,1);
+		re = zeros(Npoints,1);
+		im = zeros(Npoints,1);
+		for i=1:Npoints
+			omega(i)=2^(i/100);
+			mag(i)=__bodeMag(sys,omega(i));
+			phase(i)=__bodePhase(sys,delay,omega(i));
+			[r img]=__nyquistVal(sys,delay,omega(i));
+			re(i)=r;im(i)=img;
+		end		
+	end
+
+	if dobode==1
+		% Plot Bode
+		f=figure('visible','off'); 
+		subplot(211);
+		hold on;
+		loglog(omega,mag,'LineWidth',2);
+		xlabel('Frequency');
+		ylabel('Magnitude');
+		grid on;
+		subplot(212);
+		hold on;
+		semilogx(omega,phase,'-r','LineWidth',2);
+		grid on;
+		print (['bode_' sessionid '.svg'], '-dsvg');
+		print (['bode_' sessionid '.jpg'], '-djpg','-S580,500');
+		close(f);
+	end
+
+	if donyquist==1
+		% Plot Nyquist
+		f=figure('visible','off'); 
+		plot(re,im,'-m','LineWidth',2);
+		print (['nyq_' sessionid '.svg'], '-dsvg');
+		print (['nyq_' sessionid '.jpg'], '-djpg','-S580,500');
+		close(f);
+	end
+case 0
+	
 end
 
-Npoints=800;
-mag = zeros(Npoints,1);
-phase = zeros(Npoints,1);
-omega = zeros(Npoints,1);
-re = zeros(Npoints,1);
-im = zeros(Npoints,1);
-for i=1:Npoints
-  omega(i)=2^(i/100);
-  mag(i)=__bodeMag(sys,omega(i));
-  phase(i)=__bodePhase(sys,delay,omega(i));
-  [r img]=__nyquistVal(sys,delay,omega(i));
-  re(i)=r;im(i)=img;
-end
 
-% Plot Bode
-f=figure('visible','off'); 
-  subplot(211);
-    hold on;
-    loglog(omega,mag,'LineWidth',2);
-    xlabel('Frequency');
-    ylabel('Magnitude');
-    grid on;
-  subplot(212);
-    hold on;
-    semilogx(omega,phase,'-r','LineWidth',2);
-    grid on;
-  print (['bode' '.svg'], '-dsvg');
-  print (['bode' '.jpg'], '-djpg');
-close(f);
 
-% Plot Nyquist
-f=figure('visible','off'); 
-plot(re,im,'-m','LineWidth',2);
-print (['nyq' '.svg'], '-dsvg');
-close(f);
+
+
+
+
