@@ -1,0 +1,40 @@
+#!/usr/bin/octave -qf
+
+% Include to path the control toolbox:
+addpath('/usr/share/octave/packages/3.2/control-1.0.11/');
+
+imgFileName="MyImage.jpg";
+if nargin==0
+  Kp=300;
+  disp('Using the default value of Kp: 300');
+else
+  arg_list = argv();
+  Kp=str2num(arg_list{1});
+  if nargin>=2
+    imgFileName=arg_list{2}; 
+  end
+end
+
+% Transfer function of the system
+num=[Kp];
+den=[1 10 Kp+20];
+sys=tf(num,den);
+
+% Computation of the step response
+% of the system:
+[y,t] = step(sys,1,3,6000);
+
+%Create Figure
+f=figure('visible','off'); 
+hold on;
+plot(t,ones(length(t),1),'-r','LineWidth',2);
+plot(t,y,'LineWidth',2);
+xlabel('Time');
+ylabel('Response');
+title ('Step Response');
+grid on;
+print ([imgFileName '.svg'], '-dsvg');
+print ([imgFileName '.jpg'], '-djpeg');
+close(f);
+
+disp(y(end));
