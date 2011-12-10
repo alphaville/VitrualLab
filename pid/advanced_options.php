@@ -13,7 +13,7 @@
        Bode Diagram 
     </td>
     <td>
-      <input type="checkbox" name="bode" id="bode">
+      <input type="checkbox" name="bode" id="bode" <?if ($bode=="1") {echo 'checked="true"';}?>>
     </td>
   </tr>
   <tr>
@@ -21,7 +21,7 @@
        Nyquist Diagram 
     </td>
     <td>
-      <input type="checkbox" name="nyquist" id="nyquist">
+      <input type="checkbox" name="nyquist" id="nyquist" <?if ($nyquist=="1") {echo 'checked="true"';}?>>
     </td>
   </tr>
   <tr>

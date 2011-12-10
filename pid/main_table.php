@@ -9,7 +9,7 @@
 </colgroup>
   <tr>
     <td>
-      <input type="checkbox" name="openLoop" onClick="openLoopAction(this);">
+      <input type="checkbox" name="open" onClick="openLoopAction(this);" <?if ($open=="1") {echo 'checked="true"';}?> >
     </td>
     <td>
       <span id="openLoopHint"><?echo $__OPENLOOP_HTML;?></span>

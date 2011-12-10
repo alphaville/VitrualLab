@@ -18,28 +18,41 @@ if (empty($_SESSION['count'])) {
   </head>
   <body id="body" onload="loadMe();">
 
+<?
+	if ($_POST==NULL){
+		$open=0;
+		$kpval=300; $tival=0.01; $tdval=1; $psval="[1]"; $qsval="[1 1 1]"; $delayval=0;
+	}else{
+		$open=$_POST["open"]=="on"?1:0;
+		$kpval=$_POST["Kp"]; $tival=$_POST["ti"]; $tdval=$_POST["td"];$psval=$_POST["ps"];
+		$qsval=$_POST["qs"]; $delayval=$_POST["delay"]; $bode=$_POST["bode"]=="on"?1:0;
+		$nyquist=$_POST["nyquist"]=="on"?1:0; $amplitude=$_POST["amplitude"];
+		$selectInputSignal=$_POST["selectInputSignal"]; $freq=$_POST["freq"];
+	}
+	include('./constants.php'); 
+	$image=$open=="1"?'PIDS2.png':'PIDS.png';
+?>
+
+
 <div class="container">
+<div id="background">
+    <img src="../background.jpg" class="stretch" alt="" />
+</div>
+
     <h2>Virtual Lab</h2>
     <h3>System with PID Controller</h3>
     <div>
       <small><em><a href="javascript:newPopup('./help.html');">Read First: Scope of the exercise</a></em></small>
     </div>
-    <img src="PIDS.jpg" alt="Flowchart is missing" id="flowchart" name="flowchart"/>
+    
+    <a href="<?echo $image;?>" target="_blank"><span class="hotspot" 
+    onmouseover="tooltip.show('Click to open in new tab.');" onmouseout="tooltip.hide();" style="border-bottom:0px">
+     <img src="<?echo $image;?>" alt="Flowchart is missing" id="flowchart" name="flowchart" border="0"/>
+    </span></a>
     <tr action="" method="POST">
       <p id="message">
          Modify the values of the following parameters and hit "Run" to start the simulation. Place the mouse over each parameter to read a relevant explanation. 
-      </p>
-      <?
-	if ($_POST==NULL){
-		$kpval=300; $tival=0.01; $tdval=1; $psval="[1]"; $qsval="[1 1 1]"; $delayval=0;
-	}else{
-		$kpval=$_POST["Kp"]; $tival=$_POST["ti"]; $tdval=$_POST["td"];$psval=$_POST["ps"];
-		$qsval=$_POST["qs"]; $delayval=$_POST["delay"]; $bode=$_POST["bode"];
-		$nyquist=$_POST["nyquist"]; $amplitude=$_POST["amplitude"];
-		$selectInputSignal=$_POST["selectInputSignal"]; $freq=$_POST["freq"];
-	}
-	include('./constants.php'); 
-      ?>
+      </p>      
 
       <form method="POST" action="#simulations">
         <input type="hidden" value="<?echo htmlspecialchars(session_id()); ?>" name="session_id"/>
@@ -51,10 +64,41 @@ if (empty($_SESSION['count'])) {
         <input type="submit" value="Run" id="sb"/>
       </form>
       <label id="simulations"/>
-	
-	<div class="results">
 		
-	</div>
+	<?
+	if ($_POST!=null){
+		$sid=$_POST["session_id"];
+		$command = './runPIDCtrl '.escapeshellarg($kpval).
+		" ".escapeshellarg($tival).
+		" ".escapeshellarg($tdval).
+		" ".escapeshellarg($psval).
+		" ".escapeshellarg($qsval).
+		' '.escapeshellarg($delayval).
+		' '.escapeshellarg($open).
+		' '.escapeshellarg($bode).
+		' '.escapeshellarg($nyquist).
+		' '.escapeshellarg($selectInputSignal).
+		' '.escapeshellarg($amplitude).
+		' '.escapeshellarg($freq).
+		' "./images/'.$sid.'"';
+		// echo $command;
+		$retval=exec($command,$ret);	
+		$bode_jpg="./images/".$sid."bode.jpg";
+		$nyq_jpg="./images/".$sid."nyq.jpg";		
+		echo '<div class="results">
+		<h3>Results</h3>';
+		$i=1;
+		if ($bode){		
+		echo '<div class="bodeBox"><img class="bode" src="'.$bode_jpg.'" />Figure '.($i++).' : Bode Plot</div>'; }
+  		if ($nyquist){
+		echo '<div class="nyqBox"><img class="nyq" src="'.$nyq_jpg.'" />Figure '.($i++).' : Nyquist Plot</div>';}
+		echo '</div>';
+	}	
+	?>
+
+	
+          
+	
 
 
       <div class="footer">
