@@ -1,11 +1,11 @@
 <!-- TABLE: START -->
 <table class="parameters">    
 <colgroup>
-<col style="width:40px"/>
-<col  style="width:170px"/>
-<col style="width:60px"/>
-<col  style="width:170px"/>
-<col/>	
+<col style="width:40px">
+<col  style="width:170px">
+<col style="width:60px">
+<col  style="width:170px">
+<col>	
 </colgroup>
   <tr>
     <td>
@@ -31,14 +31,14 @@
       ?>
     </td>
     <td>
-      <input class="normal" type="text" value="<?echo $kpval;?>" name="Kp" id="Kp" onkeyup="return check(this.value);" />
+      <input class="normal" type="text" value="<?echo $kpval;?>" name="Kp" id="Kp" onkeyup="return check(this.value);" >
     </td>
     <td>
       <?echo $__P_HTML; 
       ?>
     </td>
     <td>
-      <input class="normal" type="text" value="<?echo $psval?>" name="ps" id="ps"  />
+      <input class="normal" type="text" value="<?echo $psval?>" name="ps" id="ps"  >
     </td>
   </tr>
   <tr>
@@ -47,14 +47,14 @@
       ?>
     </td>
     <td>
-      <input class="normal" type="text" value="<?echo $tival;?>" name="ti" id="ti" onkeyup="return check(this.value);" />
+      <input class="normal" type="text" value="<?echo $tival;?>" name="ti" id="ti" onkeyup="return check(this.value);" >
     </td>
 <td>
       <?echo $__Q_HTML; 
       ?>
     </td>
     <td>
-      <input class="normal" type="text" value="<?echo $qsval?>" name="qs" id="qs" />
+      <input class="normal" type="text" value="<?echo $qsval?>" name="qs" id="qs" >
     </td>
   </tr>
   <tr>
@@ -63,14 +63,14 @@
       ?>
     </td>
     <td>
-      <input class="normal" type="text" value="<?echo $tdval;?>" name="td" id="td" onkeyup="return check(this.value);" />
+      <input class="normal" type="text" value="<?echo $tdval;?>" name="td" id="td" onkeyup="return check(this.value);" >
     </td>
  <td>
       <?echo $__DELAY; 
       ?>
     </td>
     <td>
-      <input class="normal" type="text" value="<?echo $delayval?>" name="delay" id="delay" />
+      <input class="normal" type="text" value="<?echo $delayval?>" name="delay" id="delay" >
     </td>
   </tr>
 </table>

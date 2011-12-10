@@ -39,10 +39,10 @@ function isNumeric(x) {
 // Action Upon click on the checkbox openLoop
 function openLoopAction(chkBox) {
   if (chkBox.checked){
-    document.images.flowchart.src="PIDS2.jpg";    
+    document.images.flowchart.src="PIDS2.png";    
     document.getElementById("openLoopHint").innerHTML="<span class=\"hotspot\" onmouseover=\"tooltip.show(\'Uncheck this box to run simulations on the closed loop system (see figure)\');\" onmouseout=\"tooltip.hide();\">Open Loop</span>";
   }else{
-    document.images.flowchart.src="PIDS.jpg";
+    document.images.flowchart.src="PIDS.png";
 document.getElementById("openLoopHint").innerHTML="<span class=\"hotspot\" onmouseover=\"tooltip.show(\'Check this box to run simulations on the open loop system (see figure)\');\" onmouseout=\"tooltip.hide();\">Open Loop</span>";
     
   }
@@ -69,7 +69,8 @@ function showAdvanced(){
   eleBode.style.display = "inherit";
   toggleText.innerHTML = "Hide Advanced Options";
   stepEle.style.display="block";
- }   
+  signalParameters(document.getElementById("selectInputSignal"));
+ }
 }
 
 function signalParameters(selector){

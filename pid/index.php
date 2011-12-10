@@ -6,15 +6,20 @@ if (empty($_SESSION['count'])) {
  $_SESSION['count']++;
 }
 ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
   <head>
     <title>Virtual Lab - Step Response of a P-controller</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <link rel="stylesheet" type="text/css" href="../tooltip/style.css" />
-    <link rel="stylesheet" type="text/css" href="style.css" />
+     <meta name="keywords" content="Automatic Control Lab, Virtual Lab, Automatic Control Playground" >
+     <meta name="description" content="Online automatic control lab." >
+     <meta name="author" content="Pantelis Sopasakis">
+     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
+     <link rel="stylesheet" type="text/css" href="../tooltip/style.css" >
+     <link rel="stylesheet" type="text/css" href="style.css" >
     <!--
 	SCRIPT
---><script type="text/javascript" language="javascript" src="../tooltip/script.js"></script><script type='text/javascript' src="../chung.js"></script>
+--><script type="text/javascript" src="../tooltip/script.js"></script>
+   <script type='text/javascript' src="../chung.js"></script>
   </head>
   <body id="body" onload="loadMe();">
 
@@ -36,34 +41,36 @@ if (empty($_SESSION['count'])) {
 
 <div class="container">
 <div id="background">
-    <img src="../background.jpg" class="stretch" alt="" />
+    <img src="../background.jpg" class="stretch" alt="" >
 </div>
 
     <h2>Virtual Lab</h2>
     <h3>System with PID Controller</h3>
-    <div>
-      <small><em><a href="javascript:newPopup('./help.html');">Read First: Scope of the exercise</a></em></small>
+    <div id="scopeMessage" class="smallTip">
+      <a href="javascript:newPopup('./help.html');" id="scopeLink">Read First: Scope of the exercise</a>
     </div>
     
     <a href="<?echo $image;?>" target="_blank"><span class="hotspot" 
     onmouseover="tooltip.show('Click to open in new tab.');" onmouseout="tooltip.hide();" style="border-bottom:0px">
-     <img src="<?echo $image;?>" alt="Flowchart is missing" id="flowchart" name="flowchart" border="0"/>
+     <img src="<?echo $image;?>" alt="Flowchart is missing" id="flowchart" name="flowchart" border="0">
     </span></a>
-    <tr action="" method="POST">
+
       <p id="message">
          Modify the values of the following parameters and hit "Run" to start the simulation. Place the mouse over each parameter to read a relevant explanation. 
       </p>      
 
       <form method="POST" action="#simulations">
-        <input type="hidden" value="<?echo htmlspecialchars(session_id()); ?>" name="session_id"/>
+        <input type="hidden" value="<?echo htmlspecialchars(session_id()); ?>" name="session_id">
 	<?include('main_table.php');?>
-        <small><em><a style="color:blue;cursor:pointer" onclick="showAdvanced();">
-        <span id="advancedOptionsText">Show Advanced Options</span></a></em></small>
+        <div class="smallTip">
+	<a style="color:blue;cursor:pointer" onclick="showAdvanced();">
+        <span id="advancedOptionsText">Show Advanced Options</span></a>
+	</div>
         <?include('advanced_options.php')?>
         <div class="cl"></div>
-        <input type="submit" value="Run" id="sb"/>
+        <input type="submit" value="Run" id="sb">
       </form>
-      <label id="simulations"/>
+      <label id="simulations"></label>
 		
 	<?
 	if ($_POST!=null){
@@ -89,19 +96,15 @@ if (empty($_SESSION['count'])) {
 		<h3>Results</h3>';
 		$i=1;
 		if ($bode){		
-		echo '<div class="bodeBox"><img class="bode" src="'.$bode_jpg.'" />Figure '.($i++).' : Bode Plot</div>'; }
+		echo '<div class="bodeBox"><img class="bode" src="'.$bode_jpg.'" >Figure '.($i++).' : Bode Plot</div>'; }
   		if ($nyquist){
-		echo '<div class="nyqBox"><img class="nyq" src="'.$nyq_jpg.'" />Figure '.($i++).' : Nyquist Plot</div>';}
+		echo '<div class="nyqBox"><img class="nyq" src="'.$nyq_jpg.'" >Figure '.($i++).' : Nyquist Plot</div>';}
 		echo '</div>';
 	}	
 	?>
 
-	
-          
-	
 
-
-      <div class="footer">
+      <div class="footer" id="footer">
         <? include('footer.php')?>
       </div>
 </div>

@@ -1,7 +1,7 @@
 <table id="advOptions" style="display:none">
 <colgroup>
-<col style="width:140px"/>
-<col style="width:65px"/>
+<col style="width:140px">
+<col style="width:65px">
 </colgroup>
   <tr>
     <td colspan="2">
@@ -55,15 +55,15 @@
 
 <table id="step" style="display:none;">
 <colgroup>
-<col style="width:140px"/>
-<col style="width:60px"/>
+<col style="width:140px">
+<col style="width:60px">
 </colgroup>
   <tr>
     <td>
        Amplitute 
     </td>
     <td>
-      <input type="text" name="amplitute" id="amplitute" value="1" class="tinyInput"/>
+      <input type="text" name="amplitute" id="amplitute_step" value="1" class="tinyInput">
     </td>
   </tr>
 </table>
@@ -71,15 +71,15 @@
 
 <table id="harmonic" style="display:none;">
 <colgroup>
-<col style="width:140px"/>
-<col style="width:60px"/>
+<col style="width:140px">
+<col style="width:60px">
 </colgroup>
   <tr>
     <td>
        Amplitute 
     </td>
     <td>
-      <input type="text" name="amplitute" id="amplitute" value="1" class="tinyInput"/>
+      <input type="text" name="amplitute" id="amplitute_harmonic" value="1" class="tinyInput">
     </td>
   </tr>
   <tr>
@@ -87,7 +87,7 @@
        Frequency 
     </td>
     <td>
-      <input type="text" name="freq" id="freq" value="100" class="tinyInput"/>
+      <input type="text" name="freq" id="freq" value="100" class="tinyInput">
     </td>
   </tr>
 </table>
