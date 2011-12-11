@@ -19,16 +19,38 @@ if (document.getElementsByClassName == undefined) {
 }
 }
 // Check whether variable is OK
-function check(val){
+function checkNumeric(inputElement){
+	var val = inputElement.value;
 	if (val.length==0){
 		document.getElementById("sb").disabled=true;
+		inputElement.className='error';
 	}else{
 		if (isNumeric(val)==true){
 			document.getElementById("sb").disabled=false;
-		}else{document.getElementById("sb").disabled=true;}		
+			inputElement.className='normal';
+		}else{
+			document.getElementById("sb").disabled=true;
+			inputElement.className='error';
+		}
 	}
 }
 
+
+function checkTi(inputElement){
+	var val = inputElement.value;
+	if (val.length==0){
+		document.getElementById("sb").disabled=true;
+		inputElement.className='error';
+	}else{
+		if (isNumeric(val)==true||val=='infty'){
+			document.getElementById("sb").disabled=false;
+			inputElement.className='normal';
+		}else{
+			document.getElementById("sb").disabled=true;
+			inputElement.className='error';
+		}
+	}
+}
 
 // Check whether variable is numeric
 function isNumeric(x) {

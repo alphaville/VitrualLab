@@ -23,7 +23,12 @@ else
 	% Read parameters from the command line
 	arg_list = argv();
 	Kc = str2num(arg_list{1});
-	ti = str2num(arg_list{2});
+	tti=arg_list{2};	
+	if strcmp(tti,"infty")
+		ti = "infty";
+	else
+		ti = str2num(tti);
+	end	
 	td = str2num(arg_list{3});
 	ps = str2num(arg_list{4})
 	qs = str2num(arg_list{5});
@@ -39,9 +44,16 @@ end
 
 switch open
 case 1
-	P=conv(ps,[Kc Kc*ti Kc*ti*td]);
-  	Q=conv([ti 1],qs);
-  	sys=tf(P,Q);	
+	if ti=="infty"
+		P=conv(ps,[Kc*td Kc]);
+		Q=qs;
+	else
+		P=conv(ps,[Kc*ti*td Kc*ti Kc]);
+		Q=conv([ti 1],qs);
+	end		
+  	sys=tf(P,Q);
+	disp(sys.num);
+	disp(sys.den);
 	if dobode==1 || donyquist==1
 		% Calculate Bode
 		Npoints=900;
@@ -50,8 +62,8 @@ case 1
 		omega = zeros(Npoints,1);
 		re = zeros(Npoints,1);
 		im = zeros(Npoints,1);
-		for i=1:2*Npoints
-			omega(i)=2^((i-Npoints)/50);
+		for i=1:1.5*Npoints
+			omega(i)=2^((i-Npoints/2)/50);
 			mag(i)=__bodeMag(sys,omega(i));
 			phase(i)=__bodePhase(sys,delay,omega(i));
 			[r img]=__nyquistVal(sys,delay,omega(i));
@@ -89,6 +101,22 @@ case 1
 		grid on;
 		%print ([sessionid 'nyq' '.svg'], '-dsvg');
 		print ([sessionid 'nyq' '.jpg'], '-djpg','-S640,500');
+		close(f);
+	end
+	
+	% Step response of the open loop
+	if typeSig==1		
+		[y,t] = step(sys,1);
+		t = [0 delay t.+delay];
+		y = [0 0 ampl*y];
+		disp(ampl);
+		f=figure('visible','off'); 
+		plot(t,y,'-g','LineWidth',2);
+		hold on;
+		xlabel('Time');
+		ylabel('Response');
+		grid on;
+		print ([sessionid 'resp' '.jpg'], '-djpg','-S780,560');
 		close(f);
 	end
 case 0

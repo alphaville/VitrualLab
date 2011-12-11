@@ -31,7 +31,7 @@
       ?>
     </td>
     <td>
-      <input class="normal" type="text" value="<?echo $kpval;?>" name="Kp" id="Kp" onkeyup="return check(this.value);" >
+      <input class="normal" type="text" value="<?echo $kpval;?>" name="Kp" id="Kp" onkeyup="return checkNumeric(this);" >
     </td>
     <td>
       <?echo $__P_HTML; 
@@ -47,7 +47,7 @@
       ?>
     </td>
     <td>
-      <input class="normal" type="text" value="<?echo $tival;?>" name="ti" id="ti" onkeyup="return check(this.value);" >
+      <input class="normal" type="text" value="<?echo $tival;?>" name="ti" id="ti" onkeyup="checkTi(this);" >
     </td>
 <td>
       <?echo $__Q_HTML; 
@@ -63,14 +63,14 @@
       ?>
     </td>
     <td>
-      <input class="normal" type="text" value="<?echo $tdval;?>" name="td" id="td" onkeyup="return check(this.value);" >
+      <input class="normal" type="text" value="<?echo $tdval;?>" name="td" id="td" onkeyup="return checkNumeric(this);" >
     </td>
  <td>
       <?echo $__DELAY; 
       ?>
     </td>
     <td>
-      <input class="normal" type="text" value="<?echo $delayval?>" name="delay" id="delay" >
+      <input class="normal" type="text" value="<?echo $delayval?>" name="delay" id="delay" onkeyup="return checkNumeric(this);">
     </td>
   </tr>
 </table>

@@ -7,7 +7,6 @@ if (empty($_SESSION['count'])) {
 }
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
   <head>
     <title>Virtual Lab - Step Response of a P-controller</title>
      <meta name="keywords" content="Automatic Control Lab, Virtual Lab, Automatic Control Playground" >
@@ -16,10 +15,8 @@ if (empty($_SESSION['count'])) {
      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
      <link rel="stylesheet" type="text/css" href="../tooltip/style.css" >
      <link rel="stylesheet" type="text/css" href="style.css" >
-    <!--
-	SCRIPT
---><script type="text/javascript" src="../tooltip/script.js"></script>
-   <script type='text/javascript' src="../chung.js"></script>
+     <script type="text/javascript" src="../tooltip/script.js"></script>
+     <script type='text/javascript' src="../chung.js"></script>
   </head>
   <body id="body" onload="loadMe();">
 
@@ -27,6 +24,7 @@ if (empty($_SESSION['count'])) {
 	if ($_POST==NULL){
 		$open=0;
 		$kpval=300; $tival=0.01; $tdval=1; $psval="[1]"; $qsval="[1 1 1]"; $delayval=0;
+		$amplitude=1;
 	}else{
 		$open=$_POST["open"]=="on"?1:0;
 		$kpval=$_POST["Kp"]; $tival=$_POST["ti"]; $tdval=$_POST["td"];$psval=$_POST["ps"];
@@ -41,7 +39,7 @@ if (empty($_SESSION['count'])) {
 
 <div class="container">
 <div id="background">
-    <img src="../background.jpg" class="stretch" alt="" >
+    <img src="../images/background.jpg" class="stretch" alt="" >
 </div>
 
     <h2>Virtual Lab</h2>
@@ -70,7 +68,7 @@ if (empty($_SESSION['count'])) {
         <div class="cl"></div>
         <input type="submit" value="Run" id="sb">
       </form>
-      <label id="simulations"></label>
+      
 		
 	<?
 	if ($_POST!=null){
@@ -88,25 +86,32 @@ if (empty($_SESSION['count'])) {
 		' '.escapeshellarg($amplitude).
 		' '.escapeshellarg($freq).
 		' "./images/'.$sid.'"';
-		// echo $command;
 		$retval=exec($command,$ret);	
 		$bode_jpg="./images/".$sid."bode.jpg";
 		$nyq_jpg="./images/".$sid."nyq.jpg";		
+		$resp_jpg="./images/".$sid."resp.jpg";
 		echo '<div class="results">
+		<label id="simulations"></label>
 		<h3>Results</h3>';
+		
 		$i=1;
+		if ($open=="1"){
+		if ($selectInputSignal="1"){
+			echo '<div class="nyqBox"><img class="nyq" src="'.$resp_jpg.'" >Figure '.($i++).' : Response Plot</div>';
+		}
 		if ($bode){		
-		echo '<div class="bodeBox"><img class="bode" src="'.$bode_jpg.'" >Figure '.($i++).' : Bode Plot</div>'; }
+			echo '<div class="bodeBox"><img class="bode" src="'.$bode_jpg.'" >Figure '.($i++).' : Bode Plot</div>'; 
+		}
   		if ($nyquist){
-		echo '<div class="nyqBox"><img class="nyq" src="'.$nyq_jpg.'" >Figure '.($i++).' : Nyquist Plot</div>';}
+			echo '<div class="nyqBox"><img class="nyq" src="'.$nyq_jpg.'" >Figure '.($i++).' : Nyquist Plot</div>';
+		}
+		}else{echo 'Try Open Loop Simulations - Closed Loop not supported yet!';}
 		echo '</div>';
 	}	
 	?>
-
-
+</div>
       <div class="footer" id="footer">
         <? include('footer.php')?>
       </div>
-</div>
       </body>
       </html>

@@ -1,6 +1,6 @@
 <table id="advOptions" style="display:none">
 <colgroup>
-<col style="width:140px">
+<col style="width:150px">
 <col style="width:65px">
 </colgroup>
   <tr>
@@ -55,15 +55,15 @@
 
 <table id="step" style="display:none;">
 <colgroup>
-<col style="width:140px">
-<col style="width:60px">
+<col style="width:150px">
+<col style="width:115px">
 </colgroup>
   <tr>
     <td>
-       Amplitute 
+       Amplitute
     </td>
     <td>
-      <input type="text" name="amplitute" id="amplitute_step" value="1" class="tinyInput">
+      <input type="text" name="amplitude" id="amplitude" class="tinyInput"  value="<?echo $amplitude;?>" >
     </td>
   </tr>
 </table>
@@ -71,15 +71,15 @@
 
 <table id="harmonic" style="display:none;">
 <colgroup>
-<col style="width:140px">
-<col style="width:60px">
+<col style="width:150px">
+<col style="width:115px">
 </colgroup>
   <tr>
     <td>
        Amplitute 
     </td>
     <td>
-      <input type="text" name="amplitute" id="amplitute_harmonic" value="1" class="tinyInput">
+     <input type="text" name="amplitude2" id="amplitute2" class="tinyInput" value="<?echo $amplitude;?>">
     </td>
   </tr>
   <tr>
