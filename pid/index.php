@@ -24,7 +24,7 @@ if (empty($_SESSION['count'])) {
 	if ($_POST==NULL){
 		$open=0;
 		$kpval=300; $tival=0.01; $tdval=1; $psval="[1]"; $qsval="[1 1 1]"; $delayval=0;
-		$amplitude=1;
+		$amplitude=1;$selectInputSignal="1";$freq=100;
 	}else{
 		$open=$_POST["open"]=="on"?1:0;
 		$kpval=$_POST["Kp"]; $tival=$_POST["ti"]; $tdval=$_POST["td"];$psval=$_POST["ps"];
@@ -36,8 +36,11 @@ if (empty($_SESSION['count'])) {
 	$image=$open=="1"?'PIDS2.png':'PIDS.png';
 ?>
 
-
 <div class="container">
+
+<div id="nav">
+<a href=".." style="color:grey;"><span class="navLink">Back to Main Page</span></a>
+</div>
 <div id="background">
     <img src="../images/background.jpg" class="stretch" alt="" >
 </div>

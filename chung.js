@@ -36,6 +36,33 @@ function checkNumeric(inputElement){
 }
 
 
+function checkSign(inputElement,strict){
+	var val = inputElement.value;
+	if (val.length==0){
+		document.getElementById("sb").disabled=true;
+		inputElement.className='errortiny';		
+	}else{
+		var flag = false;
+		if (strict==1)
+		{
+			flag = isNumeric(val)==true && val>0;
+		}else if (strict==0)
+		{
+			flag = isNumeric(val)==true && val>=0;
+		}else
+		{
+			flag = isNumeric(val);
+		}
+		if (flag){
+			document.getElementById("sb").disabled=false;
+			inputElement.className='tinyInput';
+		}else{
+			document.getElementById("sb").disabled=true;
+			inputElement.className='errortiny';
+		}
+	}
+}
+
 function checkTi(inputElement){
 	var val = inputElement.value;
 	if (val.length==0){
@@ -80,6 +107,7 @@ function newPopup(url) {
 function showAdvanced(){
  var toggleText = document.getElementById("advancedOptionsText");
  var eleBode = document.getElementById("advOptions");
+ var eleSimPar = document.getElementById("simulationParameters");
  var stepEle = document.getElementById('step');
  var harmEle = document.getElementById('harmonic');
  if(eleBode.style.display != "none") {
@@ -87,25 +115,27 @@ function showAdvanced(){
   toggleText.innerHTML = "Show Advanced Options";
   stepEle.style.display="none";
   harmEle.style.display="none";
+  eleSimPar.style.display="none";
  }else {
   eleBode.style.display = "inherit";
   toggleText.innerHTML = "Hide Advanced Options";
   stepEle.style.display="block";
+  eleSimPar.style.display="block";
   signalParameters(document.getElementById("selectInputSignal"));
  }
 }
 
 function signalParameters(selector){
- var option = selector.selectedIndex;
+ var option = selector.options[selector.selectedIndex].value;
  var stepEle = document.getElementById('step');
  var harmEle = document.getElementById('harmonic');
- if(option==0){
+ if(option=="1"){
   stepEle.style.display="block";
   harmEle.style.display="none";
- }else if (option==1){  
+ }else if (option=="2"){  
   harmEle.style.display="none";
   stepEle.style.display="none";
- }else if (option==2){
+ }else if (option=="3"){
   harmEle.style.display="block";
   stepEle.style.display="none";
  }

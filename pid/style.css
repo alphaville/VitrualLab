@@ -1,31 +1,51 @@
 /** TAGS */
 a:link    { 
 	Text-Decoration: none; 
-	color:blue;
+	color:#2554C7;
 }
 a:visited { 
 	Text-Decoration: none; 
-	color:blue;
+	color:#2554C7;
 }
 a:hover   { 
 	color: #FF0000; 
 }
 html, body { 
-	margin:0; 
-	padding:0;
+	margin:0px; 
+	padding:0px;	
 }
 
 /**  CLASSES */
-input[type=text].normal {width:130px}
-input[type=text].tinyInput {width:110px}
 
-.bode,.nyq{
-	width:540;
-	height:400;	
+input[type="text"].normal {width:130px}
+input[type="text"].error  {
+	width:130px;
+	background-color:yellow;
+}
+input[type="text"].errortiny  {
+	width:110px;
+	padding:0px;
+	margin:0px;
+	border:0px;
+	background-color:yellow;
+}
+input[type="text"].tinyInput {
+	width:110px;
+	padding:0px;
+	margin:0px;
+	border:0px;
 }
 
+.bode,.nyq{
+	width:540px;
+	height:400px;
+	margin-bottom:8px;	
+}
+
+/* Define the rendering of the nyquist and bode plots */
 .bodeBox,.nyqBox{
-	margin-left:10px;
+	margin-left:auto;
+	margin-right:auto;
 	margin-bottom:20px;
 	width:540px;
 	text-align:center;
@@ -35,25 +55,34 @@ input[type=text].tinyInput {width:110px}
 
 .inputSigSelector{
 	width:110px;
+	padding:0px;
+	margin:0px;
+	
 }
 
+/* A clear div */
 .cl { 	padding:10px; }
 
+/* The content of the page is enclosed in
+a div of class 'container' */
 .container {
 	margin-left:10px;
 	margin-right:5px;
-	padding:0;		
+	padding:0px;
+	width:650px;
+	margin-left:auto;
+	margin-right:auto;
+	background-image:url('../images/trans.png');
+	padding-left:10px;
+	padding-right:10px;
+	padding-top:3px;
+	padding-bottom:40px;
+	background-repeat:repeat;
 }
 
 .stretch {
     width:100%;
     height:100%;
-}
-
-.footer { 
-	margin-top:200px;
-	text-align:center;
-	font-size:small;
 }
 
 .smallTip{
@@ -62,12 +91,28 @@ input[type=text].tinyInput {width:110px}
 }
 
 .parameters {
-	margin-left:90px;
+	margin-left:auto;
+	margin-right:auto;
 	margin-bottom:20px;
 }
 
+/* The footer of the page */
+.footer { 
+	margin-top:200px;
+	text-align:center;
+	font-size:small;
+}
 
+/* Every image of browser in the footer is
+   an instance of the class 'compatibility' */
+.compatibility{
+	height:31px;
+	padding-right:1px;
+}
 
+.advancedOptionsBlock{
+	margin-left:2px;
+}
 
 
 /**  OBJECTS */
@@ -105,8 +150,19 @@ input[type=text].tinyInput {width:110px}
 	height:31px;
 }
 
-#validation-link{
+#validation-link-image{
 	border:0px;
 	height:31px;
 	width:88px;
+}
+
+#nav {
+	padding:10px;
+	text-align:center;
+	color:grey;
+}
+
+.navLink {
+	padding:8px;
+	font-size:80%;
 }

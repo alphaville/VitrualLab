@@ -1,6 +1,15 @@
 <div id="html-valid">
  <a href="http://validator.w3.org/check?uri=referer" id="validation-link">
- <img src="http://www.w3.org/Icons/valid-html401" alt="Valid HTML 4.01 Transitional" title="Valid HTML + CSS" id="validation-link-image"></a>
+ <img src="http://www.w3.org/Icons/valid-html401" alt="Valid HTML 4.01 Transitional!" title="Valid HTML!" id="validation-link-image"></a>
+
+<a href="http://jigsaw.w3.org/css-validator/check/referer">
+    <img style="border:0;width:88px;height:31px"
+        src="http://jigsaw.w3.org/css-validator/images/vcss-blue"
+	title="Valid CSS"
+        alt="Valid CSS!" />
+</a>
+
+
 <img src="../images/compatible_firefox.gif" class="compatibility" title="Firefox-Compatible" alt="Firefox-Compatible">
 <img src="../images/compatible_chrome.gif" class="compatibility" title="Chrome-Compatible" alt="Chrome-Compatible">
 <img src="../images/compatible_opera.gif" class="compatibility" title="Opera-Compatible" alt="Opera-Compatible">

@@ -54,6 +54,7 @@ case 1
   	sys=tf(P,Q);
 	disp(sys.num);
 	disp(sys.den);
+
 	if dobode==1 || donyquist==1
 		% Calculate Bode
 		Npoints=900;
@@ -104,21 +105,26 @@ case 1
 		close(f);
 	end
 	
-	% Step response of the open loop
-	if typeSig==1		
-		[y,t] = step(sys,1);
-		t = [0 delay t.+delay];
-		y = [0 0 ampl*y];
-		disp(ampl);
-		f=figure('visible','off'); 
-		plot(t,y,'-g','LineWidth',2);
-		hold on;
-		xlabel('Time');
-		ylabel('Response');
-		grid on;
-		print ([sessionid 'resp' '.jpg'], '-djpg','-S780,560');
-		close(f);
+	% Step response of the open loop	
+	if typeSig==2
+		p = conv([1 0],sys.num);
+		sys = tf(p,sys.den);
+	elseif typeSig==3		
+		p = ampl*conv([1 0],sys.num)
+		q = conv(sys.den,[1 0 freq^2]); 
+		sys = tf(p,q);
 	end
+	[y,t] = step(sys,1);
+	t = [0 delay t.+delay];
+	y = [0 0 ampl*y];
+	f=figure('visible','off'); 
+	plot(t,y,'-g','LineWidth',2);
+	hold on;
+	xlabel('Time');
+	ylabel('Response');
+	grid on;
+	print ([sessionid 'resp' '.jpg'], '-djpg','-S780,560');
+	close(f);
 case 0
 	
 end
