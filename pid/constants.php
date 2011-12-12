@@ -1,4 +1,5 @@
 <?
+$__BASE_URI="http://localhost";
 $__KP_HTML='<span class="hotspot" 
 onmouseover="tooltip.show(\'<strong>Kc</strong> is the static gain of the PID controller.\');" onmouseout="tooltip.hide();">Kc</span>';
 $__TI_HTML='<span class="hotspot" 

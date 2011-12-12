@@ -88,9 +88,12 @@ function isNumeric(x) {
 // Action Upon click on the checkbox openLoop
 function openLoopAction(chkBox) {
   if (chkBox.checked){
-    document.images.flowchart.src="PIDS2.png";    
+    document.getElementById("flowcharthref").href="PIDS2.png";
+    document.images.flowchart.src="PIDS2.png";
     document.getElementById("openLoopHint").innerHTML="<span class=\"hotspot\" onmouseover=\"tooltip.show(\'Uncheck this box to run simulations on the closed loop system (see figure)\');\" onmouseout=\"tooltip.hide();\">Open Loop</span>";
   }else{
+    document.getElementById("flowcharthref").href="PIDS.png";
+    document.getElementById("flowcharthref").href="PIDS.png";
     document.images.flowchart.src="PIDS.png";
 document.getElementById("openLoopHint").innerHTML="<span class=\"hotspot\" onmouseover=\"tooltip.show(\'Check this box to run simulations on the open loop system (see figure)\');\" onmouseout=\"tooltip.hide();\">Open Loop</span>";
     
@@ -140,3 +143,21 @@ function signalParameters(selector){
   stepEle.style.display="none";
  }
 }
+
+function highlight(object){
+	object.className="highlighted";
+}
+
+function dehighlight(object){
+	object.className="navLink";
+}
+
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
+!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");

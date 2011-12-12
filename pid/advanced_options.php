@@ -14,7 +14,7 @@
         <label for="bode"> <?echo $__BODE_DIAG;?> </label>
       </td>
       <td>
-        <input type="checkbox" name="bode" id="bode" <?if ($bode=="1") {echo 'checked="true"';}?>>
+        <input type="checkbox" name="bode" id="bode" <?if ($bode=="1") {echo 'checked="checked"';}?>>
       </td>
     </tr>
     <tr>
@@ -22,7 +22,7 @@
          <label for="nyquist"><?echo $__NYQUIST_DIAG;?></label>
       </td>
       <td>
-        <input type="checkbox" name="nyquist" id="nyquist" <?if ($nyquist=="1") {echo 'checked="true"';}?>>
+        <input type="checkbox" name="nyquist" id="nyquist" <?if ($nyquist=="1") {echo 'checked="checked"';}?>>
       </td>
     </tr>
     <tr>
@@ -37,7 +37,7 @@
     </tr>
     <tr>
       <td>
-         Input Signal 
+         <label for="selectInputSignal">Input Signal</label>
       </td>
       <td>
 
@@ -104,7 +104,7 @@ if ($selectInputSignal==1){echo $op1.$op2.$op3;}else if ($selectInputSignal==2){
     </colgroup>
 
 <tr>
-<td colspan="2"><small>Simulation Parameters</small></td>
+<td colspan="2"><small>Simulation Parameters...</small></td>
 </tr>
 
 <tr><TD>Sim. Points</TD>
@@ -120,7 +120,6 @@ if ($selectInputSignal==1){echo $op1.$op2.$op3;}else if ($selectInputSignal==2){
 </tr>
 </table>
 
-</table>
 
 
 </div>
