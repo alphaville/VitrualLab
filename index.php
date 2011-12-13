@@ -30,6 +30,9 @@ if (empty($_SESSION['count'])) {
     </div>
     <div id="rightcolumn">
       <!-- LEFT COLUMN -->
+<div id="banner">
+	<img src="/vlab/images/banner.gif" alt="" id="didi">
+	</div>
     </div>
     <div id="container">
       <div id="nav">
