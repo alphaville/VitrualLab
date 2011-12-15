@@ -8,10 +8,11 @@ if (empty($_SESSION['count'])) {
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd" 
 >
+<?include("./global.php");?>
 <html>
 </html>
 <head>
-  <title>Virtual Lab - PID Control</title>
+  <title>Virtual Lab - Home</title>
   <meta name="keywords" content="Automatic Control Lab, Virtual Lab, Automatic Control Playground" >
   <meta name="description" content="Online automatic control lab." >
   <meta name="author" content="Pantelis Sopasakis">
@@ -31,7 +32,7 @@ if (empty($_SESSION['count'])) {
     <div id="rightcolumn">
       <!-- LEFT COLUMN -->
 <div id="banner">
-	<img src="/vlab/images/banner.gif" alt="" id="didi">
+	<img src="/images/banner.gif" alt="" id="didi">
 	</div>
     </div>
     <div id="container">

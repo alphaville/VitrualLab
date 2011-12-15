@@ -108,15 +108,15 @@ if ($selectInputSignal==1){echo $op1.$op2.$op3;}else if ($selectInputSignal==2){
 </tr>
 
 <tr><TD>Sim. Points</TD>
-<td><input type="text" value="auto" class="tinyInput" ></td>
+<td><input type="text" value="<?echo $simpoints;?>" class="tinyInput" name="simpoints" id="simpoints" onkeyup="checkNumOrAuto(this);"></td>
 </tr>
 
 <tr><TD>Sim. Horizon</TD>
-<td><input type="text" value="auto" class="tinyInput" ></td>
+<td><input type="text" value="<?echo $horizon;?>" class="tinyInput" id="horizon" name="horizon" onkeyup="checkNumOrAuto(this);"></td>
 </tr>
 
 <tr><TD><?echo $__AXES?></TD>
-<td><input type="text" value="auto" class="tinyInput" ></td>
+<td><input type="text" value="<?echo $axes;?>" class="tinyInput" id="axes" name="axes"></td>
 </tr>
 </table>
 
