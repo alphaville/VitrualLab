@@ -83,6 +83,33 @@ a div of class 'container' */
 	-moz-border-radius:15px;
 }
 
+
+#level1 {
+    background-image: url("./images/water.png");
+    height: 89px;
+    margin-left: 163px;
+    margin-top: 186px;
+    position: absolute;
+    width: 71px;
+}
+
+
+#level2 {
+    background-image: url("./images/water2.png");
+    height: 89px;
+    margin-left: 367px;
+    margin-top: 186px;
+    position: absolute;
+    width: 72px;
+}
+
+#tanksimg{
+	width:100%;
+	margin-left:-1px;
+	margin-top:15px;
+	margin-bottom:5px;
+}
+
 #container{
 	padding:0px;
 	margin-left:250px;

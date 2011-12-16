@@ -18,6 +18,7 @@ if (empty($_SESSION['count'])) {
   <meta name="author" content="Pantelis Sopasakis">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
   <script type='text/javascript' src="./chung.js"></script>
+  <script type='text/javascript' src="./ga.js"></script>
   <link rel="stylesheet" type="text/css" href="./style.css" >
   <link rel="shortcut icon" href="/vlab/favicon.ico" type="image/x-icon" />
 </head>
@@ -52,6 +53,9 @@ if (empty($_SESSION['count'])) {
             </li>
             <li>
               <a href="./pid">A closed loop system with a PID-controller</a>
+            </li>
+	    <li>
+              <a href="./tanks">Coupled Tanks with PID Controller (Under Construction)</a>
             </li>
           </ol>
         </div>
