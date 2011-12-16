@@ -90,7 +90,8 @@ a div of class 'container' */
     margin-left: 163px;
     margin-top: 186px;
     position: absolute;
-    width: 71px;
+    width: 71px;    
+    border-top:ridge 1px;
 }
 
 
@@ -101,6 +102,7 @@ a div of class 'container' */
     margin-top: 186px;
     position: absolute;
     width: 72px;
+    border-top:ridge 1px;
 }
 
 #tanksimg{

@@ -20,6 +20,7 @@ if (empty($_SESSION['count'])) {
     <script type="text/javascript" src="../tooltip/script.js"></script>
     <script type='text/javascript' src="../chung.js"></script>
     <script type='text/javascript' src="../ga.js"></script>
+    <script type='text/javascript' src="./tanks.js"></script>
     <link rel="shortcut icon" href="/vlab/favicon.ico" type="image/x-icon" >
   </head>
   <body id="body" onload="loadMe();">
@@ -47,7 +48,7 @@ if (empty($_SESSION['count'])) {
              Virtual Lab 
           </h1>
           <h3>
-             System with PID Controller 
+             Coupled Tanks &amp; PID Controller
           </h3>
           <div id="scopeMessage" class="smallTip">
             <a href="javascript:newPopup('./help.html');" id="scopeLink">Read First: Scope of the exercise</a>
@@ -55,7 +56,7 @@ if (empty($_SESSION['count'])) {
         <div id="level1"></div>
         <div id="level2"></div>
 	<div id="flowImg">
-            <a href="../images/ct.png" target="_blank" id="flowcharthref"><span class="hotspot" 
+            <a href="javascript:setLevel('level2',50+20*Math.random());setLevel('level1',40+23*Math.random());" id="flowcharthref"><span class="hotspot" 
             onmouseover="tooltip.show('Click to open in new tab.');" onmouseout="tooltip.hide();" style="border-bottom:0px">
        <img src="../images/ct.png" alt="Flowchart is missing" id="tanksimg" name="flowchart">
     </span></a>
