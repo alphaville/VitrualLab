@@ -94,7 +94,43 @@ a div of class 'container' */
     border-top:ridge 1px;
 }
 
-
+.fmsg{
+	font-family:monospace;
+	font-size:9pt;
+	padding:0px;
+	/*font-size:small;*/
+}
+#l1msg{
+	margin-left:120px;
+	margin-top:186px;
+	position: absolute;
+}
+#l2msg{
+	margin-left:325px;
+	margin-top:186px;
+	position:absolute;
+}
+#goo{margin-top:10px;}
+#r1msg {
+margin-left: 250px;
+margin-top: 302px;
+position: absolute;
+}
+#r2msg {
+margin-left: 468px;
+margin-top: 302px;
+position: absolute;
+}
+#a1msg {
+    margin-left: 198px;
+    margin-top: 134px;
+    position: absolute;
+}
+#a2msg {
+    margin-left: 375px;
+    margin-top: 134px;
+    position: absolute;
+}
 #level2 {
     background-image: url("./images/water2.png");
     height: 89px;

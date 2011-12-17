@@ -14,6 +14,9 @@ if (empty($_SESSION['count'])) {
     <meta name="keywords" content="Automatic Control Lab, Virtual Lab, Automatic Control Playground" >
     <meta name="description" content="Online automatic control lab." >
     <meta name="author" content="Pantelis Sopasakis">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0">
+    <meta http-equiv="Expires" content="0">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
     <link rel="stylesheet" type="text/css" href="../tooltip/style.css" >
     <link rel="stylesheet" type="text/css" href="../style.css" >
@@ -23,7 +26,7 @@ if (empty($_SESSION['count'])) {
     <script type='text/javascript' src="./tanks.js"></script>
     <link rel="shortcut icon" href="/vlab/favicon.ico" type="image/x-icon" >
   </head>
-  <body id="body" onload="loadMe();">
+  <body id="body" onload="randomizeInitialLevels();" >
     <?
 	include('../global.php');		
     ?>
@@ -53,19 +56,25 @@ if (empty($_SESSION['count'])) {
           <div id="scopeMessage" class="smallTip">
             <a href="javascript:newPopup('./help.html');" id="scopeLink">Read First: Scope of the exercise</a>
           </div>
+	<div id="l1msg" class="fmsg"></div>
+        <div id="l2msg" class="fmsg"></div>
+	<div id="r1msg" class="fmsg"></div>
+	<div id="r2msg" class="fmsg"></div>
+	<div id="a1msg" class="fmsg"></div>
+	<div id="a2msg" class="fmsg"></div>
+	<div id="sp" class="sp"></div>
         <div id="level1"></div>
         <div id="level2"></div>
 	<div id="flowImg">
-            <a href="javascript:setLevel('level2',50+20*Math.random());setLevel('level1',40+23*Math.random());" id="flowcharthref"><span class="hotspot" 
-            onmouseover="tooltip.show('Click to open in new tab.');" onmouseout="tooltip.hide();" style="border-bottom:0px">
-       <img src="../images/ct.png" alt="Flowchart is missing" id="tanksimg" name="flowchart">
-    </span></a>
+            <a onclick="doMove();" id="flowcharthref">
+             <img src="../images/ct.png" alt="Flowchart is missing" id="tanksimg" name="flowchart" style="cursor:pointer;">
+            </a>
           </div>
           
         </div>
       </div>
       <div class="footer" id="footer">
-        <? include('../footer.php') 
+      <!-- -->  <? include('../footer.php') 
         ?>
       </div>
     </div>
