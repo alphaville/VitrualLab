@@ -1,0 +1,114 @@
+#level1 {
+    background-image: url("../images/water.png");
+    height: 89px;
+    margin-left: 163px;
+    margin-top: 186px;
+    position: absolute;
+    width: 71px;    
+    border-top:ridge 1px;
+}
+#rightmenu{
+	margin-top:120px;
+	width:213px;
+	text-align:center;	
+	font-size:small;
+}
+.rmenu{
+	background-image: url("../images/trans.png");
+	padding:2px;
+	border:1px solid;
+	border-color:#FF8C00;
+	display:none;
+	border-radius:10px;
+	-moz-border-radius:10px;
+	margin-bottom:8px;
+}
+.closeimg{
+	position:absolute;
+	margin-left:-15px;
+	margin-top:-15px;
+	cursor:pointer;
+	padding:0px;
+}
+.fmsg{
+	font-family:monospace;
+	font-size:9pt;
+	padding:0px;
+	/*font-size:small;*/
+}
+#l1msg{
+	margin-left:114px;
+	margin-top:186px;
+	position: absolute;
+}
+#l2msg{
+	margin-left:319px;
+	margin-top:186px;
+	position:absolute;
+}
+#pid {
+    height: 53px;
+    margin-left: 325px;
+    margin-top: 15px;
+    position: absolute;
+    width: 98px;
+    padding: 0;
+    cursor:pointer;
+}
+#fcebox {
+    height: 53px;
+    margin-left: 150px;
+    margin-top: 15px;
+    position: absolute;
+    width: 115px;
+    padding: 0;
+    cursor:pointer;
+}
+#measuringdev{
+    height: 47px;
+    margin-left: 460px;
+    margin-top: 91px;
+    padding: 0;
+    position: absolute;
+    width: 120px;
+    cursor:pointer;
+}
+#r1msg {
+margin-left: 240px;
+margin-top: 302px;
+position: absolute;
+}
+#r2msg {
+margin-left: 458px;
+margin-top: 302px;
+position: absolute;
+}
+#a1msg {
+    margin-left: 198px;
+    margin-top: 134px;
+    position: absolute;
+}
+#a2msg {
+    margin-left: 375px;
+    margin-top: 134px;
+    position: absolute;
+}
+#level2 {
+    background-image: url("../images/water2.png");
+    height: 89px;
+    margin-left: 367px;
+    margin-top: 186px;
+    position: absolute;
+    width: 72px;
+    border-top:ridge 1px;
+}
+#tanksimg{
+	width:100%;
+	margin-left:-1px;
+	margin-top:15px;
+	margin-bottom:5px;
+}
+
+#infoimg{
+    cursor:pointer;
+}

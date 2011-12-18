@@ -1,5 +1,6 @@
 var pid, meas,fce, l1msg, l2msg,rr1msg,r2msg,tlevel1,tlevel2,showPid,showFce,showMeasDev,lev1, lev2,r1, r2, kc;
 var marto1=186,marto2=186, mode=true;
+var ttduration=3500, ttdelay=1200, ttwidth=180;
 
 function randomizeInitialLevels(){
     init();
@@ -36,7 +37,7 @@ function init(){
 }
 
 function doMove(){
-    var high = 115, low=10, delay=120;
+    var high = 101, low=9, delay=120;
     if (mode){
         if (lev2<high){
             l2msg.innerHTML=(lev2/10).toFixed(1)+" m";
