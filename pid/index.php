@@ -17,7 +17,10 @@ if (empty($_SESSION['count'])) {
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
     <link rel="stylesheet" type="text/css" href="../tooltip/style.css" >
     <link rel="stylesheet" type="text/css" href="../style.css" >
-    <script type="text/javascript" src="../tooltip/script.js"></script><script type='text/javascript' src="../chung.js"></script>
+    <link rel="stylesheet" type="text/css" href="./style-pid.css" >
+    <script type="text/javascript" src="../tooltip/script.js"></script>
+    <script type='text/javascript' src="../chung-min.js"></script>
+    <script type='text/javascript' src="../ga.js"></script>    
     <link rel="shortcut icon" href="/vlab/favicon.ico" type="image/x-icon" >
   </head>
   <body id="body" onload="loadMe();">
@@ -26,7 +29,7 @@ if (empty($_SESSION['count'])) {
 	include('./constants.php');	
 	if ($_POST==NULL){
 		$open=0;
-		$kpval=300; $tival=0.01; $tdval=1; $psval="[1]"; $qsval="[1 1 1]"; $delayval=0;
+		$kpval=5; $tival=0.6; $tdval=0.3; $psval="[1]"; $qsval="[1 1 1]"; $delayval=0;
 		$amplitude=1;$selectInputSignal="1";$freq=100;
 		$bode="1";$simpoints ="auto";$horizon="auto";$axes="auto";
 	}else{
