@@ -9,26 +9,37 @@ if (empty($_SESSION['count'])) {
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd" 
     >
 <html>
+    <?
+    $lang = $_GET['lang'];
+    // Get the language 
+    if ($lang == NULL) {
+        include('./en.php');
+    } elseif (strcmp('el', $lang) == 0) {
+        include('./el.php');
+    } elseif (strcmp('en', $lang) == 0) {
+        include('./en.php');
+    }
+    ?>
     <head>
-        <title>2 Tanks</title>
+        <title><? echo $title; ?></title>
         <meta name="keywords" content="Automatic Control Lab, Virtual Lab, Automatic Control Playground" >
         <meta name="description" content="Online automatic control lab." >
         <meta name="author" content="Pantelis Sopasakis">
         <meta http-equiv="Pragma" content="no-cache">
         <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0">
         <meta http-equiv="Expires" content="0">
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >        
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
         <link rel="stylesheet" type="text/css" href="../style.css" >
         <link rel="stylesheet" type="text/css" href="./style-tanks.css" >
         <script type="text/javascript" src="../tooltip/script.js"></script>
         <script type='text/javascript' src="../chung.js"></script>
         <script type='text/javascript' src="../ga.js"></script>
         <script type='text/javascript' src="./tanks.js"></script>
-        <link rel="shortcut icon" href="/vlab/favicon.ico" type="image/x-icon" >
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     </head>
-    <body id="body" onload="randomizeInitialLevels();" >
+    <body id="body" onload="randomizeInitialLevels();" >    
         <script type='text/javascript' src="../wz_tooltip.js"></script>
-        <script type='text/javascript' src="../tip_balloon.js"></script>
+
         <?
         include('../global.php');
         ?>
@@ -38,22 +49,56 @@ if (empty($_SESSION['count'])) {
             </div>
             <div id="leftcolumn">
                 <!-- LEFT COLUMN -->
-                <? include('../sidebar.php');
-                ?>
+                <? include('../sidebar.php'); ?>
             </div>
             <div id="rightcolumn">
+                <div id="rightmenubar">
+                    <span class="menuicon" onclick="randomizeInitialLevels();">
+                        <img src="../images/refresh.png" alt="Refresh" title="Refresh">
+                    </span>
+                    <span class="menuicon" onclick="spmenu();">
+                        <img src="../images/equalizer.png" alt="Set Point" title="Set Point">
+                    </span>
+                    <span class="menuicon"  onclick="doMove();">
+                        <img src="../images/run.png" alt="Run" title="Run">
+                    </span>
+                    
+                </div>
                 <div id="rightmenu">
-                    <!--  **** PID Menu **** -->
+                    
+                    <div id="setpoint" class="rmenu">
+                        <div id="close_sp" class="closeimg">
+                            <img src="../images/close.png" onclick="spmenuclose()();" alt="close">
+                        </div>
+                        <u><? echo $setpoint; ?></u>
+                         <div style="height:10px">
+                         </div>
+                        <table>
+                            <colgroup>
+                                <col width="50">
+                                <col>
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <td>y<sub>sp</sub></td>
+                                    <td><input type="text" id="ysp" name="ysp" class="tinyInput" value="5"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    
                     <div id="pidmenu" class="rmenu">
                         <div id="close_pid" class="closeimg">
-                            <img src="../images/close.png" onclick="pidmenuclose();">
+                            <img src="../images/close.png" onclick="pidmenuclose();" alt="close">
                         </div>
-                        <em><u>PID Controller</u></em>
+                        <em><u><? echo $pidcontroller; ?></u></em>
                         <div style="height:10px">
                         </div>
                         <table>
                             <colgroup>
-                                <col width="50px">
+                                <col width="50">
+                                <col>
                             </colgroup>
                             <tbody>
                                 <tr>
@@ -87,14 +132,15 @@ if (empty($_SESSION['count'])) {
                     </div>
                     <div id="measmenu" class="rmenu">
                         <div id="close_meas" class="closeimg">
-                            <img src="../images/close.png"  onclick="measmenuclose();">
+                            <img src="../images/close.png"  onclick="measmenuclose();" alt="close">
                         </div>
-                        <em><u>Measuring Device</u></em>
+                        <em><u><? echo $measdev; ?></u></em>
                         <div style="height:10px">
                         </div>
                         <table>
                             <colgroup>
-                                <col width="50px">
+                                <col width="50">
+                                <col>
                             </colgroup>
                             <tbody>
                                 <tr>
@@ -120,14 +166,15 @@ if (empty($_SESSION['count'])) {
                     </div>
                     <div id="fcemenu" class="rmenu">
                         <div id="close_fce" class="closeimg">
-                            <img src="../images/close.png"  onclick="fcemenuclose();">
+                            <img src="../images/close.png"  onclick="fcemenuclose();" alt="close">
                         </div>
-                        <em><u>Final Control Element</u></em>
+                        <em><u><? echo $fce; ?></u></em>
                         <div style="height:10px">
                         </div>
                         <table>
                             <colgroup>
-                                <col width="50px">
+                                <col width="50">
+                                <col>
                             </colgroup>
                             <tbody>
                                 <tr>
@@ -154,38 +201,53 @@ if (empty($_SESSION['count'])) {
                 </div>
                 <!-- RIGHT COLUMN -->
             </div>
-            <div id="container">
+            <div id="container">                
                 <div id="nav">
                     <a href=".." style="text-decoration:none">
-                        <span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Back to Main</span>
+                        <span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">
+                            Back to Main
+                        </span>
                     </a>
                 </div>
 
+                <div id="langbar" align="right" >                    
+                    <table>  
+                        <tr>
+                            <td><a href="<? echo $ohterlangattribute; ?>">
+                                    <? echo $otherlang; ?>
+                                </a>
+                            </td>
+                            <td><a href="<? echo $ohterlangattribute; ?>">
+                                    <img src="<? echo $otherlangimg; ?>" alt="">
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
 
-                <div id="centercolumn">                    
+                <div id="centercolumn">
                     <table>
                         <colgroup>
                             <col style="width:100%">
                             <col>
                         </colgroup>
                         <tr>
-                            <td>
-                                <b style="font-size: xx-large">Virtual Lab</b>
+                            <td>                                
+                                <b style="font-size: xx-large"><? echo $h1title; ?></b>
                             </td>
                             <td>
-                                <img id="infoimg" src="../images/info.png" width="45px"
+                                <img id="infoimg" src="../images/info.png" width="45"
                                      onmouseover="toggleFX();" onmouseout="toggleNoFX();"
-                                     onclick="newPopup('./help.html');">
+                                     onclick="newPopup('./help-en.php');" alt="Help">
                             </td>
                         </tr>
                     </table>
 
 
-                    <h3>
-                        Coupled Tanks &amp; PID Controller 
-                    </h3>
-                    <!--Floating Messages-->
+                    <h3><? echo $h3title; ?></h3>
+                    <!--Experimental Part-->
                     <div id="experiment">
+                        <!--Floating Messages-->
                         <div id="l1msg" class="fmsg">
                         </div>
                         <div id="l2msg" class="fmsg">
@@ -199,19 +261,19 @@ if (empty($_SESSION['count'])) {
                         <div id="a2msg" class="fmsg">
                         </div>
                         <!--Floating Components-->
-                        <div id="pid" class="component hotspot" onclick="pidmenu();" 
+                        <div id="pid" class="component" onclick="pidmenu();" 
                              onmouseover="Tip('Click on the box to configure the PID controller',
                                  WIDTH, ttwidth, TITLE, 'Controller',DURATION, ttduration,
                                  SHADOW, true, FADEIN, 300, FADEOUT, 300, 
                                  STICKY, 0, OFFSETY, -10, DELAY, ttdelay)">
                         </div>
-                        <div id="measuringdev" class="component hotspot" onclick="measmenu();"
+                        <div id="measuringdev" class="component" onclick="measmenu();"
                              onmouseover="Tip('Click on the box to configure the measuring device dynamics.',
                                  WIDTH, ttwidth, TITLE, 'Measuring Device',DURATION, ttduration,
                                  SHADOW, true, FADEIN, 300, FADEOUT, 300, 
                                  STICKY, 0, OFFSETY, -10, DELAY, ttdelay)">
                         </div>
-                        <div id="fcebox" class="component hotspot" onclick="fcemenu();"
+                        <div id="fcebox" class="component" onclick="fcemenu();"
                              onmouseover="Tip('Click on the box to configure the dynamics of the \
                                 Final Control Element.',
                                  WIDTH, ttwidth, TITLE, 'Final Control Element',DURATION, ttduration,
@@ -219,7 +281,7 @@ if (empty($_SESSION['count'])) {
                                  STICKY, 0, OFFSETY, -10, DELAY, 1200)">
                         </div>
                         <!--Levels (Water)-->
-                        <div id="level1" onclick="doMove();" style="cursor:pointer;">
+                        <div id="level1">
                         </div>
                         <div id="level2">
                         </div>
@@ -231,8 +293,7 @@ if (empty($_SESSION['count'])) {
                 </div>
             </div>
             <div class="footer" id="footer">
-                <!-- -->  <? include('../footer.php')
-                ?>
+                <!-- -->  <? include('../footer.php') ?>
             </div>
         </div>
     </body>

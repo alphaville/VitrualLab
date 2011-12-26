@@ -1,4 +1,4 @@
-var pid, meas,fce, l1msg, l2msg,rr1msg,r2msg,tlevel1,tlevel2,showPid,showFce,showMeasDev,lev1, lev2,r1, r2, kc;
+var pid, meas,fce, l1msg, l2msg,rr1msg,r2msg,tlevel1,tlevel2,showSP,showPid,showFce,showMeasDev,lev1, lev2,r1, r2, kc,sp;
 var marto1=186,marto2=186, mode=true;
 var ttduration=3500, ttdelay=1200, ttwidth=180;
 
@@ -32,8 +32,10 @@ function init(){
     tlevel2=document.getElementById('level2');
     showPid=false;
     showFce=false;
+    showSP=false;
     showMeasDev=false;
     kc=document.getElementById("Kc");
+    sp=document.getElementById("setpoint");
 }
 
 function doMove(){
@@ -116,6 +118,21 @@ function getStyle(el,styleProp)
         y = document.defaultView.getComputedStyle(x,null).getPropertyValue(styleProp);
     }
     return y;
+}
+
+
+function spmenu(){
+    if (showSP){
+        spmenuclose();
+    }else{
+        sp.style.display='block';
+        showSP=true;
+    }
+}
+
+function spmenuclose(){
+    sp.style.display='none';
+    showSP=false;
 }
 
 
