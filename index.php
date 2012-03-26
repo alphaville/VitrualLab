@@ -10,8 +10,20 @@ if (empty($_SESSION['count'])) {
     >
     <? include("./global.php"); ?>
 <html>
+    <?
+    $lang = $_GET['lang'];
+    // Get the language 
+    if ($lang == NULL) {
+        include('./en.php');
+    } else{
+        $includename='./'.$lang.'.php';
+        if (!@include('./'.$lang.'.php')){
+            include('./en.php');
+        }        
+    }
+    ?>
     <head>
-        <title>Εικονικό Εργαστήριο - Αρχική</title>
+        <title><?echo $page_title?></title>
         <meta name="keywords" content="Automatic Control Lab, Virtual Lab, Automatic Control Playground" >
         <meta name="description" content="Online automatic control lab." >
         <meta name="author" content="Pantelis Sopasakis">
@@ -28,14 +40,12 @@ if (empty($_SESSION['count'])) {
                 <img src="./images/background.jpg" class="stretch" alt="" >
             </div>
             <div id="leftcolumn">                
-                <? include('./sidebar.php'); ?>
+<? include('./sidebar.php'); ?>
                 <div class="left-text">
                     <div class="news">
-                        <h3 onclick="doget();">Σχετικά</h3>
+                        <h3 onclick="doget();"><?echo $about_title;?></h3>
                         <p id="left_paragraph" align="justify">
-                            Το VLAB είναι ένα εκπαιδευτικό εργαλείο που βοηθά στην
-                            καλύτερη και ευκολότερη κατανόηση της θεωρίας αυτόματης 
-                            ρύθμισης μέσα από παραδείγματα από τη Χημική Βιομηχανία.                            
+                            <?echo $about_vlab_text;?>                            
                         </p>
                         <div id="elearning">
                             <div align="center">                            
@@ -61,11 +71,14 @@ if (empty($_SESSION['count'])) {
                         echo'Dear <a href="./login/profile.php" style="text-decoration:none">' . $first . '</a>, 
                         you are logged in. <a href="./login/logout.php" style="text-decoration:none">Logout</a>.';
                     } else {
-                        echo 'Welcome <a href="./login/profile.php" style="text-decoration:none">Guest</a>.
-                        You may <a href="./login" style="text-decoration:none">Login</a>.';
+                        echo $welcome.' <a href="./login/profile.php" style="text-decoration:none">Guest</a>.
+                        '.$youmay.' <a href="./login" style="text-decoration:none">Login</a>.';
                     }
                     ?>
-
+                </div>
+                <div id="menubar" align="center">
+                    <span class="menuoption"><a href=""><? echo $home ?></a></span> | 
+                    <span class="menuoption"><a href="">Info</a></span>
                 </div>
                 <div id="centercolumn">
                     <h1>
@@ -161,7 +174,7 @@ if (empty($_SESSION['count'])) {
                             <ol>
                                 <li>
                                     <a href="./p">Σύστημα κλειστού βρόγχου με ρυθμιστή P</a> :
-                                    
+
                                 </li>
                                 <li>
                                     <a href="./pid">Σύστημα κλειστού βρόγχου με ρυθμιστή PID</a>
@@ -175,7 +188,7 @@ if (empty($_SESSION['count'])) {
                 </div>
             </div>
             <div class="footer" id="footer">
-                <? include('./footer.php') ?>
+<? include('./footer.php') ?>
             </div>
         </div>
     </body>
