@@ -5,25 +5,24 @@ if (empty($_SESSION['count'])) {
 } else {
     $_SESSION['count']++;
 }
+include("./global.php");
+$lang = $_GET['lang'];
+// Get the language 
+if ($lang == NULL) {
+    include('./en.php');
+} else {
+    $includename = './' . $lang . '.php';
+    if (!@include('./' . $lang . '.php')) {
+        include('./en.php');
+        $lang = "en";
+    }
+}
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd" 
-    >
-    <? include("./global.php"); ?>
-<html>
-    <?
-    $lang = $_GET['lang'];
-    // Get the language 
-    if ($lang == NULL) {
-        include('./en.php');
-    } else{
-        $includename='./'.$lang.'.php';
-        if (!@include('./'.$lang.'.php')){
-            include('./en.php');
-        }        
-    }
-    ?>
+    >    
+<html lang="<? echo $lang; ?>">
     <head>
-        <title><?echo $page_title?></title>
+        <title><? echo $page_title ?></title>
         <meta name="keywords" content="Automatic Control Lab, Virtual Lab, Automatic Control Playground" >
         <meta name="description" content="Online automatic control lab." >
         <meta name="author" content="Pantelis Sopasakis">
@@ -40,16 +39,16 @@ if (empty($_SESSION['count'])) {
                 <img src="./images/background.jpg" class="stretch" alt="" >
             </div>
             <div id="leftcolumn">                
-<? include('./sidebar.php'); ?>
+                <? include('./sidebar.php'); ?>
                 <div class="left-text">
-                    <div class="news">
-                        <h3 onclick="doget();"><?echo $about_title;?></h3>
-                        <p id="left_paragraph" align="justify">
-                            <?echo $about_vlab_text;?>                            
+                    <div class="news"  lang="<? echo $lang; ?>">
+                        <span style="font: bolder small times"><? echo $about_title; ?></span>
+                        <p style="margin-top:5px;" id="left_paragraph" align="justify">
+                            <? echo $about_vlab_text; ?>                            
                         </p>
                         <div id="elearning">
                             <div align="center">                            
-                                <img src="./images/books.png" alt="octave.png" width="150">
+                                <img src="./images/books.png" alt="octave.png" width="130">
                             </div>
                             <p align="center"><em>VLAB</em>: E-learning of Automatic Control!</p>
                         </div>
@@ -71,42 +70,27 @@ if (empty($_SESSION['count'])) {
                         echo'Dear <a href="./login/profile.php" style="text-decoration:none">' . $first . '</a>, 
                         you are logged in. <a href="./login/logout.php" style="text-decoration:none">Logout</a>.';
                     } else {
-                        echo $welcome.' <a href="./login/profile.php" style="text-decoration:none">Guest</a>.
-                        '.$youmay.' <a href="./login" style="text-decoration:none">Login</a>.';
+                        echo $welcome . ' <a href="./login/profile.php" style="text-decoration:none">Guest</a>.
+                        ' . $youmay . ' <a href="./login" style="text-decoration:none">Login</a>.';
                     }
                     ?>
                 </div>
                 <div id="menubar" align="center">
-                    <span class="menuoption"><a href=""><? echo $home ?></a></span> | 
-                    <span class="menuoption"><a href="">Info</a></span>
+                    <span class="menuoption"><a href=""><? echo $home_page; ?></a></span> | 
+                    <span class="menuoption"><a href=""><? echo $experiments; ?></a></span> | 
+                    <span class="menuoption"><a href="https://github.com/alphaville/VitrualLab/issues"><? echo $report_bug; ?></a></span> | 
+                    <span class="menuoption"><a href="" title="Frequently Asked Questions"><? echo $faq; ?></a></span>
                 </div>
-                <div id="centercolumn">
-                    <h1>
-                        Εικονικό Εργαστήριο
-                    </h1>
-                    <h3>Καλωσορίσατε στο VLAB!</h3>
+                <div id="centercolumn" lang="<? echo $lang; ?>">
+                    <h1 lang="<? echo $lang; ?>"><? echo $header; ?></h1>
+                    <h3  lang="<? echo $lang; ?>"><? echo $subheader; ?></h3>
                     <div>
-                        <p align="justify">Το VLAB είναι μια διαδικτυακή εφαρμογή που 
-                            προσφέρει στους χρήστες της
-                            ένα διαδραστικό περιβάλλον για την κατανόηση και εμπέδωση των βασικών
-                            αρχών της θεωρίας Αυτόματης Ρύθμισης.</p>
-
-                        <p align="justify">Το εικονικό εργαστήριο περιλαμβάνει μια σειρά εικονικών πειραμάτων 
-                            στα οποία μπορεί να έχει πρόσβαση κάθε φοιτητής από οποιοδήποτε σημείο
-                            έχει πρόσβαση στο διαδίκτυο. Ο κλασικός κλειστός βρόγχος της Αυτόματης Ρύθμισης
-                            παρουσιάζεται με γραφικό τρόπο και έτσι ώστε να επιτρέπεται στο χρήστη να 
-                            αλληλεπιδρά με το σύστημα.</p>
+                        <p align="justify" lang="<? echo $lang; ?>"><? echo $p1_1; ?></p>
+                        <p align="justify" lang="<? echo $lang; ?>"><? echo $p1_2; ?></p>
                         <div align="center">
                             <img src="./images/2tanks_ss.png" height="250" alt="screenshot - 1">
                         </div>
-                        <p align="justify">
-                            Παρέχεται αυτοματοποιημένη καθοδήγηση καθόλη τη διάρκεια
-                            διεξαγωγής του πειράματος ενώ για κάθε πείραμα διατίθεται και
-                            σχετικός οδηγός με αναλυτική περιγραφή του σκοπού της άσκησης,
-                            στοιχεία από τη σχετική θεωρία και τα βήματα που απαιτούνται
-                            για την ολοκλήρωσή της.
-                        </p>
-
+                        <p align="justify" lang="<? echo $lang; ?>"><? echo $p1_3; ?></p>
                         <div align="center">
                             <img src="./images/ss_menu.png" height="100" alt="screenshot - 1">
                         </div>
@@ -180,7 +164,7 @@ if (empty($_SESSION['count'])) {
                                     <a href="./pid">Σύστημα κλειστού βρόγχου με ρυθμιστή PID</a>
                                 </li>
                                 <li>
-                                    <a href="./tanks">Σύστημα συζευγμένων δεξαμενών με ρυθμιστή PID (Under Construction)</a>
+                                    <a href="./tanks">Σύστημα συζευγμένων δεξαμενών με ρυθμιστή PID</a>
                                 </li>
                             </ol>
                         </div>
@@ -188,7 +172,7 @@ if (empty($_SESSION['count'])) {
                 </div>
             </div>
             <div class="footer" id="footer">
-<? include('./footer.php') ?>
+                <? include('./footer.php') ?>
             </div>
         </div>
     </body>
