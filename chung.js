@@ -1,5 +1,4 @@
 // On load
-
 function doget(){
     $.ajax({
         url: 'http://localhost/a.txt',
@@ -196,4 +195,11 @@ function highlightButton(){
 function dehighlightButton(){
     var excl = document.getElementById("exclamation");
     excl.style.display="none";
+}
+
+function holdit(){
+    var waitforme = document.getElementById("pleasewait");
+    waitforme.style.display="block";
+    var resultsdiv = document.getElementById("simulation-results");
+    resultsdiv.style.display="none";
 }
