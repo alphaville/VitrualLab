@@ -80,7 +80,7 @@ if (empty($_SESSION['count'])) {
                             Already have a <b>VLAB account</b>?
                         </p>
                         <div id="credential"  align="center">
-                            <form action="profile.php" >
+                            <form method="POST" action="profile.php?what=member" >
                                 <table >
                                     <tr>
                                         <td>Username</td><td><input type="text" name="un"></td>

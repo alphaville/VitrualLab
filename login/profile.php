@@ -1,4 +1,5 @@
 <?php
+include("../database.php");
 session_start();
 if (empty($_SESSION['count'])) {
     $_SESSION['count'] = 1;
@@ -28,7 +29,7 @@ if (isset($what) & $what == "return") {
         setcookie("email", $email, time() + 36000, "/");
         setcookie("hash", $hash, time() + 36000, "/");
         // Are you new to the neighborhood???
-        $con = mysql_connect("localhost", "root", "abfhs8y");
+        $con = connect();
         if (!$con) {
             die('Could not connect: ' . mysql_error());
         } else {
@@ -38,11 +39,36 @@ if (isset($what) & $what == "return") {
         }
         mysql_close($con);
     }
-} else if (isset($what) & $what == "member") {
+} elseif (isset($what) & $what == "member") {
     /**
      * TODO: Find user in the database...
      */
-    
+    $un = $_POST['un'];
+    $pwd = $_POST['pwd'];
+    $con = connect();
+    mysql_select_db("vlab", $con);
+    if (!$con) {
+        die('Could not connect: ' . mysql_error());
+    } else {
+        $result = mysql_query("SELECT fn,ln,email,pwd_hash_md5 FROM people WHERE id='" . $un . "'");
+        $row = mysql_fetch_array($result);
+        $pwd_in_sql = $row['pwd_hash_md5'];
+        if ((is_null($row)) | (md5($pwd) != $pwd_in_sql)) {
+            // Invalid Login
+        } else {
+            // Correct login
+            $email = $row["email"];
+            $fn = $row["fn"];
+            $ln = $row["ln"];
+            $authtype = "VLAB";
+            setcookie("id", $un, time() + 36000, "/");
+            setcookie("auth", $authtype, time() + 36000, "/");
+            setcookie("fn", $fn, time() + 36000, "/");
+            setcookie("ln", $ln, time() + 36000, "/");
+            setcookie("email", $email, time() + 36000, "/");
+        }
+    }
+    mysql_close($con);
 } else {
     $fn = $_COOKIE["fn"];
     $ln = $_COOKIE["ln"];
@@ -68,13 +94,13 @@ if (isset($what) & $what == "return") {
         <meta name="keywords" content="Automatic Control Lab, Virtual Lab, Automatic Control Playground" >
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <link rel="stylesheet" type="text/css" href="../tooltip/style.css" >    
-        <link rel="stylesheet" type="text/css" href="./style-p.css" >
         <link rel="stylesheet" type="text/css" href="../style.css" > 
         <script type='text/javascript' src='../chung.js' ></script>
         <script type='text/javascript'></script>
         <link rel="shortcut icon" href="/vlab/favicon.ico" type="image/x-icon" >
     </head>
     <body id="body" onload="loadMe();">    
+
         <? include('../global.php'); ?>
         <div id="wrap">
             <div id="background">
