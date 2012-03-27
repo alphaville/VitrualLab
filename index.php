@@ -79,10 +79,10 @@ if ($lang == NULL) {
                     ?>
                 </div>
                 <div id="menubar" align="center">
-                    <span class="menuoption"><a href="/?lang=<?echo $lang;?>"><? echo $home_page; ?></a></span> | 
+                    <span class="menuoption"><a href="/?lang=<? echo $lang; ?>"><? echo $home_page; ?></a></span> | 
                     <span class="menuoption"><a href=""><? echo $experiments; ?></a></span> | 
                     <span class="menuoption"><a href="https://github.com/alphaville/VitrualLab/issues"><? echo $report_bug; ?></a></span> | 
-                    <span class="menuoption"><a href="/faq?lang=<?echo $lang;?>" title="Frequently Asked Questions"><? echo $faq; ?></a></span>
+                    <span class="menuoption"><a href="/faq?lang=<? echo $lang; ?>" title="Frequently Asked Questions"><? echo $faq; ?></a></span>
                 </div>
                 <div id="centercolumn" lang="<? echo $lang; ?>">
                     <h1 lang="<? echo $lang; ?>"><? echo $header; ?></h1>
@@ -98,55 +98,29 @@ if ($lang == NULL) {
                             <img src="./images/ss_menu.png" height="100" alt="screenshot - 1">
                         </div>
                     </div>
-
                     <div class="cl"></div>
                     <div class="cl"></div>
-
                     <div>
-                        <h3>Αξιολόγηση των αποτελεσμάτων</h3>
+                        <h3><? echo $evaluation_title; ?></h3>
                         <p align="justify">
-                            Κάθε φοιτητής μπορεί <a href="./login/">να συνδεθεί στο VLAB</a> 
-                            με σκοπό να έχει πρόσβαση
-                            στη διαδικασία αξιολόγησης των αποτελεσμάτων του. Μπορείτε να συνδεθείτε
-                            είτε χρησιμοποιώντας ένα λογαριασμό που ήδη έχετε στο Google ή το Yahoo ή
-                            να δημιουργήσετε ένα λογαριασμό VLAB. Κατόπιν, αφού ολοκληρώσετε μια άσκηση
-                            μπορείτε να αποθηκεύσετε προσωρινά τα αποτελέσματα και όταν αποφασίσετε να
-                            ολοκληρώσετε την υποβολή των αποτελεσμάτων στο σύστημα. Οι ασκήσεις 
-                            βαθμολογούνται κατ'ευθείαν ηλεκτρονικά και ο βαθμός ανακοινώνεται στο χρήστη.
+                            <? echo $evaluation_p; ?>
                         </p>
                     </div>
-
                     <div class="cl"></div>
                     <div class="cl"></div>
-
-
                     <div>
-                        <h3>Σχετικά με την Εφαρμογή</h3>
+                        <h3><?echo $about_header;?></h3>
                         <p align="justify">
-                            Η παρούσα εφαρμογή αναπτύχθηκε στο εργαστήριο Αυτόματης Ρύθμισης και 
-                            Πληροφορικής της Σχολή Χημικών Μηχανικών του Ε.Μ.Π. Βασίζεται σε λογισμικό 
-                            ανοιχτού κώδικα και διανέμεται επίσης με βάση την άδεια χρήσης και διανομής
-                            <a href="http://www.gnu.org/copyleft/gpl.html">GNU GPL v.3</a> (CLeft). 
-                            Ο κώδικας της εφαρμογής περιλαμβάνει <a href="http://www.php.net/">PHP</a>, 
-                            <a href="http://www.w3.org/TR/html401/">HTML4.01</a>, 
-                            <a href="http://www.w3.org/Style/CSS/">CSS3</a>, 
-                            <a href="http://www.w3schools.com/js/">JavaScript</a>, 
-                            <a href="http://www.gnu.org/software/octave/">Octave</a> και 
-                            <a href="http://www.mysql.com/">MySQL</a>. Επίσης χρησιμοποιεί την 
-                            τεχνολογία <a href="http://http://openid.net/">OpenID</a> και τα API των Twitter και Facebook.
+                            <? echo $about_p1;?>
                         </p>
                         <div align="center">
                             <img src="./images/ss_design.png" height="250" alt="screenshot - 1">
                         </div>
                         <p align="justify">
-                            Καταβάλλουμε προσπάθεια ώστε το VLAB να είναι συμβατό με όλους
-                            τους σύγχρονους φυλλομετρητές όπως για παράδειγμα ο Mozilla Firefox,
-                            o Google Chrome και ο Opera. Απαιτείται ωστόσο να έχετε ενεργοποιήσει
-                            την <b>αποδοχή cookies</b>.
+                            <?echo $about_p2;?>
                         </p>                                                
                         <p align="justify">
-                            Ο πηγαίος κώδικας της εφαρμογής φιλοξενείται στο 
-                            <a href="https://github.com/alphaville/VitrualLab">github</a>.                            
+                            <?echo $about_p3;?>
                         </p>                                                
                     </div>
 

@@ -19,7 +19,7 @@ if (empty($_SESSION['count'])) {
         <link rel="stylesheet" type="text/css" href="../style.css" >
         <link rel="stylesheet" type="text/css" href="./style-pid.css" >
         <script type="text/javascript" src="../tooltip/script.js"></script>
-        <script type='text/javascript' src="../chung-min.js"></script>
+        <script type='text/javascript' src="../chung.js"></script>
         <script type='text/javascript' src="../ga.js"></script>    
         <link rel="shortcut icon" href="/vlab/favicon.ico" type="image/x-icon" >   
     </head>
@@ -73,9 +73,9 @@ if (empty($_SESSION['count'])) {
                 <div class="news">
                     <div id="leftsb_exrecise_pid" style="margin-left: 3px">
                         <p align="justify">This virtual experiment allows the user to tailor
-                        their own closed-loop system by using customizable components
-                        and get the time response of the systems following an impulse,
-                        a step or a harmonic triggering. </p>
+                            their own closed-loop system by using customizable components
+                            and get the time response of the systems following an impulse,
+                            a step or a harmonic excitation. </p>
                     </div>
                     <div id="octave">
                         <div align="center">
@@ -92,7 +92,8 @@ if (empty($_SESSION['count'])) {
             </div>
             <div id="container">
                 <div id="nav">
-                    <a href=".." style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Back to Main</span></a>
+                    <a href=".." style="text-decoration:none">
+                        <span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Back to Main</span></a>
                 </div>
                 <div id="centercolumn">
                     <h1>
@@ -124,13 +125,20 @@ if (empty($_SESSION['count'])) {
                         ?>
                         <div class="cl">
                         </div>
-                        <table>
+                        <table style="vertical-align: middle">
                             <TR>
                                 <TD>
-                                    <input type="submit" value="Run" id="sb">
+                                    <input type="submit" value="Run" id="sb" onclick="holdit();">
                                 </TD>
                                 <td>
-                                    <img src="../images/arrow.png" id="exclamation">
+                                    <img src="../images/arrow.png" id="exclamation" alt="<-- Click Here">
+                                </td>
+                                <td>
+                                    <span id="pleasewait">
+                                        <!-- Credit goes to http://ajaxload.info/ -->
+                                        <img src="../images/loading.gif"  alt="Please Wait!" title="loading..."> 
+                                        <em><br>Loading, please wait...</em>                                        
+                                    </span>
                                 </td>
                             </TR>
                         </table>
@@ -157,7 +165,7 @@ if (empty($_SESSION['count'])) {
                         $retval = exec($command, $ret);
                         $everythingOK = 0;
 
-                        echo '<div class="results">
+                        echo '<div class="results" id="simulation-results">
 		<label id="simulations" for="results">
 		<h3>Results</h3>
 		</label>
@@ -184,10 +192,8 @@ if (empty($_SESSION['count'])) {
                             $resp_jpg = "./images/" . $sid . "resp.jpg";
 
                             $i = 1;
-
-                            if ($selectInputSignal = "1") {
-                                echo '<div class="nyqBox"><img class="nyq" src="' . $resp_jpg . '" id="respplot"><label id="response_plot">Figure ' . ($i++) . ' : Response Plot</label></div>';
-                            }
+                            // Always output the response plot (default)!
+                            echo '<div class="nyqBox"><img class="nyq" src="' . $resp_jpg . '" id="respplot"><label id="response_plot">Figure ' . ($i++) . ' : Response Plot</label></div>';
                             if ($bode) {
                                 echo '<div class="bodeBox"><img class="bode" src="' . $bode_jpg . '" id="bodeplot"><label id="bode_plot" for="bodeplot">Figure ' . ($i++) . ' : Bode Plot</label></div>';
                             }
