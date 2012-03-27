@@ -10,4 +10,9 @@ $otherlang='English';
 $otherlangimg='/images/english.png';
 $ohterlangattribute="?lang=en";
 $setpoint="Επιθυμητό Σημείο";
+$left_sidebar_title="Συζευγμένες Δεξαμενές";
+$left_sidebar_paragraph="Βαθμονομήστε τον PID ρυθμιστή του συστήματος με κάποια μέθοδο
+    (Ziegler-Nichols, IMC). Κάντε κλικ στις διάφορες βαθμίδες του συστήματος
+    για να αποκτήσετε πρόσβαση στο μενού επιλογής παραμέτρων. Για περισσότερες πληροφορίες <a href=\"\">
+    κάντε κλικ εδώ</a>.";
 ?>

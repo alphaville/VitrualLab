@@ -1,5 +1,4 @@
 <?php
-
 $title = 'Virtual Lab - System of Coupled Tanks'; //Title of the page (header)
 $h1title = 'Virtual Lab'; // H1-Title of the central column
 $h3title = 'Coupled Tanks &amp; PID Controller';
@@ -10,4 +9,6 @@ $otherlang='Ελληνικά';
 $otherlangimg='/images/greek.png';
 $ohterlangattribute="?lang=el";
 $setpoint="Set Point";
+$left_sidebar_title="Coupled Tanks";
+$left_sidebar_paragraph="sdf";
 ?>

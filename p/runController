@@ -33,8 +33,8 @@ xlabel('Time');
 ylabel('Response');
 title ('Step Response');
 grid on;
-print ([imgFileName '.svg'], '-dsvg');
-print ([imgFileName '.jpg'], '-djpeg');
+print ([imgFileName '.svg'], '-dsvg','-S700,500');
+print ([imgFileName '.jpg'], '-djpeg','-S580,500');
 close(f);
 
 disp(y(end));
