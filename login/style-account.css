@@ -1,0 +1,4 @@
+input[type="text"].checkAgain,input[type="password"].checkAgain{
+    width:130px;
+    background-color: tomato;
+}

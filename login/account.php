@@ -17,9 +17,10 @@ $securimage = new Securimage();
         <meta name="keywords" content="Automatic Control Lab, Virtual Lab, Automatic Control Playground" >
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <link rel="stylesheet" type="text/css" href="../tooltip/style.css" >    
-        <link rel="stylesheet" type="text/css" href="./style-p.css" >
         <link rel="stylesheet" type="text/css" href="../style.css" > 
+        <link rel="stylesheet" type="text/css" href="./style-account.css" > 
         <script type='text/javascript' src='../chung.js' ></script>
+        <script type='text/javascript' src='./account_utils.js' ></script>
         <script type='text/javascript'></script>
         <link rel="shortcut icon" href="/vlab/favicon.ico" type="image/x-icon" >
     </head>
@@ -60,19 +61,22 @@ $securimage = new Securimage();
                             $ln = $post["ln"];
                             $email = $post["email"];
                             $pwd = md5(strtolower(trim($post["pwd"])));
+                            $pwd2 = md5(strtolower(trim($post["pwd2"])));                                                        
                             ?>
                             <h3>Account Overview</h3>
-                            <table>
-                                <tr>
-                                    <td><b>Username</b></td><td><? echo $un; ?></td>
-                                </tr>
-                                <tr>
-                                    <td><b>Name</b></td><td><? echo $fn . ' ' . $ln; ?></td>
-                                </tr>
-                                <tr>
-                                    <td><b>Email</b></td><td><? echo $email; ?></td>
-                                </tr>
-                            </table>
+                            <div id="account-details">
+                                <table>
+                                    <tr>
+                                        <td><b>Username</b></td><td><? echo $un; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Name</b></td><td><? echo $fn . ' ' . $ln; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Email</b></td><td><? echo $email; ?></td>
+                                    </tr>
+                                </table>
+                            </div>
                             <?
                             $con = connect();
                             if (!$con) {

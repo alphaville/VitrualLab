@@ -79,22 +79,25 @@ if (empty($_SESSION['count'])) {
                         <p>
                             Already have a <b>VLAB account</b>?
                         </p>
-                        <div id="credential"  align="center">
+                        
+                        <div id="credential"  
+                             style="width: 420px;margin-left: 100px;border:yellowgreen;
+                             padding-top: 12px;padding-left:12px;padding-right:12px;
+                             padding-bottom: 5px;border: 1px dashed #666;">
                             <form method="POST" action="profile.php?what=member" >
                                 <table >
                                     <tr>
-                                        <td>Username</td><td><input type="text" name="un"></td>
+                                        <td><em>Username</em></td><td><input type="text" name="un"></td>
                                     </tr>
                                     <tr>
-                                        <td>Password</td><td><input type="password" name="pwd"></td>
+                                        <td><em>Password</em></td><td><input type="password" name="pwd"></td>
                                     </tr>
                                 </table>
-                                <div class="button-holder" style="padding-top: 25px; padding-bottom: 15px">
+                                <div class="button-holder" align="center" style="padding-top: 25px; padding-bottom: 15px">
                                     <div class="button" style="padding:10px">
                                         <input type="image" src="../images/logiin.png" value="Login!">
                                     </div>
                                 </div>
-
                             </form>
                         </div>
                     </div>                    
