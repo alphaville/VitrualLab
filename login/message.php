@@ -56,8 +56,8 @@ function getUser() {
                     <h3>Message ID <? echo $message_id != null ? $message_id : 'undefined' ?></h3>
                     <?
                     if ($message_id != null) {
-                        $query = "SELECT `from`, `rcpt_to`, `subject`, `body`, `creation_date` FROM 
-                            `message` WHERE (`from`='" . $un . "' OR `rcpt_to`='".$un."') AND `id`=" . $message_id;
+                        $query = "SELECT `from`, `rcpt_to`, `subject`, `body`, `creation_date`, `inreplyto` FROM 
+                            `message` WHERE (`from`='" . $un . "' OR `rcpt_to`='".$un."' OR `rcpt_to`='everybody') AND `id`=" . $message_id;
                         $con = connect();
                         if (!$con) {
                             die("MySQL Connctivity Error : " . mysql_error());
@@ -71,6 +71,7 @@ function getUser() {
                                 $subject = $row['subject'];
                                 $body = $row['body'];
                                 $creation_date = $row['creation_date'];
+                                $inreplyto=$row['inreplyto'];
                             }
                         }
                         mysql_close($con);
@@ -84,12 +85,13 @@ function getUser() {
                                                 Message ID   
                                             </td>
                                             <td>
-                                                <a href=""><? echo $message_id; ?></a>
+                                                <a href="">#<? echo $message_id; ?></a>
+                                                <?if ($inreplyto){echo "(In reply to message <a href=\"message.php?id=$inreplyto\">#$inreplyto)</a>";}?>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>From</td>
-                                            <td><? echo getNameForId($from); ?></td>
+                                            <td><? $fromName=getNameForId($from);echo $fromName; ?></td>
                                         </tr>
                                         <tr>
                                             <td>To</td>
@@ -114,6 +116,11 @@ function getUser() {
                                     <label for="msg-body"><strong>Message</strong></label>
                                     <hr>
                                     <span id="msg-body"><? echo $body; ?></span>
+                                    <br>
+                                    <?$reply_link="composer.php?what=reply&message_id=".$message_id."&inreplyto=".urlencode($fromName)."&from=".$from;?>
+                                    <? if ($un!=$from){?>
+                                    <a href="<?echo $reply_link;?>"><strong>Reply to this message</strong></a>
+                                    <?}?>
                                 </div>
                                 <div class="cl"></div>
                                 <div>

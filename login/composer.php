@@ -20,8 +20,8 @@ function getUser() {
     $full_name = $fn . " " . $ln;
     echo '<span id="username"><a href="/login/profile.php">' . $full_name . '</a></span>';
 }
-
 $user_role = getRole($_COOKIE["id"]);
+$what=$_GET['what'];
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd" 
     >
@@ -71,8 +71,13 @@ $user_role = getRole($_COOKIE["id"]);
                                     </tr>
                                     <tr>                                    
                                         <td><label for="admin">Receipt to:</label></td>
+                                        <?if ($what=="reply") {
+                                            echo '<td>'.$_GET["inreplyto"].'</td>
+                                                <input type="hidden" name="receiver" id="admin" value="'.$_GET["from"].'">
+                                                <input type="hidden" name="inreplyto" id="inreplyto" value="'.$_GET["message_id"].'">';
+                                        }else{?>
                                         <td>
-                                            <select name="admin" id="admin" style="background-color: transparent;">
+                                            <select name="receiver" id="receiver" style="background-color: transparent;">
                                                 <?
                                                 if ($user_role>=10){
                                                     echo '<option value="everybody">Everybody</option>';
@@ -90,6 +95,7 @@ $user_role = getRole($_COOKIE["id"]);
                                                 mysql_close($con);
                                                 ?></select>
                                         </td>
+                                        <?}?>
                                     </tr>
                                     <tr>
                                         <td><label for="subject">Subject</label></td>

@@ -15,6 +15,7 @@ CREATE TABLE `people` (
   `creation_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `login_method` VARCHAR(40) NOT NULL DEFAULT 'vlab',
   `authorization_key` VARCHAR(255) UNIQUE NOT NULL,
+  `inreplyto` INT(10),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 LOCK TABLE `people` WRITE;

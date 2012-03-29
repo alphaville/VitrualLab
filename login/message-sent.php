@@ -60,11 +60,15 @@ function getUser() {
                             die('MySQL Error : ' . mysql_error());
                         } else {
                             $from = $_POST["un"];
-                            $rcpt_to = $_POST["admin"];
+                            $rcpt_to = $_POST["receiver"];
                             $subject = $_POST["subject"];
                             $body = $_POST["editor1"];
-                            $query = "INSERT INTO `message` (`from`,`rcpt_to`,`subject`,`body`) VALUES 
-                                ('" . $from . "','" . $rcpt_to . "','" . $subject . "','" . $body . "')";
+                            $inreplyto = $_POST["inreplyto"];
+                            if (!$inreplyto){
+                                $inreplyto="NULL";
+                            }
+                            $query = "INSERT INTO `message` (`from`,`rcpt_to`,`subject`,`body`,`inreplyto`) VALUES 
+                                ('" . $from . "','" . $rcpt_to . "','" . $subject . "','" . $body . "', $inreplyto)";                            
 
                             if (!mysql_query($query)) {
                                 echo '<h3>Message could not be sent</h3>';
