@@ -129,19 +129,19 @@ if ($lang == NULL) {
 
                     <div>
                         <h3>
-                            Λίστα Πειραμάτων
+                            <?echo $list_experiments_header;?>
                         </h3>
                         <div id="scopeMessage" >
                             <ol>
                                 <li>
-                                    <a href="./p">Σύστημα κλειστού βρόγχου με ρυθμιστή P</a> :
+                                    <a href="./p"><?echo $experiment_1_title;?></a>: <?echo $experiment_1;?>
 
                                 </li>
                                 <li>
-                                    <a href="./pid">Σύστημα κλειστού βρόγχου με ρυθμιστή PID</a>
+                                    <a href="./pid"><?echo $experiment_2_title;?></a>: <?echo $experiment_2;?>
                                 </li>
                                 <li>
-                                    <a href="./tanks">Σύστημα συζευγμένων δεξαμενών με ρυθμιστή PID</a>
+                                    <a href="./tanks"><?echo $experiment_3_title;?></a>: <?echo $experiment_3;?>
                                 </li>
                             </ol>
                         </div>

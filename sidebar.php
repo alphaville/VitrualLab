@@ -1,6 +1,5 @@
-
 <div id="sn-holder">
-    <span style="font: bolder small times">Spread it</span>
+    <span style="font: bolder small times">VLAB on the web</span>
     <div id="like">
         <div class="fb-like" data-send="true" data-layout="button_count" data-href="<? echo $__URL__; ?>"  data-show-faces="true"></div>
         <div class="cl"></div>Tweet it...

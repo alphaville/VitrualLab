@@ -19,4 +19,11 @@ $about_header="The Web Application";
 $about_p1="This web application is being developed in the Unit for Automatic Control and Informatics at the School of Chemical Engineering, NTUA. It is based solely on free, libre and open-source software and is also distributed freely according to the <a href=\"http://www.gnu.org/copyleft/gpl.html\">GNU GPL v.3</a> left (CLeft). The source code includes <a href=\"http://www.php.net/\">PHP</a>, <a href=\"http://www.w3.org/TR/html401/\">HTML4.01</a>, <a href=\"http://www.w3.org/Style/CSS/\">CSS3</a>, <a href=\"http://www.w3schools.com/js/\">JavaScript</a>, <a href=\"http://www.gnu.org/software/octave/\">Octave</a> and <a href=\"http://www.mysql.com/\">MySQL</a>. It also uses <a href=\"http://http://openid.net/\">OpenID</a> technology and the APIs of Twitter and Facebook.";
 $about_p2="We endeavour so that VLAB be compatible with most modern web browsers such as Mozilla Firefox, Google Chrome and Opera. Note that you need to have <b>activated acceptance of cookies</b>.";
 $about_p3="The source code of the application is hosted on <a href=\"https://github.com/alphaville/VitrualLab\">github</a>.";
+$list_experiments_header="List of V-Experiments";
+$experiment_1_title="Closed-loop system with a P-controller";
+$experiment_2_title="The PID workbench";
+$experiment_3_title="PID controller for the regulation of level in a system with two coupled tanks";
+$experiment_1="";//TODO: Write description in English
+$experiment_2="";
+$experiment_3="";
 ?>

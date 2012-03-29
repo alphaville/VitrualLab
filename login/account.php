@@ -8,9 +8,17 @@ if (empty($_SESSION['count'])) {
 include_once $_SERVER['DOCUMENT_ROOT'] . '/securimage/securimage.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/database.php';
 $securimage = new Securimage();
+
+function genRandomString($length) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $string = '';
+    for ($p = 0; $p < $length; $p++) {
+        $string .= $characters[mt_rand(0, strlen($characters))];
+    }
+    return $string;
+}
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd" 
-    >
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
     <head>
         <title>Login Page</title>
@@ -25,15 +33,14 @@ $securimage = new Securimage();
         <link rel="shortcut icon" href="/vlab/favicon.ico" type="image/x-icon" >
     </head>
     <body id="body" onload="loadMe();">    
-        <? include('../global.php'); ?>
+<? include('../global.php'); ?>
         <div id="wrap">
             <div id="background">
                 <img src="../images/background.jpg" class="stretch" alt="" >
             </div>
             <div id="leftcolumn">
                 <!-- LEFT COLUMN -->
-                <? include('../sidebar.php');
-                ?>
+                <? include('../sidebar.php'); ?>
             </div>
             <div id="rightcolumn">
                 <!-- RIGHT COLUMN -->	
@@ -46,8 +53,6 @@ $securimage = new Securimage();
                     <h1>
                         Create Account
                     </h1>
-
-
                     <?
                     $post = $_POST;
                     if ($post) {
@@ -61,7 +66,7 @@ $securimage = new Securimage();
                             $ln = $post["ln"];
                             $email = $post["email"];
                             $pwd = md5(strtolower(trim($post["pwd"])));
-                            $pwd2 = md5(strtolower(trim($post["pwd2"])));                                                        
+                            $pwd2 = md5(strtolower(trim($post["pwd2"])));
                             ?>
                             <h3>Account Overview</h3>
                             <div id="account-details">
@@ -82,10 +87,10 @@ $securimage = new Securimage();
                             if (!$con) {
                                 die('Could not connect: ' . mysql_error());
                             } else {
-                                mysql_query("USE vlab", $con);
-                                $ins = "INSERT IGNORE INTO people (id,fn,ln,email,pwd_hash_md5) 
+                                $token = genRandomString(32);
+                                $ins = "INSERT INTO people (`id`,`fn`,`ln`,`email`,`pwd_hash_md5`,`authorization_key`) 
                                     VALUES ('" . $un . "', '" .
-                                        $fn . "', '" . $ln . "', '" . $email . "', '" . $pwd . "');";
+                                        $fn . "', '" . $ln . "', '" . $email . "', '" . $pwd . "', '" . $token . "');";
                                 mysql_query($ins, $con);
                             }
                             mysql_close($con);
@@ -95,12 +100,12 @@ $securimage = new Securimage();
                             setcookie("ln", $ln, time() + 36000, "/");
                             setcookie("email", $email, time() + 36000, "/");
                             setcookie("hash", md5(strtolower(trim($email))), time() + 36000, "/");
+                            setcookie("token", $token, time() + 36000, "/");
                         }
                     } else {
                         include("./account-creation-form.php");
                     }
                     ?>
-
                 </div>
             </div>
             <div class="footer" id="footer">

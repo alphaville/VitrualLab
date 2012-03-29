@@ -1,5 +1,9 @@
 <?php
+include('../global.php');
 include("../database.php");
+if (!authorize_user($_COOKIE["id"], $_COOKIE["token"])){
+    header('Location: ' . $__BASE_URI . '/login/index.php');
+}
 session_start();
 if (empty($_SESSION['count'])) {
     $_SESSION['count'] = 1;
@@ -38,9 +42,10 @@ if (isset($what) & $what == "return") {
         if (!$con) {
             die('Could not connect: ' . mysql_error());
         } else {
-            mysql_query("USE vlab", $con);
-            mysql_query("INSERT IGNORE INTO people (id,fn,ln,email,login_method) VALUES ('" . $id . "', '" .
-                    $fn . "', '" . $ln . "', '" . $email . "', '" . $authtype . "' );", $con);
+            $insert_query="INSERT IGNORE INTO people (`id`,`fn`,`ln`,`email`,`login_method`,`authorization_key`) VALUES ('" . $id . "', '" .
+                    $fn . "', '" . $ln . "', '" . $email . "', '" . $authtype . "', md5(rand()) );";
+            mysql_query($insert_query, $con);
+            
         }
         mysql_close($con);
     }
@@ -55,7 +60,8 @@ if (isset($what) & $what == "return") {
     if (!$con) {
         die('Could not connect: ' . mysql_error());
     } else {
-        $result = mysql_query("SELECT fn,ln,email,pwd_hash_md5 FROM people WHERE id='" . $un . "'");
+        $result = mysql_query("SELECT `fn`,`ln`,`email`,`pwd_hash_md5`,`authorization_key` 
+            FROM people WHERE id='" . $un . "'");
         $row = mysql_fetch_array($result);
         $pwd_in_sql = $row['pwd_hash_md5'];
         if ((is_null($row)) || (md5($pwd) != $pwd_in_sql)) {
@@ -69,12 +75,14 @@ if (isset($what) & $what == "return") {
             $authtype = "VLAB";
             $auth_uri = $_SERVER['HTTP_HOST'];
             $hash = md5(strtolower(trim($email)));
+            $authorization_key=$row["authorization_key"];
             setcookie("id", $un, time() + 36000, "/");
             setcookie("auth", $authtype, time() + 36000, "/");
             setcookie("fn", $fn, time() + 36000, "/");
             setcookie("ln", $ln, time() + 36000, "/");
             setcookie("email", $email, time() + 36000, "/");
             setcookie("hash", $hash, time() + 36000, "/");
+            setcookie("token", $authorization_key, time() + 36000, "/");
         }
     }
     mysql_close($con);
@@ -84,6 +92,7 @@ if (isset($what) & $what == "return") {
     $email = $_COOKIE["email"];
     $hash = $_COOKIE["hash"];
     $authtype = $_COOKIE["auth"];
+    $token = $_COOKIE["token"];
     if (!isset($fn)) {
         $fn = "Anonymous";
     };
@@ -111,8 +120,6 @@ if (isset($unauthorized) & $unauthorized) {
         <link rel="shortcut icon" href="/vlab/favicon.ico" type="image/x-icon" >
     </head>
     <body id="body" onload="loadMe();">    
-
-        <? include('../global.php'); ?>
         <div id="wrap">
             <div id="background">
                 <img src="../images/background.jpg" class="stretch" alt="" >
@@ -160,7 +167,7 @@ if (isset($unauthorized) & $unauthorized) {
                     <div id="profile-menu">
                         <a href="./composer.php"><img src="../images/new_message.png" alt="new message" title="Compose Message"></a>
                         <a href=""><img src="../images/my_messages.png" alt="my messages" title="My Messages"> </a>
-                        <a href=""><img src="../images/my_documents.png" alt="my messages" title="My Messages"> </a>
+                        <a href=""><img src="../images/my_documents.png" alt="my messages" title="My Exercises"> </a>
                         
                     </div>
                         <?
