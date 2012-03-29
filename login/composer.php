@@ -20,6 +20,8 @@ function getUser() {
     $full_name = $fn . " " . $ln;
     echo '<span id="username"><a href="/login/profile.php">' . $full_name . '</a></span>';
 }
+
+$user_role = getRole($_COOKIE["id"]);
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd" 
     >
@@ -72,6 +74,9 @@ function getUser() {
                                         <td>
                                             <select name="admin" id="admin" style="background-color: transparent;">
                                                 <?
+                                                if ($user_role>=10){
+                                                    echo '<option value="everybody">Everybody</option>';
+                                                }
                                                 $con = connect();
                                                 mysql_select_db("vlab", $con);
                                                 if (!$con) {

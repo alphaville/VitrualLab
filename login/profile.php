@@ -1,9 +1,6 @@
 <?php
 include('../global.php');
 include("../database.php");
-if (!authorize_user($_COOKIE["id"], $_COOKIE["token"])){
-    header('Location: ' . $__BASE_URI . '/login/index.php');
-}
 session_start();
 if (empty($_SESSION['count'])) {
     $_SESSION['count'] = 1;
@@ -44,10 +41,19 @@ if (isset($what) & $what == "return") {
         } else {
             $insert_query="INSERT IGNORE INTO people (`id`,`fn`,`ln`,`email`,`login_method`,`authorization_key`) VALUES ('" . $id . "', '" .
                     $fn . "', '" . $ln . "', '" . $email . "', '" . $authtype . "', md5(rand()) );";
-            mysql_query($insert_query, $con);
-            
+            mysql_query($insert_query, $con);            
+        }        
+        mysql_close($con);
+        //TODO: Find authorization_key! It should be in the database
+        $con = connect();
+        $query_auth_key = "SELECT `authorization_key` as `token` from `people` where id='".$id."'";
+        $result = mysql_query($query_auth_key);
+        $row = mysql_fetch_array($result);
+        if ($row){
+            $token = $row["token"];
         }
         mysql_close($con);
+        setcookie("token", $token, time() + 36000, "/");        
     }
 } elseif (isset($what) & $what == "member") {
     /**
@@ -125,15 +131,14 @@ if (isset($unauthorized) & $unauthorized) {
                 <img src="../images/background.jpg" class="stretch" alt="" >
             </div>
             <div id="leftcolumn">
-                <!-- LEFT COLUMN -->
                 <? include('../sidebar.php'); ?>
             </div>
             <div id="rightcolumn">
-                <!-- RIGHT COLUMN -->	
             </div>
             <div id="container">
                 <div id="nav">
                     <a href=".." style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Back to Main</span></a>
+                    <a href="logout.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Logout</span></a>
                 </div>
                 <div id="centercolumn">
                     <h1>
@@ -166,7 +171,7 @@ if (isset($unauthorized) & $unauthorized) {
                         ?>
                     <div id="profile-menu">
                         <a href="./composer.php"><img src="../images/new_message.png" alt="new message" title="Compose Message"></a>
-                        <a href=""><img src="../images/my_messages.png" alt="my messages" title="My Messages"> </a>
+                        <a href="./my_messages.php"><img src="../images/my_messages.png" alt="my messages" title="My Messages"> </a>
                         <a href=""><img src="../images/my_documents.png" alt="my messages" title="My Exercises"> </a>
                         
                     </div>

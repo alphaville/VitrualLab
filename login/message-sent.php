@@ -76,7 +76,9 @@ function getUser() {
                                 }
                                 echo '<p>Reason for failure: ' . $explanation . '</p>Your message is available in the textbox below:';
                             }else{
-                                echo '<h3>Message Sent</h3><p>Your message has been sent and was assigned the ID number : '.  mysql_insert_id().'</p>';                                
+                                $acquired_id=mysql_insert_id();
+                                echo '<h3>Message Sent</h3><p>Your message has been sent and was assigned the ID number : 
+                                    <a href="message.php?id='.$acquired_id.'">'.  $acquired_id.'</a></p>';                                
                             }
                             mysql_close($con);
                         }

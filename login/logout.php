@@ -1,10 +1,5 @@
 <?php
-session_start();
-if (empty($_SESSION['count'])) {
-    $_SESSION['count'] = 1;
-} else {
-    $_SESSION['count']++;
-}
+session_destroy();
 setcookie("fn", "", time() - 3600, "/");
 setcookie("ln", "", time() - 3600, "/");
 setcookie("email", "", time() - 3600, "/");
@@ -44,6 +39,7 @@ setcookie("token", "", time() - 3600, "/");
             <div id="container">
                 <div id="nav">
                     <a href=".." style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Back to Main</span></a>
+                    <a href="/login/index.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Login</span></a>
                 </div>
                 <div id="centercolumn">
                     <h1>
