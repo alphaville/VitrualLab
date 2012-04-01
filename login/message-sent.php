@@ -51,6 +51,8 @@ function getUser() {
             <div id="container">
                 <div id="nav">
                     <a href=".." style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Back to Main</span></a>
+                    <a href="my_messages.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">My Messages</span></a>
+                    <a href="profile.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">My Profile</span></a>
                 </div>
                 <div id="centercolumn">                                       
                     <div>                        
@@ -68,8 +70,10 @@ function getUser() {
                                 $inreplyto="NULL";
                             }
                             $query = "INSERT INTO `message` (`from`,`rcpt_to`,`subject`,`body`,`inreplyto`) VALUES 
-                                ('" . $from . "','" . $rcpt_to . "','" . $subject . "','" . $body . "', $inreplyto)";                            
-
+                                ('" . mysql_real_escape_string($from) . "','" . 
+                                    mysql_real_escape_string ($rcpt_to) . "','" . 
+                                    mysql_real_escape_string ($subject) . "','" . 
+                                    mysql_real_escape_string ($body) . "', $inreplyto)";                            
                             if (!mysql_query($query)) {
                                 echo '<h3>Message could not be sent</h3>';
                                 $errno = mysql_errno();

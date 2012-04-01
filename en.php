@@ -23,7 +23,7 @@ $list_experiments_header="List of V-Experiments";
 $experiment_1_title="Closed-loop system with a P-controller";
 $experiment_2_title="The PID workbench";
 $experiment_3_title="PID controller for the regulation of level in a system with two coupled tanks";
-$experiment_1="";//TODO: Write description in English
-$experiment_2="";
-$experiment_3="";
+$experiment_1="Study of the effect of choosing different values for the gain of a P-controller in a closed loop with a second-order process with no zero poles.";
+$experiment_2="Run lots of different simulation using fully customizable components in a closed loop that includes a delay element and a PID-controller.";
+$experiment_3="Exercise of tuning a PID-controller for an industrial process. The aim is to control the level of the liquid in a tank which is in cascade with a second one.";
 ?>

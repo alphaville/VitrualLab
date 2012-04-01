@@ -41,7 +41,7 @@ $offset = $page * $rowsPerPage;
     PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
     <head>
-        <title>Message Composer</title>
+        <title>VLAB Users</title>
         <meta name="keywords" content="Automatic Control Lab, Virtual Lab, Automatic Control Playground" >
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <link rel="stylesheet" type="text/css" href="../tooltip/style.css" >    
@@ -69,11 +69,6 @@ $offset = $page * $rowsPerPage;
                     <a href=".." style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Back to Main</span></a>
                     <a href="composer.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Send Message</span></a>
                     <a href="profile.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">My Profile</span></a>                    
-                    <? if ($search_type == "received") { ?>
-                        <a href="my_messages.php?t=sent" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Sent</span></a>
-                    <? } else { ?>
-                        <a href="my_messages.php?t=received" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Received</span></a>
-                    <? } ?>
                     <a href="logout.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Logout</span></a>
                 </div>
                 <div id="centercolumn">
@@ -88,21 +83,19 @@ $offset = $page * $rowsPerPage;
                         <table class="fancy">
                             <?
                             $con = connect();
-                            if ($search_type == "received") {
-                                echo '<tr><th>ID</th><th>Subject</th><th>From</th><th>Date</th></tr>';
-                                $query = "SELECT `id`,`from` as `peer`, `subject`, `creation_date` 
-                                from `message` where `rcpt_to`='" . mysql_real_escape_string($un) . "' or `rcpt_to`='everybody' 
-                                order by `creation_date` desc limit " . mysql_real_escape_string($offset) . ", " . mysql_real_escape_string($rowsPerPage);
-                            } else {
-                                echo '<tr><th>ID</th><th>Subject</th><th>To</th><th>Date</th></tr>';
-                                $query = "SELECT `id`, `rcpt_to` as `peer`,`subject`, `creation_date` 
-                                from `message` where `from`='" . mysql_real_escape_string($un) . "' order by `creation_date` desc  limit " .
-                                        mysql_real_escape_string($offset) . ", " . mysql_real_escape_string($rowsPerPage);
-                            }
+                            echo '<tr><th>Last Name</th><th>First Name</th><th>Email</th><th>Sem.</th><th>Role</th><th>Action</th></tr>';
+                            $query = "SELECT `id`,`fn`,`ln`, `email`, `semester`, `class`, `role` 
+                                from `people` 
+                                order by `ln` desc limit " . mysql_real_escape_string($offset) . ", " . mysql_real_escape_string($rowsPerPage);
                             $result = mysql_query($query, $con);
                             while ($row = mysql_fetch_array($result)) {
-                                echo "<tr><td><a href=\"./message.php?id=" . $row['id'] . "\">#" .
-                                $row['id'] . "</a></td><td>" . utf8_substr($row['subject'], 0, 25) . (strlen($row['subject']) > 25 ? "..." : "") . "</td><td>" . getNameForId($row['peer']) . "</td><td>" . $row['creation_date'] . "</td></tr>";
+                                echo "<tr>
+                                    <td>" .$row['ln'] . "</td>
+                                    <td>" . $row['fn'] . "</td>
+                                    <td><a href=\"mailto:".$row['email']."?subject=Mail From VLAB\">" . $row['email'] . "</a></td>
+                                    <td>" . $row['semester'].($row['class']!=""?("/".$row['class']):"") . "</td>
+                                    <td>" . $row['role'] . "</td>
+                                        <td><a href=\"composer.php?send=true&rcpt_to=".urlencode($row['id'])."\"><img src=\"../images/new_message.png\" style=\"width: 20px\"></a></td></tr>";
                             }
                             mysql_close($con);
                             ?>
@@ -112,22 +105,18 @@ $offset = $page * $rowsPerPage;
 
                         <?
                         $con = connect();
-                        if ($search_type == "received") {
-                            $query = "SELECT COUNT(*) as `count` from `message` where `rcpt_to`='$un' or rcpt_to='everybody'";
-                        } else {
-                            $query = "SELECT COUNT(*) as `count` from `message` where `from`='$un'";
-                        }
+                        $query = "SELECT COUNT(*) as `count` from `people`";                       
                         $result = mysql_query($query);
                         $row = mysql_fetch_array($result);
                         $count = $row['count'];
                         $npages = ceil($count / $rowsPerPage);
                         $page++;
                         if ($page > 1) {
-                            echo '<a href="?t=' . $search_type . '&page=' . ($page - 1) . '">Previous</a>';
+                            echo '<a href="?&page=' . ($page - 1) . '">Previous</a>';
                         }
                         echo ' Page ' . $page . ' ';
                         if ($page < $npages) {
-                            echo '<a href="?t=' . $search_type . '&page=' . ($page + 1) . '">Next</a>';
+                            echo '<a href="?page=' . ($page + 1) . '">Next</a>';
                         }
                         ?>
                     </div>

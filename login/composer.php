@@ -53,6 +53,9 @@ $what=$_GET['what'];
             <div id="container">
                 <div id="nav">
                     <a href=".." style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Back to Main</span></a>
+                    <a href="profile.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">My Profile</span></a>
+                    <a href="my_messages.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">My Messages</span></a>
+                    <a href="logout.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Logout</span></a>
                 </div>
                 <div id="centercolumn">
                     <h1>
@@ -76,7 +79,7 @@ $what=$_GET['what'];
                                                 <input type="hidden" name="receiver" id="admin" value="'.$_GET["from"].'">
                                                 <input type="hidden" name="inreplyto" id="inreplyto" value="'.$_GET["message_id"].'">';
                                         }else{?>
-                                        <td>
+                                        <td>                                            
                                             <select name="receiver" id="receiver" style="background-color: transparent;">
                                                 <?
                                                 if ($user_role>=10){

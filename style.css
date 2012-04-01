@@ -33,9 +33,10 @@ input[type="text"].errortiny  {
 }
 input[type="text"].tinyInput {
     width:110px;
-    padding:0px;
+    padding:1px;
     margin:0px;
-    border:0px;
+    border: 1px;
+    border-style: dashed;    
 }
 .cl { 	padding:10px; }
 .stretch {

@@ -49,7 +49,8 @@ function getUser() {
                 <div id="nav">
                     <a href=".." style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Back to Main</span></a>
                     <a href="composer.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Send Message</span></a>
-                    <a href="profile.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Your Profile</span></a>
+                    <a href="profile.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">My Profile</span></a>
+                    <a href="my_messages.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">My Messages</span></a>
                     <a href="logout.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Logout</span></a>
                 </div>
                 <div id="centercolumn">                                                               
@@ -57,7 +58,8 @@ function getUser() {
                     <?
                     if ($message_id != null) {
                         $query = "SELECT `from`, `rcpt_to`, `subject`, `body`, `creation_date`, `inreplyto` FROM 
-                            `message` WHERE (`from`='" . $un . "' OR `rcpt_to`='".$un."' OR `rcpt_to`='everybody') AND `id`=" . $message_id;
+                            `message` WHERE (`from`='" . $un . "' OR `rcpt_to`='" . 
+                                $un . "' OR `rcpt_to`='everybody') AND `id`=" . $message_id;
                         $con = connect();
                         if (!$con) {
                             die("MySQL Connctivity Error : " . mysql_error());
@@ -71,7 +73,7 @@ function getUser() {
                                 $subject = $row['subject'];
                                 $body = $row['body'];
                                 $creation_date = $row['creation_date'];
-                                $inreplyto=$row['inreplyto'];
+                                $inreplyto = $row['inreplyto'];
                             }
                         }
                         mysql_close($con);
@@ -79,6 +81,10 @@ function getUser() {
                             ?>
                             <div id="message-details">
                                 <table cellpadding="5">
+                                    <colgroup>
+                                        <col width="100">
+                                        <col>
+                                    </colgroup>
                                     <tbody>
                                         <tr>
                                             <td>
@@ -86,12 +92,15 @@ function getUser() {
                                             </td>
                                             <td>
                                                 <a href="">#<? echo $message_id; ?></a>
-                                                <?if ($inreplyto){echo "(In reply to message <a href=\"message.php?id=$inreplyto\">#$inreplyto)</a>";}?>
+                                                <? if ($inreplyto) {
+                                                    echo "(In reply to message <a href=\"message.php?id=$inreplyto\">#$inreplyto)</a>";
+                                                } ?>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>From</td>
-                                            <td><? $fromName=getNameForId($from);echo $fromName; ?></td>
+                                            <td><? $fromName = getNameForId($from);
+                                                echo $fromName; ?></td>
                                         </tr>
                                         <tr>
                                             <td>To</td>
@@ -117,10 +126,10 @@ function getUser() {
                                     <hr>
                                     <span id="msg-body"><? echo $body; ?></span>
                                     <br>
-                                    <?$reply_link="composer.php?what=reply&message_id=".$message_id."&inreplyto=".urlencode($fromName)."&from=".$from;?>
-                                    <? if ($un!=$from){?>
-                                    <a href="<?echo $reply_link;?>"><strong>Reply to this message</strong></a>
-                                    <?}?>
+                                    <? $reply_link = "composer.php?what=reply&message_id=" . $message_id . "&inreplyto=" . urlencode($fromName) . "&from=" . $from; ?>
+        <? if (($un != $from) | $rcpt_to == "everybody") { ?>
+                                        <a href="<? echo $reply_link; ?>"><strong>Reply to this message</strong></a>
+        <? } ?>
                                 </div>
                                 <div class="cl"></div>
                                 <div>
@@ -138,7 +147,7 @@ function getUser() {
                 </div>     
             </div>
             <div class="footer" id="footer">
-                <? include('../footer.php') ?>
+<? include('../footer.php') ?>
             </div>
         </div>
     </body>

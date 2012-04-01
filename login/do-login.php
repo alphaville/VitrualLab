@@ -1,7 +1,7 @@
 <?php
-
+require '../global.php';
 require '../lightopenid-lightopenid/openid.php';
-$openid = new LightOpenID('localhost');
+$openid = new LightOpenID($__DOMAIN_NAME__);
 $logintype = $_GET['login'];
 if (isset($logintype)) {
     /*
@@ -9,11 +9,11 @@ if (isset($logintype)) {
      */
     if ($logintype == 'google') {
         $openid->identity = 'https://www.google.com/accounts/o8/id';
-        $openid->returnUrl = "http://localhost/login/profile.php?what=return&authtype=google";
+        $openid->returnUrl = $__URL__."/login/profile.php?what=return&authtype=google";
         $endpoint = $openid->discover('https://www.google.com/accounts/o8/id');
         $fields =
                 '?openid.ns=' . urlencode('http://specs.openid.net/auth/2.0') .
-                '&openid.realm=' . urlencode('http://localhost') .
+                '&openid.realm=' . urlencode($__URL__) .
                 '&openid.return_to=' . urlencode($openid->returnUrl) .
                 '&openid.claimed_id=' . urlencode('http://specs.openid.net/auth/2.0/identifier_select') .
                 '&openid.identity=' . urlencode('http://specs.openid.net/auth/2.0/identifier_select') .
@@ -32,7 +32,7 @@ if (isset($logintype)) {
         try {
             $openid->required = array('contact/email');
             $openid->optional = array('namePerson', 'namePerson/friendly', 'birthDate', 'person/gender'); //
-            $openid->returnUrl = "http://localhost/login/profile.php?what=return&authtype=yahoo";
+            $openid->returnUrl = $__URL__."/login/profile.php?what=return&authtype=yahoo";
             if (!$openid->mode) {
                 $openid->identity = 'yahoo.com';                
                 header('Location: ' . $openid->authUrl() );

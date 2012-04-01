@@ -1,12 +1,13 @@
 <?php
-include('../global.php');
-include("../database.php");
+session_start();
 session_start();
 if (empty($_SESSION['count'])) {
     $_SESSION['count'] = 1;
 } else {
     $_SESSION['count']++;
 }
+include('../global.php');
+include("../database.php");
 $what = $_GET["what"];
 if (isset($what) & $what == "return") {
     $authtype = $_GET["authtype"];
@@ -39,21 +40,21 @@ if (isset($what) & $what == "return") {
         if (!$con) {
             die('Could not connect: ' . mysql_error());
         } else {
-            $insert_query="INSERT IGNORE INTO people (`id`,`fn`,`ln`,`email`,`login_method`,`authorization_key`) VALUES ('" . $id . "', '" .
+            $insert_query = "INSERT IGNORE INTO people (`id`,`fn`,`ln`,`email`,`login_method`,`authorization_key`) VALUES ('" . $id . "', '" .
                     $fn . "', '" . $ln . "', '" . $email . "', '" . $authtype . "', md5(rand()) );";
-            mysql_query($insert_query, $con);            
-        }        
+            mysql_query($insert_query, $con);
+        }
         mysql_close($con);
         //TODO: Find authorization_key! It should be in the database
         $con = connect();
-        $query_auth_key = "SELECT `authorization_key` as `token` from `people` where id='".$id."'";
+        $query_auth_key = "SELECT `authorization_key` as `token` from `people` where id='" . $id . "'";
         $result = mysql_query($query_auth_key);
         $row = mysql_fetch_array($result);
-        if ($row){
+        if ($row) {
             $token = $row["token"];
         }
         mysql_close($con);
-        setcookie("token", $token, time() + 36000, "/");        
+        setcookie("token", $token, time() + 36000, "/");
     }
 } elseif (isset($what) & $what == "member") {
     /**
@@ -81,7 +82,7 @@ if (isset($what) & $what == "return") {
             $authtype = "VLAB";
             $auth_uri = $_SERVER['HTTP_HOST'];
             $hash = md5(strtolower(trim($email)));
-            $authorization_key=$row["authorization_key"];
+            $authorization_key = $row["authorization_key"];
             setcookie("id", $un, time() + 36000, "/");
             setcookie("auth", $authtype, time() + 36000, "/");
             setcookie("fn", $fn, time() + 36000, "/");
@@ -112,6 +113,7 @@ if (isset($what) & $what == "return") {
 if (isset($unauthorized) & $unauthorized) {
     header('HTTP/1.1 401 Unauthorized');
 }
+$user_role = getRole($_COOKIE["id"]);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd" >
 <html>
@@ -131,7 +133,7 @@ if (isset($unauthorized) & $unauthorized) {
                 <img src="../images/background.jpg" class="stretch" alt="" >
             </div>
             <div id="leftcolumn">
-                <? include('../sidebar.php'); ?>
+<? include('../sidebar.php'); ?>
             </div>
             <div id="rightcolumn">
             </div>
@@ -157,11 +159,11 @@ if (isset($unauthorized) & $unauthorized) {
                         }
                         echo '.</p>';
                         if ($email == $anonymous_email) {
-                           ?>
-                    <div id="login-button" align="center">
-                        <a href="."><img src="../images/logiin.png" alt="Login here"></a>
-                    </div>
-                    <?
+                            ?>
+                            <div id="login-button" align="center">
+                                <a href="."><img src="../images/logiin.png" alt="Login here"></a>
+                            </div>
+                            <?
                         }
                         echo '</div>';
                     } else {
@@ -169,20 +171,22 @@ if (isset($unauthorized) & $unauthorized) {
                     }
                     if ($email != $anonymous_email) {
                         ?>
-                    <div id="profile-menu">
-                        <a href="./composer.php"><img src="../images/new_message.png" alt="new message" title="Compose Message"></a>
-                        <a href="./my_messages.php"><img src="../images/my_messages.png" alt="my messages" title="My Messages"> </a>
-                        <a href=""><img src="../images/my_documents.png" alt="my messages" title="My Exercises"> </a>
-                        
-                    </div>
+                        <div id="profile-menu">
+                            <a href="./composer.php"><img src="../images/new_message.png" alt="new message" title="Compose Message"></a>
+                            <a href="./my_messages.php"><img src="../images/my_messages.png" alt="my messages" title="My Messages"> </a>
+                            <a href=""><img src="../images/my_documents.png" alt="my messages" title="My Exercises"> </a>
+                            <? if ($user_role >= 10) { ?>
+                                <a href="./users.php"><img src="../images/people.png" alt="users" title="VLAB Users"> </a>                        
+                        <? } ?>
+                        </div>
                         <?
                     }
                     ?>
-                    
+
                 </div>
             </div>
             <div class="footer" id="footer">
-                <? include('../footer.php') ?>
+<? include('../footer.php') ?>
             </div>
         </div>
     </body>
