@@ -3,6 +3,7 @@ include('../global.php');
 include("../database.php");
 if (!authorize_user($_COOKIE["id"], $_COOKIE["token"])) {
     header('Location: ' . $__BASE_URI . '/login/index.php');
+    die("You are being redirected...");
 }
 session_start();
 if (empty($_SESSION['count'])) {

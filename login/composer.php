@@ -3,9 +3,11 @@ include('../global.php');
 include("../database.php");
 if (!$_COOKIE["id"]) {//unauthorized user!    
     header('Location: ' . $__BASE_URI . '/login/index.php');
+    die("You are being redirect to another page...");
 }
-if (!authorize_user($_COOKIE["id"], $_COOKIE["token"])){
+if (!authorize_user($_COOKIE["id"], $_COOKIE["token"])) {
     header('Location: ' . $__BASE_URI . '/login/index.php');
+    die("You are being redirect to another page...");
 }
 session_start();
 if (empty($_SESSION['count'])) {
@@ -13,15 +15,18 @@ if (empty($_SESSION['count'])) {
 } else {
     $_SESSION['count']++;
 }
-
+$force_rcpt = $_GET['force_rcpt'];
+$rcpt_to = urldecode($_GET['rcpt_to']);
+$send_to=urldecode($_GET['to']);
 function getUser() {
     $fn = $_COOKIE["fn"];
     $ln = $_COOKIE["ln"];
     $full_name = $fn . " " . $ln;
     echo '<span id="username"><a href="/login/profile.php">' . $full_name . '</a></span>';
 }
+
 $user_role = getRole($_COOKIE["id"]);
-$what=$_GET['what'];
+$what = $_GET['what'];
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd" 
     >
@@ -45,7 +50,7 @@ $what=$_GET['what'];
             </div>
             <div id="leftcolumn">
                 <!-- LEFT COLUMN -->
-                <? include('../sidebar.php'); ?>
+<? include('../sidebar.php'); ?>
             </div>
             <div id="rightcolumn">
                 <!-- RIGHT COLUMN -->	
@@ -69,36 +74,44 @@ $what=$_GET['what'];
                                     <tr>
                                         <td><label for="username">Message from:</label></td>
                                         <td>
-                                            <? getUser(); ?>
+<? getUser(); ?>
                                         </td>
                                     </tr>
                                     <tr>                                    
                                         <td><label for="admin">Receipt to:</label></td>
-                                        <?if ($what=="reply") {
-                                            echo '<td>'.$_GET["inreplyto"].'</td>
-                                                <input type="hidden" name="receiver" id="admin" value="'.$_GET["from"].'">
-                                                <input type="hidden" name="inreplyto" id="inreplyto" value="'.$_GET["message_id"].'">';
-                                        }else{?>
-                                        <td>                                            
-                                            <select name="receiver" id="receiver" style="background-color: transparent;">
+                                        <?
+                                        if ($what == "reply") {
+                                            echo '<td>' . $_GET["inreplyto"] . '</td>
+                                                <input type="hidden" name="receiver" id="admin" value="' . $_GET["from"] . '">
+                                                <input type="hidden" name="inreplyto" id="inreplyto" value="' . $_GET["message_id"] . '">';
+                                        } else {
+                                            ?>
+                                            <td>                                            
+
                                                 <?
-                                                if ($user_role>=10){
-                                                    echo '<option value="everybody">Everybody</option>';
-                                                }
-                                                $con = connect();
-                                                mysql_select_db("vlab", $con);
-                                                if (!$con) {
-                                                    die('Could not connect: ' . mysql_error());
-                                                } else {
-                                                    $result = mysql_query("SELECT id,fn,ln FROM people WHERE role>=10");
-                                                    while ($row = mysql_fetch_array($result)) {
-                                                        echo '<option value="' . $row['id'] . '">' . $row['fn'] . ' ' . $row['ln'] . '</option>';
+                                                if (!$force_rcpt) {
+                                                    echo '<select name="receiver" id="receiver" style="background-color: transparent;">';
+                                                    if ($user_role >= 10) {
+                                                        echo '<option value="everybody">Everybody</option>';
                                                     }
+                                                    $con = connect();
+                                                    mysql_select_db("vlab", $con);
+                                                    if (!$con) {
+                                                        die('Could not connect: ' . mysql_error());
+                                                    } else {
+                                                        $result = mysql_query("SELECT id,fn,ln FROM people WHERE role>=10");
+                                                        while ($row = mysql_fetch_array($result)) {
+                                                            echo '<option value="' . $row['id'] . '">' . $row['fn'] . ' ' . $row['ln'] . '</option>';
+                                                        }
+                                                    }
+                                                    mysql_close($con);
+                                                    echo '</select>';
+                                                }else{
+                                                    echo '<input type="hidden" name="receiver" id="receiver" value="'.$rcpt_to.'">'.$send_to;
                                                 }
-                                                mysql_close($con);
-                                                ?></select>
-                                        </td>
-                                        <?}?>
+                                                ?>
+                                            </td>
+<? } ?>
                                     </tr>
                                     <tr>
                                         <td><label for="subject">Subject</label></td>
@@ -125,7 +138,7 @@ $what=$_GET['what'];
                 </div>     
             </div>
             <div class="footer" id="footer">
-                <? include('../footer.php') ?>
+<? include('../footer.php') ?>
             </div>
         </div>
     </body>

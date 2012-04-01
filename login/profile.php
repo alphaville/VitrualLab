@@ -94,6 +94,7 @@ if (isset($what) & $what == "return") {
     }
     mysql_close($con);
 } else {
+    $un=$_COOKIE["id"];
     $fn = $_COOKIE["fn"];
     $ln = $_COOKIE["ln"];
     $email = $_COOKIE["email"];
@@ -113,7 +114,7 @@ if (isset($what) & $what == "return") {
 if (isset($unauthorized) & $unauthorized) {
     header('HTTP/1.1 401 Unauthorized');
 }
-$user_role = getRole($_COOKIE["id"]);
+$user_role = getRole($un);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd" >
 <html>

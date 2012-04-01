@@ -1,8 +1,8 @@
 <?php
 include("../database.php");
 if ($_SERVER['REQUEST_METHOD']!="POST"){
-    echo '<html><head></head><body>Method not allowed! You are being redirected.</body></html>';
     header( 'Location: '.$__BASE_URI.'/index.php' ) ;
+    echo '<html><head></head><body>Method not allowed! You are being redirected.</body></html>';    
     die();
 }
 session_start();

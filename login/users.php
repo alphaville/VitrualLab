@@ -3,12 +3,18 @@ include('../global.php');
 include("../database.php");
 if (!authorize_user($_COOKIE["id"], $_COOKIE["token"])) {
     header('Location: ' . $__BASE_URI . '/login/index.php');
+    die("You are being redirect to another page...");
 }
 session_start();
 if (empty($_SESSION['count'])) {
     $_SESSION['count'] = 1;
 } else {
     $_SESSION['count']++;
+}
+$user_role = getRole($_COOKIE["id"]);
+if ($user_role < 10) { 
+    header('Location: ' . $__BASE_URI . '/login/index.php');
+    die("You are being redirect to another page...");
 }
 $message_id = $_GET['id'];
 $un = $_COOKIE['id'];
@@ -95,14 +101,14 @@ $offset = $page * $rowsPerPage;
                                     <td><a href=\"mailto:".$row['email']."?subject=Mail From VLAB\">" . $row['email'] . "</a></td>
                                     <td>" . $row['semester'].($row['class']!=""?("/".$row['class']):"") . "</td>
                                     <td>" . $row['role'] . "</td>
-                                        <td><a href=\"composer.php?send=true&rcpt_to=".urlencode($row['id'])."\"><img src=\"../images/new_message.png\" style=\"width: 20px\"></a></td></tr>";
+                                        <td><a title=\"Send Message\" 
+                                        href=\"composer.php?force_rcpt=true&rcpt_to=".urlencode($row['id'])."&to=".urlencode($row['fn']." ".$row['ln'])."\"><img src=\"../images/new_message.png\" style=\"width: 20px\"></a></td></tr>";
                             }
                             mysql_close($con);
                             ?>
                         </table>
                     </div>
                     <div align="right">
-
                         <?
                         $con = connect();
                         $query = "SELECT COUNT(*) as `count` from `people`";                       
