@@ -1,12 +1,27 @@
 #!/usr/bin/octave -qf
 % Include to path the control toolbox:
+
 warning("off");
 addpath('/usr/share/octave/packages/3.2/control-1.0.11/');
+%
+%JSONLAB Library for Octave/Matlab
+%Reference: http://iso2mesh.sourceforge.net/cgi-bin/index.cgi?jsonlab/savejson.m
 addpath('/var/www/vlab/engine/jsonlab/');
 
+arg_list=argv();
+for index=1:nargin
+    temp = arg_list{index};
+    if strcmp(temp,"-P")
+        arg_list{++index}
+    end
+end
+
+P=1;
+Q=[1 1 1];
+id=0;
 sys=tf([1],[1 1 1]);
 [y,t] = step(sys,1,10,500);
-response = struct('y',y);
+response = struct('y',y,'P',P,'Q',Q,'id',id,'timestamp',time);
 json = savejson('response',response);
 fid = fopen('file.txt', 'w');
 fdisp(fid, json);

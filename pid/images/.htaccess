@@ -1,0 +1,6 @@
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/gif "access plus 1 second"
+    ExpiresByType image/jpeg "access plus 1 second"
+    ExpiresByType image/png "access plus 1 second"
+</IfModule> 

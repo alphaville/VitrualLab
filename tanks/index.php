@@ -6,8 +6,7 @@ if (empty($_SESSION['count'])) {
     $_SESSION['count']++;
 }
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd" 
-    >
+<!DOCTYPE html>
 <html>
     <?
     $lang = $_GET['lang'];
@@ -19,9 +18,10 @@ if (empty($_SESSION['count'])) {
     } elseif (strcmp('en', $lang) == 0) {
         include('./en.php');
     }
+    include('../global.php');
     ?>
     <head>
-        <title><? echo $title; ?></title>
+        <title><? echo $title; ?></title>        
         <meta name="keywords" content="Automatic Control Lab, Virtual Lab, Automatic Control Playground" >
         <meta name="description" content="Online automatic control lab." >
         <meta name="author" content="Pantelis Sopasakis">
@@ -29,20 +29,19 @@ if (empty($_SESSION['count'])) {
         <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0">
         <meta http-equiv="Expires" content="0">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
+        <meta name="rights" content="GNU GPL version 3" />
         <link rel="stylesheet" type="text/css" href="../style.css" >
         <link rel="stylesheet" type="text/css" href="./style-tanks.css" >
         <script type="text/javascript" src="../tooltip/script.js"></script>
         <script type='text/javascript' src="../chung.js"></script>
         <script type='text/javascript' src="../ga.js"></script>
         <script type='text/javascript' src="./tanks.js"></script>
+        <link href="/rss/feed.php" rel="alternate" type="application/rss+xml" title="RSS 2.0" />
+        <link href="/rss/feed.php" rel="alternate" type="application/atom+xml" title="Atom 1.0" />
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     </head>
     <body id="body" onload="randomizeInitialLevels();" >    
-        <script type='text/javascript' src="../wz_tooltip.js"></script>
-
-        <?
-        include('../global.php');
-        ?>
+        <script type='text/javascript' src="../wz_tooltip.js"></script>        
         <div id="wrap">
             <div id="background">
                 <img src="../images/background.jpg" class="stretch" alt="" >

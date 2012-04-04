@@ -1,0 +1,20 @@
+a:link    { Text-Decoration: none; color:blue;}
+a:visited { Text-Decoration: none; color:blue;}
+a:hover   { color: #FF0000; }
+html, body { margin:0; padding:0 }
+
+#img {
+	height:400px;
+	width:500px;
+	margin-left:1px;
+	margin-right:0px;
+	margin-top:35px;
+	margin-bottom:10px;
+}
+
+#imgformatsParagraph {font-size:small;margin-left:20px}
+
+.container {margin-left:5px;margin-right:5px;padding:0}
+
+/* Footer DIV */
+.footer { margin-top:200px; text-align:center;font-size:small;}

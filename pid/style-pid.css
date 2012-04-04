@@ -28,6 +28,11 @@
     border:0px;
     display:none;
 }
+#pleasewait{
+    font: lighter small cursive;
+    color: #666;
+    display:none;
+}
 
 #message{
     width:640px;

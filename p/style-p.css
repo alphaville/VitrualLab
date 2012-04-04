@@ -1,0 +1,39 @@
+.bode,.nyq{
+    width:540px;
+    height:400px;
+    margin-bottom:8px;	
+}
+
+.bodeBox,.nyqBox{
+    margin-left:auto;
+    margin-right:auto;
+    margin-bottom:20px;
+    width:540px;
+    text-align:center;
+    font-size:small;
+    font-weight:bold;	
+}
+
+#img{
+    margin-top:20px;   
+}
+
+.inputSigSelector{
+    width:110px;
+    padding:0px;
+    margin:0px;
+
+}
+
+#exclamation{
+    height:18px;
+    margin:0px;
+    padding:0px;
+    border:0px;
+    display:none;
+}
+
+#message{
+    width:640px;
+    text-align:justify;
+}

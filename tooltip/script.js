@@ -2,9 +2,9 @@ var tooltip=function(){
 	var id = 'tt';
 	var top = 3;
 	var left = 3;
-	var maxw = 300;
+	var maxw = 190;
 	var speed = 10;
-	var timer = 20;
+	var timer = 50;
 	var endalpha = 95;
 	var alpha = 0;
 	var tt,t,c,b,h;
