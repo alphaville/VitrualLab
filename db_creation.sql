@@ -1,7 +1,6 @@
 DROP DATABASE IF EXISTS `vlab`;
 CREATE DATABASE `vlab` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
 USE `vlab`;
-
 DROP TABLE IF EXISTS `people`;
 CREATE TABLE `people` (
   `id` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'Username',
@@ -15,7 +14,6 @@ CREATE TABLE `people` (
   `creation_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `login_method` VARCHAR(40) NOT NULL DEFAULT 'vlab',
   `authorization_key` VARCHAR(255) UNIQUE NOT NULL,
-  `inreplyto` INT(10),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 LOCK TABLE `people` WRITE;
@@ -25,18 +23,36 @@ INSERT INTO `people` (`id`,`fn`,`ln`,`email`,`pwd_hash_md5`,`role`,`authorizatio
 ('everybody','EveryBody','','everybody@mail.vlab.org','no pass',-1,md5(rand()));
 UNLOCK TABLE ;
 
+
 DROP TABLE IF EXISTS `message`;
 CREATE TABLE `message` (
   `id` integer(10) COLLATE utf8_bin NOT NULL AUTO_INCREMENT,
   `from` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'Sender',
   `rcpt_to` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'Reciever',
   `subject` varchar(255) COLLATE utf8_bin NOT NULL,
-  `body` TEXT COLLATE utf8_bin NOT NULL COMMENT 'Body of the message (HTML)',
+  `body` MEDIUMTEXT COLLATE utf8_bin NOT NULL COMMENT 'Body of the message (HTML)',
   `creation_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `inreplyto` INTEGER(10),
   PRIMARY KEY (`id`),
   CONSTRAINT `from_fk` FOREIGN KEY (`from`)
     REFERENCES `people` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `rcpt_to_fk` FOREIGN KEY (`rcpt_to`)
     REFERENCES `people` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   KEY `subject_key` (`subject`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+
+DROP TABLE IF EXISTS `rss`;
+CREATE TABLE `rss` (
+  `id` integer(10) COLLATE utf8_bin NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'RSS FEED TITLE',
+  `link` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'LINK',
+  `guid` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'GUID',
+  `author` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'RSS FEED AUTHOR',
+  `description` MEDIUMTEXT COLLATE utf8_bin NOT NULL COMMENT 'DESCRIPTION (HTML)',
+  `pubDate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `lang` varchar(10) NOT NULL DEFAULT 'en',
+  PRIMARY KEY (`id`),  
+  KEY `title_key` (`title`) USING BTREE,
+KEY `lang_key` (`lang`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
