@@ -18,10 +18,11 @@ function genRandomString($length) {
     return $string;
 }
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
     <head>
         <title>Login Page</title>
+        <meta name="robots" content="noindex,nofollow">
         <meta name="keywords" content="Automatic Control Lab, Virtual Lab, Automatic Control Playground" >
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <link rel="stylesheet" type="text/css" href="../tooltip/style.css" >    
@@ -31,6 +32,8 @@ function genRandomString($length) {
         <script type='text/javascript' src='./account_utils.js' ></script>
         <script type='text/javascript'></script>
         <link rel="shortcut icon" href="/vlab/favicon.ico" type="image/x-icon" >
+        <link href="/rss/feed.php" rel="alternate" type="application/rss+xml" title="RSS 2.0" />
+        <link href="/rss/feed.php" rel="alternate" type="application/atom+xml" title="Atom 1.0" />
     </head>
     <body id="body" onload="loadMe();">    
 <? include('../global.php'); ?>

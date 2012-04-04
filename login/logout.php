@@ -7,13 +7,14 @@ setcookie("auth", "", time() - 3600, "/");
 setcookie("hash", "", time() - 3600, "/");
 setcookie("id", "", time() - 3600, "/");
 setcookie("token", "", time() - 3600, "/");
+include('../global.php');
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd" 
-    >
+<!DOCTYPE html>
 <html>
     <head>
         <title>Logout Page</title>
-        <meta name="keywords" content="Automatic Control Lab, Virtual Lab, Automatic Control Playground" >
+        <meta name="keywords" content="<?echo $__KEYWORDS__;?>" >
+        <meta name="robots" content="noindex,nofollow">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <link rel="stylesheet" type="text/css" href="../tooltip/style.css" />    
         <link rel="stylesheet" type="text/css" href="./style-p.css" >
@@ -21,9 +22,10 @@ setcookie("token", "", time() - 3600, "/");
         <script type='text/javascript' src='../chung.js' ></script>
         <script type='text/javascript'></script>
         <link rel="shortcut icon" href="/vlab/favicon.ico" type="image/x-icon" >
+        <link href="/rss/feed.php" rel="alternate" type="application/rss+xml" title="RSS 2.0" />
+        <link href="/rss/feed.php" rel="alternate" type="application/atom+xml" title="Atom 1.0" />
     </head>
     <body id="body" onload="loadMe();">    
-        <? include('../global.php'); ?>
         <div id="wrap">
             <div id="background">
                 <img src="../images/background.jpg" class="stretch" alt="" >

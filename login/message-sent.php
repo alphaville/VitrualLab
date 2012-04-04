@@ -24,6 +24,7 @@ function getUser() {
 <html>
     <head>
         <title>Message Composer</title>
+        <meta name="robots" content="noindex,nofollow">
         <meta name="keywords" content="Automatic Control Lab, Virtual Lab, Automatic Control Playground" >
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <link rel="stylesheet" type="text/css" href="../tooltip/style.css" >    
@@ -33,6 +34,8 @@ function getUser() {
         <script type='text/javascript'></script>
         <script type="text/javascript" src="../ckeditor/ckeditor.js"></script>
         <link rel="shortcut icon" href="/vlab/favicon.ico" type="image/x-icon" >
+        <link href="/rss/feed.php" rel="alternate" type="application/rss+xml" title="RSS 2.0" />
+        <link href="/rss/feed.php" rel="alternate" type="application/atom+xml" title="Atom 1.0" />
     </head>
     <body id="body" onload="loadMe();">    
         <? include('../global.php'); ?>

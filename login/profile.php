@@ -116,17 +116,22 @@ if (isset($unauthorized) & $unauthorized) {
 }
 $user_role = getRole($un);
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd" >
+<!DOCTYPE html>
 <html>
     <head>
         <title>Login Page</title>
+        <meta name="robots" content="noindex,nofollow">
         <meta name="keywords" content="Automatic Control Lab, Virtual Lab, Automatic Control Playground" >
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <link rel="stylesheet" type="text/css" href="../tooltip/style.css" >    
         <link rel="stylesheet" type="text/css" href="../style.css" > 
+        <link href="/rss/feed.php" rel="alternate" type="application/rss+xml" title="RSS 2.0" />
+        <link href="/rss/feed.php" rel="alternate" type="application/atom+xml" title="Atom 1.0" />
         <script type='text/javascript' src='../chung.js' ></script>
         <script type='text/javascript'></script>
         <link rel="shortcut icon" href="/vlab/favicon.ico" type="image/x-icon" >
+        <link href="/rss/feed.php" rel="alternate" type="application/rss+xml" title="RSS 2.0" />
+        <link href="/rss/feed.php" rel="alternate" type="application/atom+xml" title="Atom 1.0" />
     </head>
     <body id="body" onload="loadMe();">    
         <div id="wrap">
@@ -177,7 +182,8 @@ $user_role = getRole($un);
                             <a href="./my_messages.php"><img src="../images/my_messages.png" alt="my messages" title="My Messages"> </a>
                             <a href=""><img src="../images/my_documents.png" alt="my messages" title="My Exercises"> </a>
                             <? if ($user_role >= 10) { ?>
-                                <a href="./users.php"><img src="../images/people.png" alt="users" title="VLAB Users"> </a>                        
+                                <a href="./users.php"><img src="../images/people.png" alt="users" title="VLAB Users"> </a>
+                                <a href="../rss"><img src="../images/rss.png" width="70" alt="RSS Feeds" title="RSS"> </a>
                         <? } ?>
                         </div>
                         <?

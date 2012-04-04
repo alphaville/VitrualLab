@@ -18,20 +18,22 @@ if ($lang == NULL) {
     }
 }
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd" 
-    >    
+<!DOCTYPE html>
 <html lang="<? echo $lang; ?>">
     <head>
         <title><? echo $page_title ?></title>
-        <meta name="keywords" content="Automatic Control Lab, Virtual Lab, Automatic Control Playground" >
+        <meta name="keywords" content="<? echo $__KEYWORDS__; ?>" >
         <meta name="description" content="Online automatic control lab." >
         <meta name="author" content="Pantelis Sopasakis">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
         <script type='text/javascript' src="./chung.js"></script>
         <script type='text/javascript' src="./ga.js"></script>
         <script type='text/javascript' src="./jquery.js"></script>
+        <meta name="rights" content="GNU GPL version 3" />
         <link rel="stylesheet" type="text/css" href="./style.css" >
         <link rel="shortcut icon" href="/vlab/favicon.ico" type="image/x-icon" />
+        <link href="/rss/feed.php" rel="alternate" type="application/rss+xml" title="RSS 2.0" />
+        <link href="/rss/feed.php" rel="alternate" type="application/atom+xml" title="Atom 1.0" />
     </head>
     <body id="body" onload="loadMe();">
         <div id="wrap">
@@ -109,18 +111,18 @@ if ($lang == NULL) {
                     <div class="cl"></div>
                     <div class="cl"></div>
                     <div>
-                        <h3><?echo $about_header;?></h3>
+                        <h3><? echo $about_header; ?></h3>
                         <p align="justify">
-                            <? echo $about_p1;?>
+                            <? echo $about_p1; ?>
                         </p>
                         <div align="center">
                             <img src="./images/ss_design.png" height="250" alt="screenshot - 1">
                         </div>
                         <p align="justify">
-                            <?echo $about_p2;?>
+                            <? echo $about_p2; ?>
                         </p>                                                
                         <p align="justify">
-                            <?echo $about_p3;?>
+                            <? echo $about_p3; ?>
                         </p>                                                
                     </div>
 
@@ -129,19 +131,19 @@ if ($lang == NULL) {
 
                     <div>
                         <h3>
-                            <?echo $list_experiments_header;?>
+                            <? echo $list_experiments_header; ?>
                         </h3>
                         <div id="scopeMessage" >
                             <ol>
                                 <li>
-                                    <a href="./p"><?echo $experiment_1_title;?></a>: <?echo $experiment_1;?>
+                                    <a href="./p"><? echo $experiment_1_title; ?></a>: <? echo $experiment_1; ?>
 
                                 </li>
                                 <li>
-                                    <a href="./pid"><?echo $experiment_2_title;?></a>: <?echo $experiment_2;?>
+                                    <a href="./pid"><? echo $experiment_2_title; ?></a>: <? echo $experiment_2; ?>
                                 </li>
                                 <li>
-                                    <a href="./tanks"><?echo $experiment_3_title;?></a>: <?echo $experiment_3;?>
+                                    <a href="./tanks"><? echo $experiment_3_title; ?></a>: <? echo $experiment_3; ?>
                                 </li>
                             </ol>
                         </div>
