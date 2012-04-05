@@ -12,16 +12,21 @@ arg_list=argv();
 for index=1:nargin
     temp = arg_list{index};
     if strcmp(temp,"-P")
-        arg_list{++index}
+        P=arg_list{++index}
+    elseif strcmp(temp,"-Q")
+        Q=arg_list{++index}
+    elseif strcmp(temp,"-Pm")%measuring device
+        Pm=arg_list{++index}
+    elseif strcmp(temp,"-Qm")%measuring device
+        Qm=arg_list{++index}
     end
 end
-
-P=1;
-Q=[1 1 1];
-id=0;
+P=str2num(P);
+Q=str2num(Q);
+id=rand();
 sys=tf([1],[1 1 1]);
 [y,t] = step(sys,1,10,500);
-response = struct('y',y,'P',P,'Q',Q,'id',id,'timestamp',time);
+response = struct('y',y,'t',t,'P',P,'Q',Q,'id',id,'timestamp',time);
 json = savejson('response',response);
 fid = fopen('file.txt', 'w');
 fdisp(fid, json);
