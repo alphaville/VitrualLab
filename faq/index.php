@@ -101,8 +101,25 @@ if ($lang == NULL) {
                                 <img src="/images/LoonyGearsAnimation.gif" height="250" alt="screenshot - 1">
                             </div>
                             <p align="justify" lang="<? echo $lang; ?>"><? echo $a1_2; ?></p>
+                        </div>                     
+                    </div>
+                    
+                    <div class="qa">
+                        <div class="quesion" >
+                            <p><b>2. <?echo $q2;?></b></p>
                         </div>
-                     
+                        <div class="answer">
+                            <p align="justify" lang="<? echo $lang; ?>"><? echo $a2; ?></p>                            
+                        </div>                     
+                    </div>
+                    
+                    <div class="qa">
+                        <div class="quesion" >
+                            <p><b>3. <?echo $q3;?></b></p>
+                        </div>
+                        <div class="answer">
+                            <p align="justify" lang="<? echo $lang; ?>"><? echo $a3; ?></p>
+                        </div>                     
                     </div>
 
                     <div class="cl"></div>
