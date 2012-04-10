@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /login/
+Disallow: /baloon/
+Disallow: /engine/
+Disallow: /ckeditor/
+Disallow: /secureimage/
+Disallow: /tooltip/

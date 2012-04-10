@@ -125,13 +125,11 @@ $user_role = getRole($un);
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <link rel="stylesheet" type="text/css" href="../tooltip/style.css" >    
         <link rel="stylesheet" type="text/css" href="../style.css" > 
-        <link href="/rss/feed.php" rel="alternate" type="application/rss+xml" title="RSS 2.0" />
-        <link href="/rss/feed.php" rel="alternate" type="application/atom+xml" title="Atom 1.0" />
         <script type='text/javascript' src='../chung.js' ></script>
         <script type='text/javascript'></script>
         <link rel="shortcut icon" href="/vlab/favicon.ico" type="image/x-icon" >
-        <link href="/rss/feed.php" rel="alternate" type="application/rss+xml" title="RSS 2.0" />
-        <link href="/rss/feed.php" rel="alternate" type="application/atom+xml" title="Atom 1.0" />
+        <link href="/rss/feed?type=rss" rel="alternate" type="application/rss+xml" title="RSS 2.0" >
+        <link href="/rss/feed?type=atom" rel="alternate" type="application/atom+xml" title="Atom 1.0" >
     </head>
     <body id="body" onload="loadMe();">    
         <div id="wrap">
@@ -178,7 +176,7 @@ $user_role = getRole($un);
                     if ($email != $anonymous_email) {
                         ?>
                         <div id="profile-menu">
-                            <a href="./composer.php"><img src="../images/new_message.png" alt="new message" title="Compose Message"></a>
+                            <a href="./composer.php" ><img src="../images/new_message.png" alt="new message" title="Compose Message" ></a>
                             <a href="./my_messages.php"><img src="../images/my_messages.png" alt="my messages" title="My Messages"> </a>
                             <a href=""><img src="../images/my_documents.png" alt="my messages" title="My Exercises"> </a>
                             <? if ($user_role >= 10) { ?>

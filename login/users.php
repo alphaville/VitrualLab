@@ -59,8 +59,8 @@ $offset = $page * $rowsPerPage;
         <script type='text/javascript' src='../chung.js' ></script>
         <script type="text/javascript" src="../ckeditor/ckeditor.js"></script>
         <link rel="shortcut icon" href="/vlab/favicon.ico" type="image/x-icon" >
-        <link href="/rss/feed.php" rel="alternate" type="application/rss+xml" title="RSS 2.0" />
-        <link href="/rss/feed.php" rel="alternate" type="application/atom+xml" title="Atom 1.0" />
+        <link href="/rss/feed?type=rss" rel="alternate" type="application/rss+xml" title="RSS 2.0" >
+        <link href="/rss/feed?type=atom" rel="alternate" type="application/atom+xml" title="Atom 1.0" >
     </head>
     <body id="body" onload="loadMe();">    
         <div id="wrap">
@@ -117,7 +117,7 @@ $offset = $page * $rowsPerPage;
                                         <td><a title=\"Send Message\" 
                                         href=\"composer.php?force_rcpt=true&rcpt_to=" . urlencode($row['id']) . "&to=" . urlencode($row['fn'] . " " . $row['ln']) . "\">
                                             <img src=\"../images/new_message.png\" style=\"width: 20px\"></a>";
-                                if ($row['role'] <= 1) {
+                                if ($row['role'] <= 1 && $row['role'] >=0) {
                                     echo "<a href=\"?method=delete&user_id=" . urlencode($row['id']) . "\"><img src=\"../images/user-delete.png\" style=\"width: 20px\"></a></td></tr>";
                                 }
                                 echo "</td>";

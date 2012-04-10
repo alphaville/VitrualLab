@@ -1,0 +1,5 @@
+Help::simulator
+
+-P,-Q   :   The numerator and denominator of the system's transfer function
+-Pm,Qm  :   Transfer Function of the measuring device
+-Pc,Qc  :   Controller's transfer function

@@ -11,23 +11,62 @@ addpath('/var/www/vlab/engine/jsonlab/');
 arg_list=argv();
 for index=1:nargin
     temp = arg_list{index};
-    if strcmp(temp,"-P")
-        P=arg_list{++index}
+    if strcmp(temp,"-P");
+        P=str2num(arg_list{++index});
     elseif strcmp(temp,"-Q")
-        Q=arg_list{++index}
-    elseif strcmp(temp,"-Pm")%measuring device
-        Pm=arg_list{++index}
-    elseif strcmp(temp,"-Qm")%measuring device
-        Qm=arg_list{++index}
+        Q=str2num(arg_list{++index});
+    elseif strcmp(temp,"-Pm")
+        Pm=str2num(arg_list{++index});
+    elseif strcmp(temp,"-Qm")
+        Qm=str2num(arg_list{++index});
+    elseif strcmp(temp,"-Pc")
+        Pc=str2num(arg_list{++index});
+    elseif strcmp(temp,"-Qc")
+        Qc=str2num(arg_list{++index});
+    elseif strcmp(temp,"-Pf")
+        Pf=str2num(arg_list{++index});
+    elseif strcmp(temp,"-Qf")
+        Qf=str2num(arg_list{++index});
+    elseif strcmp(temp,"-setpoint")
+        setpoint=str2num(arg_list{++index});
+    elseif strcmp(temp,"-id")
+        id=arg_list{++index};
     end
 end
-P=str2num(P);
-Q=str2num(Q);
-id=rand();
-sys=tf([1],[1 1 1]);
+
+if (!exist("Pc","var")) || isempty(Pc)
+ Pc=1;
+end
+
+if (!exist("Pf","var")) || isempty(Pf)
+ Pf=1;
+end
+if (!exist("Qf","var")) || isempty(Qf)
+ Qf=1;
+end
+
+
+if (!exist("Pm","var")) || isempty(Pm)
+ Pm=1;
+end
+if (!exist("Qm","var")) || isempty(Qm)
+ Qm=1;
+end
+
+firstProduct=conv(conv(P,Pc),Pf);
+denomProduct=conv(conv(conv(Q,Qf),Qc),Qm);
+Pcl=conv(firstProduct,Qm);
+Qcl_2=conv(firstProduct,Pm);
+Qcl=polyadd(Qcl_2, denomProduct);
+
+sys=tf(Pcl,Qcl);
+
 [y,t] = step(sys,1,10,500);
-response = struct('y',y,'t',t,'P',P,'Q',Q,'id',id,'timestamp',time);
+response = struct('y',y, 't',t, 'P',P, 'Q',Q, 'Pc',Pc, 'Qc',Qc, 'Pf',Pf,...
+    'Qf',Qf, 'Pm',Pm, 'Qm',Qm, 'Pcl',Pcl, 'Qcl',Qcl, 'id',id, 'timestamp',time);
 json = savejson('response',response);
-fid = fopen('file.txt', 'w');
-fdisp(fid, json);
-fclose(fid);
+disp(json);
+
+%fid = fopen([id '.json'], 'w');
+%fdisp(fid, json);
+%fclose(fid);

@@ -16,14 +16,14 @@ include('../global.php');
         <meta name="keywords" content="<?echo $__KEYWORDS__;?>" >
         <meta name="robots" content="noindex,nofollow">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <link rel="stylesheet" type="text/css" href="../tooltip/style.css" />    
+        <link rel="stylesheet" type="text/css" href="../tooltip/style.css" >    
         <link rel="stylesheet" type="text/css" href="./style-p.css" >
-        <link rel="stylesheet" type="text/css" href="../style.css" /> 
+        <link rel="stylesheet" type="text/css" href="../style.css" > 
         <script type='text/javascript' src='../chung.js' ></script>
         <script type='text/javascript'></script>
         <link rel="shortcut icon" href="/vlab/favicon.ico" type="image/x-icon" >
-        <link href="/rss/feed.php" rel="alternate" type="application/rss+xml" title="RSS 2.0" />
-        <link href="/rss/feed.php" rel="alternate" type="application/atom+xml" title="Atom 1.0" />
+        <link href="/rss/feed?type=rss" rel="alternate" type="application/rss+xml" title="RSS 2.0" >
+        <link href="/rss/feed?type=atom" rel="alternate" type="application/atom+xml" title="Atom 1.0" >
     </head>
     <body id="body" onload="loadMe();">    
         <div id="wrap">

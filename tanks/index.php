@@ -36,8 +36,8 @@ if (empty($_SESSION['count'])) {
         <script type='text/javascript' src="../chung.js"></script>
         <script type='text/javascript' src="../ga.js"></script>
         <script type='text/javascript' src="./tanks.js"></script>
-        <link href="/rss/feed.php" rel="alternate" type="application/rss+xml" title="RSS 2.0" />
-        <link href="/rss/feed.php" rel="alternate" type="application/atom+xml" title="Atom 1.0" />
+        <link href="/rss/feed?type=rss" rel="alternate" type="application/rss+xml" title="RSS 2.0" />
+        <link href="/rss/feed?type=atom" rel="alternate" type="application/atom+xml" title="Atom 1.0" />
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     </head>
     <body id="body" onload="randomizeInitialLevels();" >    
