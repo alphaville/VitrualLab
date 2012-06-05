@@ -47,29 +47,6 @@ if (empty($_SESSION['count'])) {
                 <img src="../images/background.jpg" class="stretch" alt="" >
             </div>
             <div id="leftcolumn">
-                <!-- LEFT COLUMN -->
-                <? include('../sidebar.php'); ?>
-                <div class="left-text">
-                    <div class="news">
-                        <div id="leftsb_text">
-                            <h3><? echo $left_sidebar_title; ?></h3>
-                            <p id="left_paragraph" align="justify">
-                                <? echo $left_sidebar_paragraph; ?> 
-                            </p>
-                        </div>
-                        <div class="cl" id="leftsb_divider"></div>                        
-                        <div id="octave">
-                            <div align="center">
-                                <a href="http://www.gnu.org/software/octave/">
-                                <img src="../images/octave.png" alt="octave.png" width="200">
-                                </a>
-                            </div>
-                            <p align="center"><em>Octave</em>: open-source computing power!</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="rightcolumn">
                 <div id="rightmenubar">
                     <span class="menuicon" onclick="randomizeInitialLevels();">
                         <img src="../images/refresh.png" alt="Refresh" title="Refresh">
@@ -83,7 +60,6 @@ if (empty($_SESSION['count'])) {
 
                 </div>
                 <div id="rightmenu">
-
                     <div id="setpoint" class="rmenu">
                         <div id="close_sp" class="closeimg">
                             <img src="../images/close.png" onclick="spmenuclose()();" alt="close">
@@ -104,8 +80,6 @@ if (empty($_SESSION['count'])) {
                             </tbody>
                         </table>
                     </div>
-
-
                     <div id="pidmenu" class="rmenu">
                         <div id="close_pid" class="closeimg">
                             <img src="../images/close.png" onclick="pidmenuclose();" alt="close">
