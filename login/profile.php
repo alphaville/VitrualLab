@@ -1,6 +1,5 @@
 <?php
 session_start();
-session_start();
 if (empty($_SESSION['count'])) {
     $_SESSION['count'] = 1;
 } else {
@@ -94,7 +93,7 @@ if (isset($what) & $what == "return") {
     }
     mysql_close($con);
 } else {
-    $un=$_COOKIE["id"];
+    $un = $_COOKIE["id"];
     $fn = $_COOKIE["fn"];
     $ln = $_COOKIE["ln"];
     $email = $_COOKIE["email"];
@@ -137,13 +136,16 @@ $user_role = getRole($un);
                 <img src="../images/background.jpg" class="stretch" alt="" >
             </div>
             <div id="leftcolumn">
-<? include('../sidebar.php'); ?>
+                <? include('../sidebar.php'); ?>
             </div>
             <div id="rightcolumn">
             </div>
             <div id="container">
                 <div id="nav">
                     <a href=".." style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Back to Main</span></a>
+                    <? if (strcmp($authtype, "VLAB") == 0) { ?>
+                        <a href="change_pass.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Change Password</span></a>
+                    <? } ?>
                     <a href="logout.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Logout</span></a>
                 </div>
                 <div id="centercolumn">
@@ -182,7 +184,7 @@ $user_role = getRole($un);
                             <? if ($user_role >= 10) { ?>
                                 <a href="./users.php"><img src="../images/people.png" alt="users" title="VLAB Users"> </a>
                                 <a href="../rss"><img src="../images/rss.png" width="70" alt="RSS Feeds" title="RSS"> </a>
-                        <? } ?>
+                            <? } ?>
                         </div>
                         <?
                     }
@@ -191,7 +193,7 @@ $user_role = getRole($un);
                 </div>
             </div>
             <div class="footer" id="footer">
-<? include('../footer.php') ?>
+                <? include('../footer.php') ?>
             </div>
         </div>
     </body>

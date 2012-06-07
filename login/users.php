@@ -85,13 +85,31 @@ $offset = $page * $rowsPerPage;
                 <div id="centercolumn">
                     <h3>VLAB Users</h3>  
                     <?
-                    if ($isadmin) {//only admins may apply delete
-                        $method_tunelling = $_GET['method'];
+                    if ($isadmin) {//only admins may apply these methods                        
+                        $method = $_GET['method'];
                         $user_id = $_GET['user_id'];
-                        if ($user_id != "admin" && $method_tunelling == "delete") {// you cannot delete the admin
+                        if ($user_id != "admin" && $method == "delete") {// you cannot delete the admin
                             $con = connect() or die("MySQL Error: Could not connect to the database");
                             if ($con) {
                                 $query = "DELETE FROM `people` WHERE `id`='" . urldecode($user_id) . "'";
+                                mysql_query($query);
+                            }
+                            mysql_close($son);
+                        }
+                        // CREATE AN ADMINISTRATOR
+                        if ($method=="update_admin"){
+                            $con = connect() or die("MySQL Error: Could not connect to the database");
+                            if ($con) {
+                                $query = "UPDATE `people` SET role=10 WHERE `id`='" . urldecode($user_id) . "'";
+                                mysql_query($query);
+                            }
+                            mysql_close($son);
+                        }
+                        // REVOKE AN ADMINISTRATOR
+                        if ($method=="undo_admin"){
+                            $con = connect() or die("MySQL Error: Could not connect to the database");
+                            if ($con) {
+                                $query = "UPDATE `people` SET role=0 WHERE `id`='" . urldecode($user_id) . "'";
                                 mysql_query($query);
                             }
                             mysql_close($son);
@@ -117,10 +135,16 @@ $offset = $page * $rowsPerPage;
                                         <td><a title=\"Send Message\" 
                                         href=\"composer.php?force_rcpt=true&rcpt_to=" . urlencode($row['id']) . "&to=" . urlencode($row['fn'] . " " . $row['ln']) . "\">
                                             <img src=\"../images/new_message.png\" style=\"width: 20px\"></a>";
-                                if ($row['role'] <= 1 && $row['role'] >=0) {
-                                    echo "<a href=\"?method=delete&user_id=" . urlencode($row['id']) . "\"><img src=\"../images/user-delete.png\" style=\"width: 20px\"></a></td></tr>";
+                                if ($row['role'] < 10 && $row['role'] >=0){
+                                    echo "<a title=\"Make Admin\" href=\"?method=update_admin&user_id=" . urlencode($row['id']) . "\"><img src=\"../images/meeting-chair.png\" style=\"width: 20px\"></a>";
                                 }
-                                echo "</td>";
+                                if ($row['role'] >=1 && $row['role'] <= 10){
+                                    echo "<a title=\"Revoke Admin\" href=\"?method=undo_admin&user_id=" . urlencode($row['id']) . "\"><img src=\"../images/undo-admin.png\" style=\"width: 20px\"></a>";
+                                }
+                                if ($row['role'] <= 1 && $row['role'] >=0) {
+                                    echo "<a title=\"Delete\" href=\"?method=delete&user_id=" . urlencode($row['id']) . "\"><img src=\"../images/user-delete.png\" style=\"width: 20px\"></a>";
+                                }
+                                echo "</td></tr>";
                             }
                             mysql_close($con);
                             ?>
