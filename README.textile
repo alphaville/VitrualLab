@@ -2,17 +2,17 @@ h2. Dependencies
 
 VLAB is powered by the following open-source software:
 
-# "Octave":http://www.gnu.org/software/octave/
-# "{JSON:MATLAB}":http://iso2mesh.sourceforge.net/cgi-bin/index.cgi?jsonlab/savejson.m
-# "Flot":http://code.google.com/p/flot/
-# "LightOpenID":http://code.google.com/p/lightopenid/
-# "CKEditor":http://ckeditor.com/
-# "Secureimage":http://www.phpcaptcha.org/
-# "WZ Tooltip":http://www.walterzorn.de/en/tooltip/tooltip_e.htm
+# "Octave":http://www.gnu.org/software/octave/ A computational scripting language developed by GNU
+# "{JSON:MATLAB}":http://iso2mesh.sourceforge.net/cgi-bin/index.cgi?jsonlab/savejson.m A library for Octave facilitating the serialisation of Octave objects into JSON
+# "Flot":http://code.google.com/p/flot/ A JavaScript library for creating interactive charts
+# "LightOpenID":http://code.google.com/p/lightopenid/ OpenID client for PHP
+# "CKEditor":http://ckeditor.com/ A rich text editor in Javascript
+# "Secureimage":http://www.phpcaptcha.org/ A CAPTCHA library for PHP
+# "WZ Tooltip":http://www.walterzorn.de/en/tooltip/tooltip_e.htm Fancy tooltip library for JavaScript
 
 
 
-Future Developments:
+h2. Future Developments:
 
 * Create Tuning Exercise
 * Allow users to save and inspect the results of their exercises or delete them
