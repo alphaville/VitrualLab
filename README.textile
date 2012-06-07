@@ -1,0 +1,26 @@
+h2. Dependencies
+
+VLAB is powered by the following open-source software:
+
+# "Octave":http://www.gnu.org/software/octave/
+# "{JSON:MATLAB}":http://iso2mesh.sourceforge.net/cgi-bin/index.cgi?jsonlab/savejson.m
+# "Flot":http://code.google.com/p/flot/
+# "LightOpenID":http://code.google.com/p/lightopenid/
+# "CKEditor":http://ckeditor.com/
+# "Secureimage":http://www.phpcaptcha.org/
+# "WZ Tooltip":http://www.walterzorn.de/en/tooltip/tooltip_e.htm
+
+
+
+Future Developments:
+
+* Create Tuning Exercise
+* Allow users to save and inspect the results of their exercises or delete them
+* Allow users to submit their results and make them visible to the professor
+* Automatic Evaluation of the results (experimental)
+* Allow comments on the exercise along with the final mark from the professor
+
+* Change the role of a user [done]
+* Automatic RSS feed registration by the admin [done]
+* Internationalization of RSS feeds [done]
+* Create simple PHP library that renders proper RSS documents and synchronizes with the database. [done]
