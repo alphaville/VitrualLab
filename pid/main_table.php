@@ -5,7 +5,6 @@
 <col  style="width:170px">
 <col style="width:60px">
 <col  style="width:170px">
-<col>	
 </colgroup>
   <tr>
     <td>

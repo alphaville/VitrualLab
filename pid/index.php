@@ -19,7 +19,10 @@ if (empty($_SESSION['count'])) {
         <link rel="stylesheet" type="text/css" href="./style-pid.css" >
         <script type="text/javascript" src="../tooltip/script.js"></script>
         <script type='text/javascript' src="../chung.js"></script>
-        <script type='text/javascript' src="../ga.js"></script>    
+        <script type='text/javascript' src="../ga.js"></script>   
+        <script type='text/javascript' src="/flot/jquery.js"></script>
+        <script type='text/javascript' src="/flot/jquery.flot.js"></script>
+        <script type='text/javascript' src="/flot/jquery.flot.selection.js"></script>
         <link rel="shortcut icon" href="/vlab/favicon.ico" type="image/x-icon" >   
         <link href="/rss/feed.php" rel="alternate" type="application/rss+xml" title="RSS 2.0" />
         <link href="/rss/feed.php" rel="alternate" type="application/atom+xml" title="Atom 1.0" />
@@ -128,8 +131,8 @@ if (empty($_SESSION['count'])) {
                         </div>
                         <table style="vertical-align: middle">
                             <TR>
-                                <TD>
-                                    <input type="submit" value="Run" id="sb" onclick="holdit();">
+                                <TD>                                    
+                                    <input type="button" value="Run" id="sb" onclick="doget();">
                                 </TD>
                                 <td>
                                     <img src="../images/arrow.png" id="exclamation" alt="<-- Click Here">
@@ -144,6 +147,26 @@ if (empty($_SESSION['count'])) {
                             </TR>
                         </table>
                     </form>
+                    <div id="placeholder" style="width:90%;height:300px;margin-left:20px;margin-top:20px;display:none">
+                    </div>
+                        <p id="hoverdata" style="display:none;font-size: smaller;font-style: italic">Position of the mouse:
+                            (<span id="x">0</span>, <span id="y">0</span>).</p>
+
+                    <script type="text/javascript">
+                        data = [];
+                        data.push(0, 0);
+                        data.push(10, 10);
+                        var options = {
+                            series: {
+                                lines: { show: true },
+                                points: { show: false }
+                            },
+                            xaxis: { tickDecimals: 0 },
+                            yaxis: { min: -1,tickDecimals: 1 },
+                            selection: { mode: "x" }
+                        };
+                        $.plot($("#placeholder"), [data],options);
+                    </script>
                     <?
                     if ($_POST != null) {
                         $sid = $_POST["session_id"];
@@ -223,5 +246,6 @@ if (empty($_SESSION['count'])) {
             } catch( err ) {}
         </script><noscript><p><img src="http://vlab.mooo.info/adm1n/piwik/piwik.php?idsite=1" style="border:0" alt="" /></p></noscript>
         <!-- End Piwik Tracking Code -->
+
     </body>
 </html>
