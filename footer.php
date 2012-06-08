@@ -1,9 +1,9 @@
 <div id=html-valid>
     <a href="http://validator.w3.org/check?uri=referer" id=validation-link>
-        <img src="<? echo $__URL__ ?>/images/valid-html401.png" alt="Valid HTML 4.01 Transitional!" title="Valid HTML!" id=validation-link-image class="validation-img">
+        <img src="/images/valid-html401.png" alt="Valid HTML 4.01 Transitional!" title="Valid HTML!" id=validation-link-image class="validation-img">
     </a>
     <a href="http://jigsaw.w3.org/css-validator/check/referer">
-        <img style="border:0;width:88px;height:31px" src="<? echo $__URL__ ?>/images/vcss-blue.gif" title="Valid CSS" alt="Valid CSS!"  class="validation-img">
+        <img style="border:0;width:88px;height:31px" src="/images/vcss-blue.gif" title="Valid CSS" alt="Valid CSS!"  class="validation-img">
     </a>
     <img src="/images/compatible_firefox.gif" class=compatibility title=Firefox-Compatible alt=Firefox-Compatible>
     <img src="/images/compatible_chrome.gif" class=compatibility title=Chrome-Compatible alt=Chrome-Compatible>

@@ -1,3 +1,6 @@
+img{
+    border: 0px;
+}
 body {color: #303030}
 
 a:link    { 
@@ -112,6 +115,7 @@ input[type="text"].tinyInput {
     width:250px;
     min-height:400px;
     position:fixed;
+    margin-left:10px;
 }
 #like{
     padding-left:10px;

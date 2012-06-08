@@ -16,14 +16,16 @@ $p1_3="The web application guides you throughout the conduction of each virtual 
 $evaluation_title="Evaluation of the results";
 $evaluation_p="All students may <a href=\"./login/\">login on VLAB</a> in order to acquire access to the evaluation of the results of their exercises. One may login either using an existing Google or Yahoo account or after creating an account on vlab. Then, once you have completed an exercise you can save it temporarily, overview it and then submit it for evaluation whenever you decide before the anounced deadline. All exercises are evaluated automatically and the degree is anounced privately to the user.";
 $about_header="The Web Application";
-$about_p1="This web application is being developed in the Unit for Automatic Control and Informatics at the School of Chemical Engineering, NTUA. It is based solely on free, libre and open-source software and is also distributed freely according to the <a href=\"http://www.gnu.org/copyleft/gpl.html\">GNU GPL v.3</a> left (CLeft). The source code includes <a href=\"http://www.php.net/\">PHP</a>, <a href=\"http://www.w3.org/TR/html401/\">HTML4.01</a>, <a href=\"http://www.w3.org/Style/CSS/\">CSS3</a>, <a href=\"http://www.w3schools.com/js/\">JavaScript</a>, <a href=\"http://www.gnu.org/software/octave/\">Octave</a> and <a href=\"http://www.mysql.com/\">MySQL</a>. It also uses <a href=\"http://http://openid.net/\">OpenID</a> technology and the APIs of Twitter and Facebook.";
+$about_p1="This web application is being developed in the Unit for Automatic Control and Informatics at the School of Chemical Engineering, NTUA. It is based solely on free, libre and open-source software and is also distributed freely according to the <a href=\"http://www.gnu.org/copyleft/gpl.html\">GNU GPL v.3</a> license (CLeft). The source code includes <a href=\"http://www.php.net/\">PHP</a>, <a href=\"http://www.w3.org/TR/html401/\">HTML4.01</a>, <a href=\"http://www.w3.org/Style/CSS/\">CSS3</a>, <a href=\"http://www.w3schools.com/js/\">JavaScript</a>, <a href=\"http://www.gnu.org/software/octave/\">Octave</a> and <a href=\"http://www.mysql.com/\">MySQL</a>. It also uses <a href=\"http://http://openid.net/\">OpenID</a> technology and the APIs of Twitter and Facebook.";
 $about_p2="We endeavour so that VLAB be compatible with most modern web browsers such as Mozilla Firefox, Google Chrome and Opera. Note that you need to have <b>activated acceptance of cookies</b>.";
 $about_p3="The source code of the application is hosted on <a href=\"https://github.com/alphaville/VitrualLab\">github</a>.";
 $list_experiments_header="List of V-Experiments";
 $experiment_1_title="Closed-loop system with a P-controller";
 $experiment_2_title="The PID workbench";
 $experiment_3_title="PID controller for the regulation of level in a system with two coupled tanks";
+$experiment_4_title="Tune a PID controller for a given system";
 $experiment_1="Study of the effect of choosing different values for the gain of a P-controller in a closed loop with a second-order process with no zero poles.";
 $experiment_2="Run lots of different simulation using fully customizable components in a closed loop that includes a delay element and a PID-controller.";
 $experiment_3="Exercise of tuning a PID-controller for an industrial process. The aim is to control the level of the liquid in a tank which is in cascade with a second one.";
+$experiment_4="Using various tuning methods, tune a PID controller and submit your results for evaluation.";
 ?>

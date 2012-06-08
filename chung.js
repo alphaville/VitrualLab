@@ -1,19 +1,78 @@
-// On load
+
 function doget(){
-    $.ajax({
-        url: 'http://localhost/a.txt',
+    P=document.getElementById("ps").value;
+    Q=document.getElementById("qs").value;
+    $.ajax({        
+        url: '/engine/smt9901.php?id=example&P='+encodeURIComponent(P)+'&Q='+
+        encodeURIComponent(Q)+'&Pm=1&Qm=1&Pc=1&Qc=1',
         type: 'GET',                            
         error: function() {
-            alert('FAILURE');
+            alert('FAILURE!!!');
         },
         success: function() {
-            alert('SUCCESS')
-            }
+        //alert('SUCCESS')
+        }
     }).done(function(data){
-        alert(data);
-    });
+        var obj = jQuery.parseJSON(data);
+        var response = obj.response;
+        var d1 = [];
+        time = response.t;
+        y = response.y;       
+        for (var i = 0; i < time.length; i += 1){
+            d1.push([time[i], y[i]]);                       
+        }        
+        var options = {
+            series: {
+                lines: {
+                    show: true
+                },
+                points: {
+                    show: false
+                }
+            },
+            legend: {
+                noColumns: 2
+            },
+            xaxis: {
+                tickDecimals: 0
+            },
+            grid: {
+                hoverable: true, 
+                clickable: true
+            },
+            selection: {
+                mode: "x"
+            }
+        };
+        var placeholder = $("#placeholder");
+        placeholder.bind("plotselected", function (event, ranges) {        
+            plot = $.plot(placeholder, [d1],
+                $.extend(true, {}, options, {
+                    xaxis: {
+                        min: ranges.xaxis.from, 
+                        max: ranges.xaxis.to
+                    }
+                }));
+        });
+
+        placeholder.bind("plothover", function (event, pos, item) {
+            $("#x").text(pos.x.toFixed(2));
+            $("#y").text(pos.y.toFixed(2));
+        });
+        
+        var placeholderEle = document.getElementById("placeholder");
+        placeholderEle.style.display = "block";        
+        placeholderEle.style.width = "95%";
+        placeholderEle.style.marginLeft = "20px";
+        var plot = $.plot(placeholder, [{
+            data:d1, 
+            label:"Step Response"
+        }],options);
+        document.getElementById("hoverdata").style.display = "block";
     
-}
+   
+    });
+};
 
 function loadMe(){
     if (document.getElementsByClassName == undefined) {
@@ -198,6 +257,7 @@ function dehighlightButton(){
 }
 
 function holdit(){
+    doget();
     var waitforme = document.getElementById("pleasewait");
     waitforme.style.display="block";
     var resultsdiv = document.getElementById("simulation-results");

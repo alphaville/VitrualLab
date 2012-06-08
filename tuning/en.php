@@ -10,7 +10,7 @@ $report_bug="Bug Tracking";
 $faq="FAQ";
 
 $header="PID Tuning";
-$subheader="Exercise on PID Tuning";
+$subheader="Exercise on PID Tuning. The scope of this exercise is to tune the following PID controller using the Zigler-Nichols method.";
 $q1="How does VLAB work?";
 $a1_1="VLAB is a web application based mainly on PHP, Javascript and Octave. This offers
     great accessibility benefits on any operating system (Windows, Linux, MacOSX) endowed with a modern Class-A browser 

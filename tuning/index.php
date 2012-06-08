@@ -17,6 +17,11 @@ if ($lang == NULL) {
         $lang = "en";
     }
 }
+// Initialize parameters for this exercise and set them as cookies...
+$P1 = rand(-1000, 1000) / 100; //coefficient of s in P
+$Q1 = rand(-2000, 2000) / 1000; //coefficient of s in Q
+$Q2 = rand(-100, 100) / 1000; //coefficient of s2 in Q
+$delay = rand(0, 1000) / 1000;
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd" 
     >    
@@ -34,6 +39,9 @@ if ($lang == NULL) {
         <link rel="shortcut icon" href="/vlab/favicon.ico" type="image/x-icon" />
         <link href="/rss/feed.php" rel="alternate" type="application/rss+xml" title="RSS 2.0" />
         <link href="/rss/feed.php" rel="alternate" type="application/atom+xml" title="Atom 1.0" />
+        <script type="text/javascript" src="../tooltip/script.js"></script>
+        <script type='text/javascript' src="../chung.js"></script>
+        <link rel="stylesheet" type="text/css" href="../tooltip/style.css" >
     </head>
     <body id="body" onload="loadMe();">
         <div id="wrap">
@@ -65,39 +73,68 @@ if ($lang == NULL) {
                 </div>
             </div>
             <div id="container">                
-                <div id="login">
-                    <div id="language" style="float:right">
-                        <a href="?lang=en">English</a> | <a href="?lang=el">Ελληνικά</a>
-                    </div>
-                    <?
-                    $first = $_COOKIE["fn"];
-                    if (isset($first)) {
-                        echo'Dear <a href="/login/profile.php" style="text-decoration:none">' . $first . '</a>, 
-                        you are logged in. <a href="/login/logout.php" style="text-decoration:none">Logout</a>.';
-                    } else {
-                        echo $welcome . ' <a href="/login/profile.php" style="text-decoration:none">Guest</a>.
-                        ' . $youmay . ' <a href="/login" style="text-decoration:none">Login</a>.';
-                    }
-                    ?>
-                </div>
-                <div id="menubar" align="center">
-                    <span class="menuoption"><a href="/?lang=<? echo $lang; ?>"><? echo $home_page; ?></a></span> | 
-                    <span class="menuoption"><a href=""><? echo $experiments; ?></a></span> | 
-                    <span class="menuoption"><a href="https://github.com/alphaville/VitrualLab/issues"><? echo $report_bug; ?></a></span> | 
-                    <span class="menuoption"><a href="/faq/index.php?lang=<? echo $lang; ?>" title="Frequently Asked Questions"><? echo $faq; ?></a></span>
+                <div id="nav">
+                    <a href=".." style="text-decoration:none">
+                        <span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Back to Main</span></a>
                 </div>
                 <div id="centercolumn" lang="<? echo $lang; ?>">
                     <h1 lang="<? echo $lang; ?>"><? echo $header; ?></h1>
                     <p lang="<? echo $lang; ?>" style="font-size: smaller;font-style: italic"><? echo $subheader; ?></p>
-<!--
-TODO: Create exercise: Figure + Input Boxes + Save Result
-      The result should appear under MyExercises
-      
--->
+                    <div id="flowImg">
+                        <a href="PIDS.png" target="_blank" id="flowcharthref">
+                            <span class="hotspot" 
+                                  onmouseover="tooltip.show('Click to open in new tab.');" 
+                                  onmouseout="tooltip.hide();" style="border-bottom:0px">
+                                <img src="PIDS.png" alt="Flowchart is missing" id="flowchart" name="flowchart">
+                            </span>
+                        </a>
+                    </div>
+                    <p lang="<? echo $lang; ?>" style="font-size: smaller;font-style: italic">
+                        The following data are given for the above system: The numerator of the transfer function
+                        of the plant is P(s)=1<? echo ($P1 < 0 ? "-" : "+") . "" . abs($P1); ?>s and the denominator is
+                        Q(s)=1<? echo ($Q1 < 0 ? "-" : "+") . "" . abs($Q1); ?>s<? echo ($Q2 < 0 ? "-" : "+") . "" . abs($Q2); ?>s<sup>2</sup>.
+                        The delay is t<sub>d</sub>=<? echo $delay; ?>. The measuring element does not affect the dynamics and
+                        it can be considered to have G<sub>f</sub>(s)=1.
+                        You may use the <a href="/pid" target="_blank" >PID workbench</a> of VLAB to tune a PID controller for this system.
+                        Once you have completed the tuning, enter your result in the form below and click next:
+                    </p>
+                    <div class="cl"></div>
+                    <div>
+                        <table>
+                            <colgroup>
+                                <col style="width:40px">
+                                <col  style="width:170px">
+                                <col>	
+                            <tr>
+                                <td>
+                                    <span class="hotspot" onmouseover="tooltip.show('<strong>K<sub>c</sub></strong> is the static gain of the PID controller.');" onmouseout="tooltip.hide();">K<sub>c</sub></span>
+                                </td>
+                                <td><input class="normal" type="text"  name="Kp" id="Kp" onkeyup="return checkNumeric(this);" ></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="hotspot" 
+                                          onmouseover="tooltip.show('<strong>T<sub>i</sub></strong> is the intergral time of the PID controller.');" 
+                                          onmouseout="tooltip.hide();">T<sub>i</sub></span>
+                                </td>
+                                <td><input class="normal" type="text" name="Ti" id="Kp" onkeyup="return checkNumeric(this);" ></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="hotspot" 
+                                          onmouseover="tooltip.show('<strong>T<sub>d</sub></strong> is the differential time of the PID controller.');" 
+                                          onmouseout="tooltip.hide();">T<sub>d</sub></span>
+                                </td>
+                                <td><input class="normal" type="text"  name="Kp" id="Kp" onkeyup="return checkNumeric(this);" ></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="cl"></div>
+                    <p lang="<? echo $lang; ?>" style="font-size: smaller;font-style: italic">
+                        Perform a simulation of the step-response of the closed-loop system.
+                    </p>
+                    <input type="submit" value="Simulate" onclick="simulate();">
                     
-                    <div class="cl"></div>
-                    <div class="cl"></div>
-                                        
                 </div>
             </div>
             <div class="footer" id="footer">
