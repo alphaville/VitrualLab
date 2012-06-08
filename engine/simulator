@@ -27,17 +27,54 @@ for index=1:nargin
         Pf=str2num(arg_list{++index});
     elseif strcmp(temp,"-Qf")
         Qf=str2num(arg_list{++index});
-    elseif strcmp(temp,"-setpoint")
-        setpoint=str2num(arg_list{++index});
+    elseif strcmp(temp,"-excitation")
+        excitation=arg_list{++index};% step/impulse/harmonic
+    elseif strcmp(temp,"-amplitude")
+        amplitude=str2num(arg_list{++index});
+    elseif strcmp(temp,"-frequency")
+        frequency=str2num(arg_list{++index});
     elseif strcmp(temp,"-id")
         id=arg_list{++index};
     elseif strcmp(temp,"-closed_loop")
         closed_loop=str2num(arg_list{++index});
+    elseif strcmp(temp,"-delay")
+	delay=str2num(arg_list{++index});
+    elseif strcmp(temp,"-sim_points")
+	sim_points=str2num(arg_list{++index});
+    elseif strcmp(temp,"-sim_horizon")
+	sim_horizon=str2num(arg_list{++index});
+    elseif strcmp(temp,"-write_to_file")
+	write_to_file=str2num(arg_list{++index});
     end
+end
+
+auto_scale=true;
+if (exist("sim_horizon","var")) && !isempty(sim_horizon)  
+  auto_scale=false;
+end
+
+if (!exist("sim_points","var")) || isempty(sim_points)
+    sim_points=800;
+end
+
+if (!exist("write_to_file","var")) || isempty(write_to_file)
+ write_to_file=0;
 end
 
 if (!exist("Pc","var")) || isempty(Pc)
  Pc=1;
+end
+
+if (!exist("excitation","var")) || isempty(excitation)
+ excitation='step';
+end
+
+if (!exist("amplitude","var")) || isempty(amplitude)
+ amplitude=1;
+end
+
+if (!exist("frequency","var")) || isempty(frequency)
+ frequency=1;
 end
 
 if (!exist("Pf","var")) || isempty(Pf)
@@ -59,32 +96,64 @@ if (!exist("closed_loop","var")) || isempty(closed_loop)
  closed_loop=0;
 end
 
+if (!exist("delay","var")) || isempty(delay)
+ delay=0;
+end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%% Computational Part %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% TODO: Take care of the delay!
+try
+	if (closed_loop==1)
+	[E F] = __pade(delay);
+	firstProduct=conv(conv(conv(P,Pc),Pf),E);% P Pc Pf E
+	denomProduct=conv(conv(conv(conv(Q,Qf),Qc),Qm),F);
+	P_=conv(firstProduct,Qm);% numerator = P Pc Pf E Qm
+	Qcl_2=conv(firstProduct,Pm);
+	Q_=polyadd(Qcl_2, denomProduct);
+	else
+	P_ = conv(conv(conv(P,Pc),Pm),Pf);
+	Q_ = conv(conv(conv(Q,Qc),Qm),Qf);
+	end
+	
+	% Transfer Function Calculation
+	y=[];t=[];
+	if (strcmp(excitation,'step'))
+		sys=tf(amplitude*P_,Q_);				
+	elseif (strcmp(excitation,'harmonic'))
+		sys=tf(amplitude*P_,conv(Q_,[1 0 frequency^2]));
+	elseif (strcmp(excitation,'impulse'))
+		sys=tf(conv(P_,[1 0]),Q_);
+	end
 
-if (closed_loop==1)
-    firstProduct=conv(conv(P,Pc),Pf);
-    denomProduct=conv(conv(conv(Q,Qf),Qc),Qm);
-    P_=conv(firstProduct,Qm);
-    Qcl_2=conv(firstProduct,Pm);
-    Q_=polyadd(Qcl_2, denomProduct);
-else
-    P_ = conv(conv(conv(P,Pc),Pm),Pf);
-    Q_ = conv(conv(conv(Q,Qc),Qm),Qf);
-end
-sys=tf(P_,Q_);
+	% Simulation
+	if (auto_scale)
+		[y,t] = step(sys,1);
+	else
+		[y,t] = step(sys,1,sim_horizon,sim_points);
+	end
 
-[y,t] = step(sys,1,10,500);
-response = struct('y',y, 't',t, 'P',P, 'Q',Q, 'Pc',Pc, 'Qc',Qc, 'Pf',Pf,...
-    'Qf',Qf, 'Pm',Pm, 'Qm',Qm, 'P_',P_, 'Q_',Q_, 'id',id, ...
-    'closed_loop',closed_loop,'timestamp',time);
+	% Open Loop + Delay = Translate the response.
+	if (closed_loop==0)
+		t=[0 t.+delay];
+		y=[0  y];
+	end
+
+	response = struct('success',true,'y',y, 't',t, 'P',P, 'Q',Q, 'Pc',Pc, 'Qc',Qc, 'Pf',Pf,...
+	'Qf',Qf, 'Pm',Pm, 'Qm',Qm, 'P_',P_, 'Q_',Q_, 'id',id, ...
+	'closed_loop',closed_loop,'delay',delay,'excitation',excitation,'timestamp',time);	
+catch
+	response=struct('success',false,'error',lasterr);
+	
+end_try_catch
+
 json = savejson('response',response);
 disp(json);
 
-fid = fopen([id '.json'], 'w');
-fdisp(fid, json);
-fclose(fid);
+if (write_to_file==1)
+  fid = fopen([id '.json'], 'w');
+  fdisp(fid, json);
+  fclose(fid);
+end

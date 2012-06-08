@@ -1,0 +1,23 @@
+#!/usr/bin/octave -qf
+warning("off");
+%
+%JSONLAB Library for Octave/Matlab
+%Reference: http://iso2mesh.sourceforge.net/cgi-bin/index.cgi?jsonlab/savejson.m
+addpath('/var/www/vlab/engine/jsonlab/');
+
+arg_list=argv();
+for index=1:nargin
+    temp = arg_list{index};
+    if strcmp(temp,"-P");
+        P=str2num(arg_list{++index});
+    elseif strcmp(temp,"-Q")
+        Q=str2num(arg_list{++index});    
+    elseif strcmp(temp,"-sim_points")
+	sim_points=str2num(arg_list{++index});
+    elseif strcmp(temp,"-sim_log_range")
+	sim_horizon=str2num(arg_list{++index});
+    elseif strcmp(temp,"-write_to_file")
+	write_to_file=str2num(arg_list{++index});
+    end
+end
+
