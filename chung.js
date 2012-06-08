@@ -1,10 +1,54 @@
+function wait(){
+    waitforme = document.getElementById("pleasewait");
+    waitforme.style.display="block";
+}
+function done(){   
+    waitforme = document.getElementById("pleasewait");
+    waitforme.style.display="none";
+}
+function run_engine(){        
+    wait();
+    var placeholderEle = document.getElementById('placeholder');
+    var hoverdataElement = document.getElementById("hoverdata");
+    placeholderEle.style.display='none';
+    hoverdataElement.style.display='none';
 
-function doget(){
-    P=document.getElementById("ps").value;
-    Q=document.getElementById("qs").value;
+    // Read parameters provided by the user
+    P=$("#ps").val();
+    Q=$("#qs").val();
+    Kc=$("#Kc").val();
+    ti=$("#ti").val();
+    td=$("#td").val();
+    horizon=$('#horizon').val();
+    sim_points=$('#simpoints').val();   
+    delay=$("#delay").val();
+    closed_loop = !$("#open").is(':checked');
+    excitation= $('#selectInputSignal option:selected').text().trim().toLowerCase();
+    frequency=$("#freq").val();
+    // Calculate the transfer function of the controller (num+den).
+    if (ti=='infty'){
+        Pc="["+(Kc*td)+" "+Kc+"]";
+        Qc="[1]";
+    }else{
+        Pc="["+(Kc*ti*td)+" "+(Kc*ti) + " "+Kc+"]";
+        Qc="["+ti+" 0]";
+    }
+    var myurl = '/engine/smt9901.php?id=example&write_to_file=1&P='+encodeURIComponent(P)+'&Q='+
+    encodeURIComponent(Q)+'&Pm=1&Qm=1&Pc='+encodeURIComponent(Pc)+'&Qc='+
+    encodeURIComponent(Qc)+'&delay='+delay+"&closed_loop="+
+    (closed_loop?"1":"0")+"&excitation="+excitation;
+    if (horizon!='auto'){
+        myurl+='&sim_horizon='+horizon;
+    }
+    if (sim_points!='auto'){                
+        myurl+='&sim_points='+(parseInt(sim_points)>5000?5000:sim_points);
+    }
+    if (excitation=='harmonic'){
+        myurl+='&frequency='+frequency;
+    }
+    // Perform request against the WS
     $.ajax({        
-        url: '/engine/smt9901.php?id=example&P='+encodeURIComponent(P)+'&Q='+
-        encodeURIComponent(Q)+'&Pm=1&Qm=1&Pc=1&Qc=1',
+        url: myurl,
         type: 'GET',                            
         error: function() {
             alert('FAILURE!!!');
@@ -12,14 +56,16 @@ function doget(){
         success: function() {
         //alert('SUCCESS')
         }
-    }).done(function(data){
-        var obj = jQuery.parseJSON(data);
-        var response = obj.response;
+    }).done(function(data){        
+        var response = data.response;
+        if (!response.success){
+            alert("Error:\n"+response.error);
+        }
         var d1 = [];
         time = response.t;
         y = response.y;       
         for (var i = 0; i < time.length; i += 1){
-            d1.push([time[i], y[i]]);                       
+            d1.push([time[i], y[i]]);
         }        
         var options = {
             series: {
@@ -33,9 +79,6 @@ function doget(){
             legend: {
                 noColumns: 2
             },
-            xaxis: {
-                tickDecimals: 0
-            },
             grid: {
                 hoverable: true, 
                 clickable: true
@@ -45,7 +88,9 @@ function doget(){
             }
         };
         var placeholder = $("#placeholder");
-        placeholder.bind("plotselected", function (event, ranges) {        
+        // React to plot selection
+        placeholder.bind("plotselected", function (event, ranges) {
+            // replot
             plot = $.plot(placeholder, [d1],
                 $.extend(true, {}, options, {
                     xaxis: {
@@ -54,23 +99,23 @@ function doget(){
                     }
                 }));
         });
-
+        // Read position of the mouse pointer
         placeholder.bind("plothover", function (event, pos, item) {
-            $("#x").text(pos.x.toFixed(2));
-            $("#y").text(pos.y.toFixed(2));
+            $("#x").text(pos.x.toFixed(3));
+            $("#y").text(pos.y.toFixed(4));
         });
-        
-        var placeholderEle = document.getElementById("placeholder");
-        placeholderEle.style.display = "block";        
-        placeholderEle.style.width = "95%";
-        placeholderEle.style.marginLeft = "20px";
+               
+        placeholderEle.style.display = 'block';        
+        placeholderEle.style.width = '95%';
+        placeholderEle.style.marginLeft = '20px';
+        placeholderEle.style.marginTop = '30px';
         var plot = $.plot(placeholder, [{
-            data:d1, 
-            label:"Step Response"
+            data:d1,  
+            label:'Step Response'
         }],options);
-        document.getElementById("hoverdata").style.display = "block";
-    
-   
+        plot.draw();
+        hoverdataElement.style.display = 'block';          
+        done();
     });
 };
 
@@ -254,12 +299,4 @@ function highlightButton(){
 function dehighlightButton(){
     var excl = document.getElementById("exclamation");
     excl.style.display="none";
-}
-
-function holdit(){
-    doget();
-    var waitforme = document.getElementById("pleasewait");
-    waitforme.style.display="block";
-    var resultsdiv = document.getElementById("simulation-results");
-    resultsdiv.style.display="none";
 }
