@@ -1,7 +1,8 @@
 <?php
-
+// Example:
+// curl "http://localhost/vlab/engine/smt9901.php?id=example&P=1&Q=%5B1%201%5D&Pm=1&Qm=1&Pc=1&Qc=1"
+//header('Content-type: application/json');
 header('Cache-Control: no-cache, must-revalidate');
-header('Content-type: application/json');
 $P = escapeshellarg(urldecode($_GET["P"]));
 $Q = escapeshellarg($_GET["Q"]);
 $Pf = escapeshellarg($_GET["Pf"]);
@@ -11,10 +12,11 @@ $Qc = escapeshellarg($_GET["Qc"]);
 $Pm = escapeshellarg($_GET["Pm"]);
 $Qm = escapeshellarg($_GET["Qm"]);
 $sp = escapeshellarg($_GET["sp"]);
+$closed_loop = escapeshellarg($_GET["closed_loop"]);
 $identifier = escapeshellarg($_GET["id"]);
 $command = "./simulator -P ". $P . " -Q  ". $Q . " -Pf  ". $Pf . 
         " -Qf "  . $Qf . " -Pm " . $Pm . 
-        " -Qm " . $Qm . " -Pc ".$Pc." -Qc ".$Qc." -setpoint ".$sp." -id ".$identifier;
+        " -Qm " . $Qm . " -Pc ".$Pc." -Qc ".$Qc." -setpoint ".$sp." -id ".$identifier." -closed_loop ".$closed_loop;
 $returned = exec($command,$ret);
 foreach($ret as $val){
     echo $val."\n";

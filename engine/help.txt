@@ -1,5 +1,14 @@
 Help::simulator
 
+Input:
 -P,-Q   :   The numerator and denominator of the system's transfer function
 -Pm,Qm  :   Transfer Function of the measuring device
 -Pc,Qc  :   Controller's transfer function
+-closedLoop : If set to 1, a closed loop simulation will be performed
+
+Output:
+The output of the simulation is exported as a JSON object. An example output file
+is available called "file.json".
+
+ Example: 
+./simulator -P 1 -Q "[1 1]" -Pc 1 -Qc 1 -Pm 1 -Qm 1 -P 1 -id "example" -closed_loop 0

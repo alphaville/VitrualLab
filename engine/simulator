@@ -31,6 +31,8 @@ for index=1:nargin
         setpoint=str2num(arg_list{++index});
     elseif strcmp(temp,"-id")
         id=arg_list{++index};
+    elseif strcmp(temp,"-closed_loop")
+        closed_loop=str2num(arg_list{++index});
     end
 end
 
@@ -53,20 +55,36 @@ if (!exist("Qm","var")) || isempty(Qm)
  Qm=1;
 end
 
-firstProduct=conv(conv(P,Pc),Pf);
-denomProduct=conv(conv(conv(Q,Qf),Qc),Qm);
-Pcl=conv(firstProduct,Qm);
-Qcl_2=conv(firstProduct,Pm);
-Qcl=polyadd(Qcl_2, denomProduct);
+if (!exist("closed_loop","var")) || isempty(closed_loop)
+ closed_loop=0;
+end
 
-sys=tf(Pcl,Qcl);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%% Computational Part %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% TODO: Take care of the delay!
+
+if (closed_loop==1)
+    firstProduct=conv(conv(P,Pc),Pf);
+    denomProduct=conv(conv(conv(Q,Qf),Qc),Qm);
+    P_=conv(firstProduct,Qm);
+    Qcl_2=conv(firstProduct,Pm);
+    Q_=polyadd(Qcl_2, denomProduct);
+else
+    P_ = conv(conv(conv(P,Pc),Pm),Pf);
+    Q_ = conv(conv(conv(Q,Qc),Qm),Qf);
+end
+sys=tf(P_,Q_);
 
 [y,t] = step(sys,1,10,500);
 response = struct('y',y, 't',t, 'P',P, 'Q',Q, 'Pc',Pc, 'Qc',Qc, 'Pf',Pf,...
-    'Qf',Qf, 'Pm',Pm, 'Qm',Qm, 'Pcl',Pcl, 'Qcl',Qcl, 'id',id, 'timestamp',time);
+    'Qf',Qf, 'Pm',Pm, 'Qm',Qm, 'P_',P_, 'Q_',Q_, 'id',id, ...
+    'closed_loop',closed_loop,'timestamp',time);
 json = savejson('response',response);
 disp(json);
 
-%fid = fopen([id '.json'], 'w');
-%fdisp(fid, json);
-%fclose(fid);
+fid = fopen([id '.json'], 'w');
+fdisp(fid, json);
+fclose(fid);
