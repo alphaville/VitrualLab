@@ -8,7 +8,7 @@
 </colgroup>
   <tr>
     <td>
-      <input type="checkbox" name="open" onClick="openLoopAction(this);" <?if ($open=="1") {echo 'checked="checked"';}?> >
+      <input type="checkbox" name="open" id="open" onClick="openLoopAction(this);" <?if ($open=="1") {echo 'checked="checked"';}?> >
     </td>
     <td>
       <span id="openLoopHint"><?echo $__OPENLOOP_HTML;?></span>
@@ -26,11 +26,11 @@
   </tr>
   <tr>
     <td>
-      <?echo $__KP_HTML; 
+      <?echo $__KC_HTML; 
       ?>
     </td>
     <td>
-      <input class="normal" type="text" value="<?echo $kpval;?>" name="Kp" id="Kp" onkeyup="return checkNumeric(this);" >
+      <input class="normal" type="text" value="<?echo $kcval;?>" name="Kc" id="Kc" onkeyup="return checkNumeric(this);" >
     </td>
     <td>
       <?echo $__P_HTML; 

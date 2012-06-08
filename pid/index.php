@@ -20,9 +20,9 @@ if (empty($_SESSION['count'])) {
         <script type="text/javascript" src="../tooltip/script.js"></script>
         <script type='text/javascript' src="../chung.js"></script>
         <script type='text/javascript' src="../ga.js"></script>   
-        <script type='text/javascript' src="/flot/jquery.js"></script>
-        <script type='text/javascript' src="/flot/jquery.flot.js"></script>
-        <script type='text/javascript' src="/flot/jquery.flot.selection.js"></script>
+        <script type='text/javascript' src="/flot/jquery.min.js"></script>
+        <script type='text/javascript' src="/flot/jquery.flot.min.js"></script>
+        <script type='text/javascript' src="/flot/jquery.flot.selection.min.js"></script>
         <link rel="shortcut icon" href="/vlab/favicon.ico" type="image/x-icon" >   
         <link href="/rss/feed.php" rel="alternate" type="application/rss+xml" title="RSS 2.0" />
         <link href="/rss/feed.php" rel="alternate" type="application/atom+xml" title="Atom 1.0" />
@@ -34,11 +34,11 @@ if (empty($_SESSION['count'])) {
         include('./constants.php');
         if ($_POST == NULL) {
             $open = 0;
-            $kpval = 5;
+            $kcval = 5;
             $tival = 0.6;
             $tdval = 0.3;
             $psval = "[1]";
-            $qsval = "[1 1 1]";
+            $qsval = "[1 1 10]";
             $delayval = 0;
             $amplitude = 1;
             $selectInputSignal = "1";
@@ -132,7 +132,7 @@ if (empty($_SESSION['count'])) {
                         <table style="vertical-align: middle">
                             <TR>
                                 <TD>                                    
-                                    <input type="button" value="Run" id="sb" onclick="doget();">
+                                    <input type="button" value="Simulate" id="sb" onclick="run_engine();">
                                 </TD>
                                 <td>
                                     <img src="../images/arrow.png" id="exclamation" alt="<-- Click Here">
@@ -149,13 +149,11 @@ if (empty($_SESSION['count'])) {
                     </form>
                     <div id="placeholder" style="width:90%;height:300px;margin-left:20px;margin-top:20px;display:none">
                     </div>
-                        <p id="hoverdata" style="display:none;font-size: smaller;font-style: italic">Position of the mouse:
-                            (<span id="x">0</span>, <span id="y">0</span>).</p>
-
+                    <p id="hoverdata" style="display:none;font-size: smaller;font-style: italic">Position of the mouse:
+                        (<span id="x">0</span>, <span id="y">0</span>).</p>
                     <script type="text/javascript">
-                        data = [];
-                        data.push(0, 0);
-                        data.push(10, 10);
+                        __data = [];
+                        __data.push(0, 0);
                         var options = {
                             series: {
                                 lines: { show: true },
@@ -165,69 +163,8 @@ if (empty($_SESSION['count'])) {
                             yaxis: { min: -1,tickDecimals: 1 },
                             selection: { mode: "x" }
                         };
-                        $.plot($("#placeholder"), [data],options);
-                    </script>
-                    <?
-                    if ($_POST != null) {
-                        $sid = $_POST["session_id"];
-                        $command = './runPIDCtrl ' . escapeshellarg($kpval) .
-                                " " . escapeshellarg($tival) .
-                                " " . escapeshellarg($tdval) .
-                                " " . escapeshellarg($psval) .
-                                " " . escapeshellarg($qsval) .
-                                ' ' . escapeshellarg($delayval) .
-                                ' ' . escapeshellarg($open) .
-                                ' ' . escapeshellarg($bode) .
-                                ' ' . escapeshellarg($nyquist) .
-                                ' ' . escapeshellarg($selectInputSignal) .
-                                ' ' . escapeshellarg($amplitude) .
-                                ' ' . escapeshellarg($freq) .
-                                ' "./images/' . $sid . '"' .
-                                ' ' . escapeshellarg($simpoints) .
-                                ' ' . escapeshellarg($horizon) . ' 2> /dev/stdout';
-
-                        $retval = exec($command, $ret);
-                        $everythingOK = 0;
-
-                        echo '<div class="results" id="simulation-results">
-		<label id="simulations" for="results">
-		<h3>Results</h3>
-		</label>
-		';
-                        $error = '';
-                        for ($i = 0; $i < count($ret) - 1; $i++) {
-                            $errorTag = substr($ret[$i], 0, 5);
-                            $flag1 = strcmp(substr($ret[$i], 0, 5), "error") == 0;
-                            $flag2 = strpos($ret[$i], 'ion') === false;
-                            if ($flag1 && $flag2) {
-                                $everythingOK++;
-                                $error = $error . '<span class="error">' . $ret[$i] . '</span><br/>';
-                            }
-                        }
-
-                        if ($everythingOK > 0) {
-                            echo ($everythingOK) . ' errors occured';
-                            echo '<div id="errors">' . $error . '</div>';
-                        }
-
-                        if ($everythingOK == 0) {
-                            $bode_jpg = "./images/" . $sid . "bode.jpg";
-                            $nyq_jpg = "./images/" . $sid . "nyq.jpg";
-                            $resp_jpg = "./images/" . $sid . "resp.jpg";
-
-                            $i = 1;
-                            // Always output the response plot (default)!
-                            echo '<div class="nyqBox"><img class="nyq" src="' . $resp_jpg . '" id="respplot"><label id="response_plot">Figure ' . ($i++) . ' : Response Plot</label></div>';
-                            if ($bode) {
-                                echo '<div class="bodeBox"><img class="bode" src="' . $bode_jpg . '" id="bodeplot"><label id="bode_plot" for="bodeplot">Figure ' . ($i++) . ' : Bode Plot</label></div>';
-                            }
-                            if ($nyquist) {
-                                echo '<div class="nyqBox"><img class="nyq" src="' . $nyq_jpg . '" id="nyqplot"><label id="nyquist_plot" for="nyqplot">Figure ' . ($i++) . ' : Nyquist Plot</label></div>';
-                            }
-                        }
-                        echo '</div>';
-                    }
-                    ?>
+                        $.plot($("#placeholder"), [__data],options);
+                    </script>                   
                 </div>
             </div>
             <div class="footer" id="footer">

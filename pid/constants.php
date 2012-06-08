@@ -1,9 +1,9 @@
 <?
 $__BASE_URI="http://localhost";
-$__KP_HTML='<span class="hotspot" 
+$__KC_HTML='<span class="hotspot" 
 onmouseover="tooltip.show(\'<strong>Kc</strong> is the static gain of the PID controller.\');" onmouseout="tooltip.hide();">Kc</span>';
 $__TI_HTML='<span class="hotspot" 
-onmouseover="tooltip.show(\'<strong>Ti</strong> is the intergral time of the PID controller.\');" onmouseout="tooltip.hide();">Ti</span>';
+onmouseover="tooltip.show(\'<strong>Ti</strong> is the intergral time of the PID controller. Type <em>infty</em> to set it to infinity.\');" onmouseout="tooltip.hide();">Ti</span>';
 $__TD_HTML='<span class="hotspot" 
 onmouseover="tooltip.show(\'<strong>Td</strong> is the differential time of the PID controller.\');" onmouseout="tooltip.hide();">Td</span>';
 $__P_HTML='<span class="hotspot" 
@@ -17,8 +17,6 @@ onmouseover="tooltip.show(\'Check this box to run simulations on the open loop s
 $__CLOSEDLOOP_HTML='<span class="hotspot" 
 onmouseover="tooltip.show(\'Check this box to run simulations on the closed loop system (see figure)\');" onmouseout="tooltip.hide();">Open Loop</span>';
 
-$__AXES='<span class="hotspot" 
-onmouseover="tooltip.show(\'Specify the boundaries of x and y axes of the time response plot. Format: [xmin xmax ymin ymax]\');" onmouseout="tooltip.hide();">Axes</span>';
 $__BODE_DIAG='<span class="hotspot" 
 onmouseover="tooltip.show(\'Whether to plot the Bode Diagram of the System\');" onmouseout="tooltip.hide();">Bode Diagram</span>';
 $__NYQUIST_DIAG='<span class="hotspot" 

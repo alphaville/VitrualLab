@@ -40,17 +40,12 @@
          <label for="selectInputSignal">Input Signal</label>
       </td>
       <td>
-
         <select class="inputSigSelector" name="selectInputSignal" id="selectInputSignal" onchange="signalParameters(this);">
-
 <?  $op1 = '<option value="1">Step</option>';
     $op2='<option value="2">Impulse </option>';
     $op3='<option value="3">Harmonic</option>';
 if ($selectInputSignal==1){echo $op1.$op2.$op3;}else if ($selectInputSignal==2){echo $op2.$op3.$op1;}else{echo $op3.$op2.$op1;}
-
 ?>
-        
-
         </select>
       </td>
     </tr>
@@ -115,9 +110,6 @@ if ($selectInputSignal==1){echo $op1.$op2.$op3;}else if ($selectInputSignal==2){
 <td><input type="text" value="<?echo $horizon;?>" class="tinyInput" id="horizon" name="horizon" onkeyup="checkNumOrAuto(this);"></td>
 </tr>
 
-<tr><TD><?echo $__AXES?></TD>
-<td><input type="text" value="<?echo $axes;?>" class="tinyInput" id="axes" name="axes"></td>
-</tr>
 </table>
 
 
