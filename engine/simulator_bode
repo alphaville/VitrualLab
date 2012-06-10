@@ -15,9 +15,40 @@ for index=1:nargin
     elseif strcmp(temp,"-sim_points")
 	sim_points=str2num(arg_list{++index});
     elseif strcmp(temp,"-sim_log_range")
-	sim_horizon=str2num(arg_list{++index});
+	sim_log_range=str2num(arg_list{++index});
     elseif strcmp(temp,"-write_to_file")
 	write_to_file=str2num(arg_list{++index});
+    elseif strcmp(temp,"-delay")
+	delay=str2num(arg_list{++index});
     end
 end
+
+if (!exist("sim_log_range","var")) || isempty(sim_log_range)
+	sim_log_range = [-2,8];
+end
+
+if (!exist("sim_points","var")) || isempty(sim_points)
+	sim_points = 1000;
+end
+
+if (!exist("delay","var")) || isempty(delay)
+	delay = 0;
+end
+
+log_step = (sim_log_range(2)-sim_log_range(1))/sim_points;
+log_omega = sim_log_range(1):log_step:sim_log_range(2);
+magnitude = zeros(1,sim_points);
+phase = zeros(1,sim_points);
+j=1;
+for i=log_omega
+	omega = 10^i;
+	magnitude(j) = __bodeMag(P,Q,omega);
+	phase(j) = __bodePhase(P,Q,delay,omega);
+	j++;
+end
+
+__bode = struct('log_omega',log_omega,'phase',phase,'magnitude',magnitude);
+json = savejson('bode',__bode);
+disp(json);
+
 
