@@ -34,12 +34,12 @@ if (empty($_SESSION['count'])) {
         include('./constants.php');
         if ($_POST == NULL) {
             $open = 0;
-            $kcval = 5;
-            $tival = 0.6;
-            $tdval = 0.3;
-            $psval = "[1]";
-            $qsval = "[1 1 10]";
-            $delayval = 0;
+            $kcval = 1;
+            $tival = 'infty';
+            $tdval = 0;
+            $psval = "[1 1]";
+            $qsval = "[.1 5 1]";
+            $delayval = 0.01;
             $amplitude = 1;
             $selectInputSignal = "1";
             $freq = 100;
@@ -47,22 +47,6 @@ if (empty($_SESSION['count'])) {
             $simpoints = "auto";
             $horizon = "auto";
             $axes = "auto";
-        } else {
-            $open = $_POST["open"] == "on" ? 1 : 0;
-            $kpval = $_POST["Kp"];
-            $tival = $_POST["ti"];
-            $tdval = $_POST["td"];
-            $psval = $_POST["ps"];
-            $qsval = $_POST["qs"];
-            $delayval = $_POST["delay"];
-            $bode = $_POST["bode"] == "on" ? 1 : 0;
-            $nyquist = $_POST["nyquist"] == "on" ? 1 : 0;
-            $amplitude = $_POST["amplitude"];
-            $selectInputSignal = $_POST["selectInputSignal"];
-            $freq = $_POST["freq"];
-            $simpoints = $_POST["simpoints"];
-            $horizon = $_POST["horizon"];
-            $axes = $_POST["axes"];
         }
         $image = $open == "1" ? 'PIDS2.png' : 'PIDS.png';
         ?>
@@ -147,42 +131,38 @@ if (empty($_SESSION['count'])) {
                             </TR>
                         </table>
                     </form>
-                    <div id="placeholder" style="width:90%;height:300px;margin-left:20px;margin-top:20px;display:none">
+                    <div>
+                        <div id="response_results" style="display:none">
+                            <div id="placeholder" style="width:95%;height:300px;margin-left:20px;margin-top:20px"></div>
+                            <p id="hoverdata" style="font-size: smaller;font-style: italic">Position of the mouse: 
+                                (
+                                <span id="x">0</span>, 
+                                <span id="y">0</span>).
+                            </p>                        
+                            <div id="bode_mag" style="width:95%;height:300px;margin-left:20px;margin-top:20px"></div>
+                        </div>
                     </div>
-                    <p id="hoverdata" style="display:none;font-size: smaller;font-style: italic">Position of the mouse:
-                        (<span id="x">0</span>, <span id="y">0</span>).</p>
-                    <script type="text/javascript">
-                        __data = [];
-                        __data.push(0, 0);
-                        var options = {
-                            series: {
-                                lines: { show: true },
-                                points: { show: false }
-                            },
-                            xaxis: { tickDecimals: 0 },
-                            yaxis: { min: -1,tickDecimals: 1 },
-                            selection: { mode: "x" }
-                        };
-                        $.plot($("#placeholder"), [__data],options);
-                    </script>                   
                 </div>
-            </div>
-            <div class="footer" id="footer">
-                <? include('../footer.php') ?>
+                <div class="footer" id="footer">
+                    <? include('../footer.php') ?>
+                </div>
             </div>
         </div>
         <!-- Piwik -->
         <script type="text/javascript">
             var pkBaseURL = (("https:" == document.location.protocol) ? "https://vlab.mooo.info/adm1n/piwik/" : "http://vlab.mooo.info/adm1n/piwik/");
             document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
-        </script><script type="text/javascript">
+        </script>
+        <script type="text/javascript">
             try {
                 var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 1);
                 piwikTracker.trackPageView();
                 piwikTracker.enableLinkTracking();
             } catch( err ) {}
-        </script><noscript><p><img src="http://vlab.mooo.info/adm1n/piwik/piwik.php?idsite=1" style="border:0" alt="" /></p></noscript>
+        </script>
+        <noscript>
+        <p><img src="http://vlab.mooo.info/adm1n/piwik/piwik.php?idsite=1" style="border:0" alt="" /></p>
+        </noscript>
         <!-- End Piwik Tracking Code -->
-
     </body>
 </html>
