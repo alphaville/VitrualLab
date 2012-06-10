@@ -11,4 +11,4 @@ function phase = __bodePhase(P,Q,delay,omega)
 %Returns the value of arg[G(jw)] at the given frequency w.
 
 jomega=1i*omega;
-phase=arg( polyval(P,jomega)/polyval(Q,jomega))-delay;
+phase=arg( polyval(P,jomega)/polyval(Q,jomega))-delay*omega;
