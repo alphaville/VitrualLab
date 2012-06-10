@@ -1,12 +1,53 @@
 #!/usr/bin/octave -qf
 % Include to path the control toolbox:
 
+%Command-line parameters are provided in the format -parameter value.
+%Input Parameters:
+%-P,-Q:	Numerator and Denominator of the transfer function of the process
+%
+%-Pm,-Qm: Numerator and Denominator of the transfer function of the measuring device.
+% these default to 1 if not provided	 
+%
+%-Pf,Qf: Numerator and Denominator of the transfer function of the final control
+% element (actuator). These default to 1 if not specified by the user.
+%
+%-Qc,Pc: Numerator and Denominator of the transfer function of the controller.
+%
+%-excitation: Type of excitation. Admissible values are 'step', 'impulse' and
+% 'harmonic'. If 'step' or 'harmonic' are specified, then 'amplitude' should be
+% provided as well (otherwise, it defaults to 1). If the excitation type is 
+% harmonic then 'frequency' should also be provided (otherwise it defaults to 
+% 1.)
+%
+%-id Identifier of the simulation (used to store the results in a file with that
+% name if 'write_to_file' is set to 1.
+%
+%-write_to_file Set this parameter to 1 if you need the result to be written to 
+% a file with the name id.json where 'id' is also specified.
+%
+%-closed_loop Set it to 1 if you need to performe a simulation against the closed-loop
+% system. Otherwise, if set to 0 then the open-loop transfer function will be used.
+%
+%-sim_points Number of points to be used for the simulation. If omitted, defaults to 
+% 800 points. There is a security limit imposed upon sim_points so that it cannot
+% exceed the critical limit of 25000 points.
+%
+%-sim_horizon The simulation will be performed over the horizon [0, sim_horizon].
+%
+%
+%Example of use:
+% simulator -P '[1]' -Q  '[1 1 10]' -Pf  '' -Qf '' -Pm '1' -Qm '1' -Pc '[0.8 3 5]' -Qc '[0.6 0]' 
+% -id 'example' -closed_loop '1' -delay '0' -excitation 'harmonic' -write_to_file '1' 
+% -sim_horizon '10' -sim_points '1000' -frequency '100';
+
 warning("off");
 addpath('/usr/share/octave/packages/3.2/control-1.0.11/');
 %
 %JSONLAB Library for Octave/Matlab
 %Reference: http://iso2mesh.sourceforge.net/cgi-bin/index.cgi?jsonlab/savejson.m
 addpath('/var/www/vlab/engine/jsonlab/');
+
+__LIMIT_SIM_POINTS = 25000;
 
 arg_list=argv();
 for index=1:nargin
@@ -56,6 +97,7 @@ end
 if (!exist("sim_points","var")) || isempty(sim_points)
     sim_points=800;
 end
+sim_points = min(sim_points, __LIMIT_SIM_POINTS);
 
 if (!exist("write_to_file","var")) || isempty(write_to_file)
  write_to_file=0;
@@ -104,7 +146,6 @@ end
 %%%%%%%%%%%% Computational Part %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%% TODO: Take care of the delay!
 try
 	if (closed_loop==1)
 	[E F] = __pade(delay);
