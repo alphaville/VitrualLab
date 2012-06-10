@@ -11,7 +11,6 @@ $Pc = escapeshellarg($_GET["Pc"]);
 $Qc = escapeshellarg($_GET["Qc"]);
 $Pm = escapeshellarg($_GET["Pm"]);
 $Qm = escapeshellarg($_GET["Qm"]);
-$sp = escapeshellarg($_GET["sp"]);
 $delay = escapeshellarg($_GET["delay"]);
 $sim_horizon= escapeshellarg($_GET["sim_horizon"]);
 $sim_points= escapeshellarg($_GET["sim_points"]);
@@ -22,7 +21,7 @@ $identifier = escapeshellarg($_GET["id"]);
 $write_to_file = escapeshellarg($_GET["write_to_file"]);
 $command = "./simulator -P ". $P . " -Q  ". $Q . " -Pf  ". $Pf . 
         " -Qf "  . $Qf . " -Pm " . $Pm . 
-        " -Qm " . $Qm . " -Pc ".$Pc." -Qc ".$Qc." -setpoint ".$sp." -id ".$identifier." -closed_loop ".$closed_loop.
+        " -Qm " . $Qm . " -Pc ".$Pc." -Qc ".$Qc." -id ".$identifier." -closed_loop ".$closed_loop.
         " -delay ".$delay." -excitation ".$excitation;
 if ($write_to_file){
     $command = $command." -write_to_file ".$write_to_file;
