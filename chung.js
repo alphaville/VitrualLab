@@ -6,12 +6,124 @@ function done(){
     waitforme = document.getElementById("pleasewait");
     waitforme.style.display="none";
 }
+
+/*
+ * @param data
+ *      Incoming data from the web service
+ * @return
+ *      It formats and displays the response curve.
+ */
+function display_response(data){
+    var responseResultsDiv = document.getElementById('response_results');    
+    var response = data.response;
+    if (!response.success){
+        alert("Error:\n"+response.error);
+        done();
+    }
+    var d1 = [];
+    time = response.t;    
+    y = response.y;       
+    for (var i = 0; i < time.length; i += 1){
+        d1.push([time[i], y[i]]);
+    }        
+    var options = {
+        series: {
+            lines: {
+                show: true
+            },
+            points: {
+                show: false
+            }
+        },
+        legend: {
+            noColumns: 2
+        },
+        grid: {
+            hoverable: true, 
+            clickable: true
+        },
+        selection: {
+            mode: "x"
+        }
+    };    
+    var placeholder = $("#placeholder");
+    // React to plot selection
+    placeholder.bind("plotselected", function (event, ranges) {
+        plot = $.plot(placeholder, [d1],
+            $.extend(true, {}, options, {
+                xaxis: {
+                    min: ranges.xaxis.from, 
+                    max: ranges.xaxis.to
+                }
+            }));
+    });    
+    // Read position of the mouse pointer
+    placeholder.bind("plothover", function (event, pos, item) {
+        $("#x").text(pos.x.toFixed(3));
+        $("#y").text(pos.y.toFixed(4));
+    });      
+    responseResultsDiv.style.display = 'block';    
+    var plot = $.plot(placeholder, [{
+        data:d1,  
+        label:'Step Response'
+    }],options);
+    plot.draw();              
+    done();
+}
+
+function display_bode(response_data){
+    // Bode Plot:
+    P_ = '['+response_data.response.P_+']';
+    Q_ = '['+response_data.response.Q_+']';    
+    var bodeUrl = '/engine/smt6565.php?id=example&write_to_file=0&P='+encodeURIComponent(P_)+'&Q='+
+    encodeURIComponent(Q_)+'&delay='+response_data.response.delay+'&sim_points=800&sim_log_range='+encodeURIComponent('[-2 3]');    
+    $.ajax({        
+        url: bodeUrl,
+        type: 'GET',
+        error: function() {
+            alert('WS Failure!!!\n Please contact the system admins.');
+            done();
+        },
+        success: function() {
+        //alert('SUCCESS');
+        }
+    }).done(function(data){
+        var d2 = [];
+        var dp = [];
+        log_omega = data.bode.log_omega;    
+        magnitude = data.bode.magnitude;       
+        phase= data.bode.phase;       
+        for (var i = 0; i < log_omega.length; i += 1){
+            d2.push([log_omega[i], magnitude[i]]);
+            dp.push([log_omega[i], phase[i]]);
+        }        
+        var options_bode = {
+            series: {lines: {show: true},points: {show: false}},
+            legend: {noColumns: 1},
+            yaxes: [ { min: 0 },{alignTicksWithAxis: 1,position: "right"} ],
+            grid: {hoverable: true, clickable: true},
+            selection: {mode: "x"}
+        };
+    
+        var bode_plot_placeholder = $("#bode_mag");
+        var bode_plot = $.plot(bode_plot_placeholder, [{
+            data:d2,  
+            label:'Bode Magnitude',
+            color:'red'
+        },{
+            data:dp,  
+            label:'Bode Phase',
+            yaxis: 2,color:'green'
+        }],options_bode);
+        bode_plot.draw();        
+    });
+}
+
 function run_engine(){        
     wait();
-    var placeholderEle = document.getElementById('placeholder');
-    var hoverdataElement = document.getElementById("hoverdata");
-    placeholderEle.style.display='none';
-    hoverdataElement.style.display='none';
+    //TODO: replace with 'response_results''
+    var responseResultsDiv = document.getElementById('response_results');
+    responseResultsDiv.style.display='none';
 
     // Read parameters provided by the user
     P=$("#ps").val();
@@ -49,74 +161,18 @@ function run_engine(){
     // Perform request against the WS
     $.ajax({        
         url: myurl,
-        type: 'GET',                            
+        type: 'GET',
         error: function() {
-            alert('FAILURE!!!');
+            alert('WS Failure!!!\n Please contact the system admins.');
+            done();
         },
-        success: function() {
-        //alert('SUCCESS')
-        }
+        success: function() {}
     }).done(function(data){        
-        var response = data.response;
-        if (!response.success){
-            alert("Error:\n"+response.error);
-        }
-        var d1 = [];
-        time = response.t;
-        y = response.y;       
-        for (var i = 0; i < time.length; i += 1){
-            d1.push([time[i], y[i]]);
-        }        
-        var options = {
-            series: {
-                lines: {
-                    show: true
-                },
-                points: {
-                    show: false
-                }
-            },
-            legend: {
-                noColumns: 2
-            },
-            grid: {
-                hoverable: true, 
-                clickable: true
-            },
-            selection: {
-                mode: "x"
-            }
-        };
-        var placeholder = $("#placeholder");
-        // React to plot selection
-        placeholder.bind("plotselected", function (event, ranges) {
-            // replot
-            plot = $.plot(placeholder, [d1],
-                $.extend(true, {}, options, {
-                    xaxis: {
-                        min: ranges.xaxis.from, 
-                        max: ranges.xaxis.to
-                    }
-                }));
-        });
-        // Read position of the mouse pointer
-        placeholder.bind("plothover", function (event, pos, item) {
-            $("#x").text(pos.x.toFixed(3));
-            $("#y").text(pos.y.toFixed(4));
-        });
-               
-        placeholderEle.style.display = 'block';        
-        placeholderEle.style.width = '95%';
-        placeholderEle.style.marginLeft = '20px';
-        placeholderEle.style.marginTop = '30px';
-        var plot = $.plot(placeholder, [{
-            data:d1,  
-            label:'Step Response'
-        }],options);
-        plot.draw();
-        hoverdataElement.style.display = 'block';          
-        done();
+        display_response(data);
+        display_bode(data);
     });
+    
+    
 };
 
 function loadMe(){
