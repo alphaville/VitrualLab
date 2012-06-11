@@ -74,7 +74,8 @@ function display_response(data){
 function display_bode(response_data){
     // Bode Plot:
     P_ = '['+response_data.response.P_+']';
-    Q_ = '['+response_data.response.Q_+']';    
+    Q_ = '['+response_data.response.Q_+']';
+//    alert("P="+P_+"\nQ="+Q_);
     var bodeUrl = '/engine/smt6565.php?id=example&write_to_file=0&P='+encodeURIComponent(P_)+'&Q='+
     encodeURIComponent(Q_)+'&delay='+response_data.response.delay+'&sim_points=800&sim_log_range='+encodeURIComponent('[-2 3]');    
     $.ajax({        
@@ -153,7 +154,7 @@ function run_engine(){
         myurl+='&sim_horizon='+horizon;
     }
     if (sim_points!='auto'){                
-        myurl+='&sim_points='+(parseInt(sim_points)>5000?5000:sim_points);
+        myurl+='&sim_points='+(parseInt(sim_points)>20000?20000:sim_points);
     }
     if (excitation=='harmonic'){
         myurl+='&frequency='+frequency;
@@ -189,7 +190,6 @@ function loadMe(){
                 if (elementClass && elementClass.indexOf(className) != -1 && hasClassName.test(elementClass))
                     results.push(element);
             }
-
             return results;
         }
     }
