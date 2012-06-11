@@ -37,9 +37,9 @@ if (empty($_SESSION['count'])) {
             $kcval = 1;
             $tival = 'infty';
             $tdval = 0;
-            $psval = "[1 1]";
-            $qsval = "[.1 5 1]";
-            $delayval = 0.01;
+            $psval = "[1]";
+            $qsval = "[2   7   9   5   1]";
+            $delayval = 0.0;
             $amplitude = 1;
             $selectInputSignal = "1";
             $freq = 100;
