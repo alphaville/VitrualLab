@@ -1,6 +1,5 @@
 function s = polyadd(p,q)
 %POLYADD adds two polynomials
-        
         np=length(p);
         nq=length(q);
         if (np>=nq)

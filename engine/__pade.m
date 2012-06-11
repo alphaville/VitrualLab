@@ -13,6 +13,9 @@ function [E F] = __pade(delay,n,m)
 		elseif (n==3 && m==3)
 			E=[delay^3/120 delay^2/10 delay/2 1];
 			F=[-delay^3/120 delay^2/10 -delay/2 1];
+                elseif (n==1 && m==1)
+                        E=[0.5*delay 1];
+                        F=[-0.5*delay 1];
 		end
 	end
 end

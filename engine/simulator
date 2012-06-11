@@ -148,15 +148,17 @@ end
 
 try
 	if (closed_loop==1)
-	[E F] = __pade(delay,3,3);
-	firstProduct=conv(conv(conv(P,Pc),Pf),E);% P Pc Pf E
-	denomProduct=conv(conv(conv(conv(Q,Qf),Qc),Qm),F);
-	P_=conv(firstProduct,Qm);% numerator = P Pc Pf E Qm
-	Qcl_2=conv(firstProduct,Pm);
-	Q_=polyadd(Qcl_2, denomProduct);
+		%Closed-loop transfer function
+		[E F] = __pade(delay,1,1);
+		f=conv(conv(conv(P,Pc),Pf),E);% f = P Pc Pf E
+		d1=conv(conv(conv(Q,Qc),Qf),F);% d1 = Q Qc Qf F
+		d2=conv(f,Pm);% d2 = f Pm = P Pc Pf E Pm
+		Q_=polyadd(d1,d2); % Q=d1+d2
+		P_=f;
 	else
-	P_ = conv(conv(conv(P,Pc),Pm),Pf);
-	Q_ = conv(conv(conv(Q,Qc),Qm),Qf);
+		%Open-loop transfer function
+		P_ = conv(conv(conv(P,Pc),Pm),Pf);
+		Q_ = conv(conv(conv(Q,Qc),Qm),Qf);
 	end
 	
 	% Transfer Function Calculation
