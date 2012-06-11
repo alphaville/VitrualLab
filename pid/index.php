@@ -131,16 +131,14 @@ if (empty($_SESSION['count'])) {
                             </TR>
                         </table>
                     </form>
-                    <div>
-                        <div id="response_results" style="display:none">
-                            <div id="placeholder" style="width:95%;height:300px;margin-left:20px;margin-top:20px"></div>
-                            <p id="hoverdata" style="font-size: smaller;font-style: italic">Position of the mouse: 
-                                (
-                                <span id="x">0</span>, 
-                                <span id="y">0</span>).
-                            </p>                        
-                            <div id="bode_mag" style="width:95%;height:300px;margin-left:20px;margin-top:20px"></div>
-                        </div>
+                    <div id="response_results" style="display:none">
+                        <div id="placeholder" style="width:95%;height:300px;margin-left:20px;margin-top:20px"></div>
+                        <p id="hoverdata" style="font-size: smaller;font-style: italic">Position of the mouse: 
+                            (
+                            <span id="x">0</span>, 
+                            <span id="y">0</span>).
+                        </p>                        
+                        <div id="bode_mag" style="width:95%;height:300px;margin-left:20px;margin-top:20px"></div>
                     </div>
                 </div>
                 <div class="footer" id="footer">
