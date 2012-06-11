@@ -148,7 +148,7 @@ end
 
 try
 	if (closed_loop==1)
-	[E F] = __pade(delay);
+	[E F] = __pade(delay,3,3);
 	firstProduct=conv(conv(conv(P,Pc),Pf),E);% P Pc Pf E
 	denomProduct=conv(conv(conv(conv(Q,Qf),Qc),Qm),F);
 	P_=conv(firstProduct,Qm);% numerator = P Pc Pf E Qm
