@@ -4,6 +4,9 @@
     margin-bottom:8px;	
 }
 
+#bodeplaceholder .legendLabel{
+    width: 100px;
+}
 .bodeBox,.nyqBox{
     margin-left:auto;
     margin-right:auto;

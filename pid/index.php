@@ -23,6 +23,7 @@ if (empty($_SESSION['count'])) {
         <script type='text/javascript' src="/flot/jquery.min.js"></script>
         <script type='text/javascript' src="/flot/jquery.flot.min.js"></script>
         <script type='text/javascript' src="/flot/jquery.flot.selection.min.js"></script>
+        <script type='text/javascript' src="/flot/jquery.flot.crosshair.min.js"></script>
         <link rel="shortcut icon" href="/vlab/favicon.ico" type="image/x-icon" >   
         <link href="/rss/feed.php" rel="alternate" type="application/rss+xml" title="RSS 2.0" />
         <link href="/rss/feed.php" rel="alternate" type="application/atom+xml" title="Atom 1.0" />
@@ -132,13 +133,15 @@ if (empty($_SESSION['count'])) {
                         </table>
                     </form>
                     <div id="response_results" style="display:none">
+                        <p style="font-weight: bold;text-align: center">Response Curve</p>
                         <div id="placeholder" style="width:95%;height:300px;margin-left:20px;margin-top:20px"></div>
                         <p id="hoverdata" style="font-size: smaller;font-style: italic">Position of the mouse: 
                             (
                             <span id="x">0</span>, 
                             <span id="y">0</span>).
                         </p>                        
-                        <div id="bode_mag" style="width:95%;height:300px;margin-left:20px;margin-top:20px"></div>
+                        <p style="font-weight: bold;text-align: center">Bode Diagram</p>
+                        <div id="bodeplaceholder" style="width:95%;height:300px;margin-left:20px;margin-top:20px"></div>
                     </div>
                 </div>
                 <div class="footer" id="footer">
