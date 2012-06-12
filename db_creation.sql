@@ -18,7 +18,7 @@ CREATE TABLE `people` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 LOCK TABLE `people` WRITE;
 INSERT INTO `people` (`id`,`fn`,`ln`,`email`,`pwd_hash_md5`,`role`,`authorization_key`) VALUES 
- ('admin','Haralambos','Sarimveis','hsarimv@central.ntua.gr','4297f44b13955235245b2497399d7a93',11,md5(rand())),
+ ('admin','Haralambos','Sarimveis','hsarimv@central.ntua.gr','c1be912ff391bfc06c9b234cc74033e3',11,md5(rand())),
  ('chung','Pantelis','Sopasakis','chvng@mail.ntua.gr','4206676c5dbf6287a9ee578b0211bb84',10,md5(rand())),
 ('everybody','EveryBody','','everybody@mail.vlab.org','no pass',-1,md5(rand()));
 UNLOCK TABLE ;

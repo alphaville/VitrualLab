@@ -91,6 +91,7 @@ function display_bode(response_data){
     }).done(function(data){
         var d2 = [];
         var dp = [];
+        var plot;
         log_omega = data.bode.log_omega;    
         magnitude = data.bode.magnitude;       
         phase= data.bode.phase;       
@@ -98,25 +99,66 @@ function display_bode(response_data){
             d2.push([log_omega[i], magnitude[i]]);
             dp.push([log_omega[i], phase[i]]);
         }        
+        
         var options_bode = {
-            series: {lines: {show: true},points: {show: false}},
+            series: {lines: {show: true}},
             legend: {noColumns: 1},
             yaxes: [ { min: 0 },{alignTicksWithAxis: 1,position: "right"} ],
-            grid: {hoverable: true, clickable: true},
-            selection: {mode: "x"}
+            crosshair: { mode: "x" },
+            grid: { hoverable: true, autoHighlight: false }
         };
-    
-        var bode_plot_placeholder = $("#bode_mag");
-        var bode_plot = $.plot(bode_plot_placeholder, [{
+            
+        var bode_plot_placeholder = $("#bodeplaceholder");
+        plot = $.plot(bode_plot_placeholder, [{
             data:d2,  
-            label:'Bode Magnitude',
+            label:'M(w) = -0.0',
             color:'red'
         },{
             data:dp,  
-            label:'Bode Phase',
+            label:'Arg(w) = -0.0',
             yaxis: 2,color:'green'
         }],options_bode);
-        bode_plot.draw();        
+        plot.draw();        
+    
+        var legends = $("#bodeplaceholder .legendLabel");
+        var updateLegendTimeout = null;
+        var latestPosition = null;
+    
+        function updateLegend() {
+            updateLegendTimeout = null;
+            var pos = latestPosition;
+            var axes = plot.getAxes();
+            if (pos.x < axes.xaxis.min || pos.x > axes.xaxis.max ||
+                pos.y < axes.yaxis.min || pos.y > axes.yaxis.max)
+                return;
+
+            var i, j, dataset = plot.getData();
+            for (i = 0; i < dataset.length; ++i) {
+                var series = dataset[i];
+
+                // find the nearest points, x-wise
+                for (j = 0; j < series.data.length; ++j)
+                    if (series.data[j][0] > pos.x)
+                        break;
+
+                // now interpolate
+                var y, p1 = series.data[j - 1], p2 = series.data[j];
+                if (p1 == null)
+                    y = p2[1];
+                else if (p2 == null)
+                    y = p1[1];
+                else
+                    y = p1[1] + (p2[1] - p1[1]) * (pos.x - p1[0]) / (p2[0] - p1[0]);
+                legends.eq(i).text(series.label.replace(/=.*/, "= " + y.toFixed(3)));
+            }
+        }
+        
+        $("#bodeplaceholder").bind("plothover", function (event, pos, item) {
+            latestPosition = pos;
+            if (!updateLegendTimeout)
+                updateLegendTimeout = setTimeout(updateLegend, 50);
+        });
+        
     });
 }
 
@@ -136,6 +178,7 @@ function run_engine(){
     sim_points=$('#simpoints').val();   
     delay=$("#delay").val();
     closed_loop = !$("#open").is(':checked');
+    do_bode = $("#bode").is(':checked');
     excitation= $('#selectInputSignal option:selected').text().trim().toLowerCase();
     frequency=$("#freq").val();
     // Calculate the transfer function of the controller (num+den).
@@ -170,7 +213,7 @@ function run_engine(){
         success: function() {}
     }).done(function(data){        
         display_response(data);
-        display_bode(data);
+        if (do_bode){display_bode(data);}        
     });
     
     
