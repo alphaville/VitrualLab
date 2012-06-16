@@ -21,7 +21,7 @@ if ($lang == NULL) {
 $P1 = rand(-1000, 1000) / 100; //coefficient of s in P
 $Q1 = rand(-2000, 2000) / 1000; //coefficient of s in Q
 $Q2 = rand(-100, 100) / 1000; //coefficient of s2 in Q
-$delay = rand(0, 1000) / 1000;
+$delay = rand(0, 1000) / 4000;
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd" 
     >    
@@ -32,15 +32,17 @@ $delay = rand(0, 1000) / 1000;
         <meta name="description" content="Online automatic control lab." >
         <meta name="author" content="Pantelis Sopasakis">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
-        <script type='text/javascript' src="/chung.js"></script>
-        <script type='text/javascript' src="/ga.js"></script>
-        <script type='text/javascript' src="/jquery.js"></script>
+        <script type='text/javascript' src="/chung.js"></script>   
+        <script type='text/javascript' src="../ga.js"></script>   
+        <script type='text/javascript' src="/flot/jquery.min.js"></script>
+        <script type='text/javascript' src="/flot/jquery.flot.min.js"></script>
+        <script type='text/javascript' src="/flot/jquery.flot.selection.min.js"></script>
+        <script type='text/javascript' src="/flot/jquery.flot.crosshair.min.js"></script>
         <link rel="stylesheet" type="text/css" href="/style.css" >
         <link rel="shortcut icon" href="/vlab/favicon.ico" type="image/x-icon" />
         <link href="/rss/feed.php" rel="alternate" type="application/rss+xml" title="RSS 2.0" />
         <link href="/rss/feed.php" rel="alternate" type="application/atom+xml" title="Atom 1.0" />
         <script type="text/javascript" src="../tooltip/script.js"></script>
-        <script type='text/javascript' src="../chung.js"></script>
         <link rel="stylesheet" type="text/css" href="../tooltip/style.css" >
     </head>
     <body id="body" onload="loadMe();">
@@ -95,7 +97,8 @@ $delay = rand(0, 1000) / 1000;
                         Q(s)=1<? echo ($Q1 < 0 ? "-" : "+") . "" . abs($Q1); ?>s<? echo ($Q2 < 0 ? "-" : "+") . "" . abs($Q2); ?>s<sup>2</sup>.
                         The delay is t<sub>d</sub>=<? echo $delay; ?>. The measuring element does not affect the dynamics and
                         it can be considered to have G<sub>f</sub>(s)=1.
-                        You may use the <a href="/pid" target="_blank" >PID workbench</a> of VLAB to tune a PID controller for this system.
+                        You may use the <a href="/pid?kc=1&ti=infty&td=0&p=[<? echo $P1; ?> 1]&q=[<? echo $Q2; ?> <? echo $Q1; ?> 1]
+                                           &delay=<? echo $delay; ?>" target="_blank" >PID workbench</a> of VLAB to tune a PID controller for this system.
                         Once you have completed the tuning, enter your result in the form below and click next:
                     </p>
                     <div class="cl"></div>
@@ -109,7 +112,7 @@ $delay = rand(0, 1000) / 1000;
                                 <td>
                                     <span class="hotspot" onmouseover="tooltip.show('<strong>K<sub>c</sub></strong> is the static gain of the PID controller.');" onmouseout="tooltip.hide();">K<sub>c</sub></span>
                                 </td>
-                                <td><input class="normal" type="text"  name="Kp" id="Kp" onkeyup="return checkNumeric(this);" ></td>
+                                <td><input class="normal" type="text"  name="Kc" id="Kc" onkeyup="return checkNumeric(this);" ></td>
                             </tr>
                             <tr>
                                 <td>
@@ -117,7 +120,7 @@ $delay = rand(0, 1000) / 1000;
                                           onmouseover="tooltip.show('<strong>T<sub>i</sub></strong> is the intergral time of the PID controller.');" 
                                           onmouseout="tooltip.hide();">T<sub>i</sub></span>
                                 </td>
-                                <td><input class="normal" type="text" name="Ti" id="Kp" onkeyup="return checkNumeric(this);" ></td>
+                                <td><input class="normal" type="text" name="ti" id="ti" onkeyup="return checkNumeric(this);" ></td>
                             </tr>
                             <tr>
                                 <td>
@@ -125,7 +128,7 @@ $delay = rand(0, 1000) / 1000;
                                           onmouseover="tooltip.show('<strong>T<sub>d</sub></strong> is the differential time of the PID controller.');" 
                                           onmouseout="tooltip.hide();">T<sub>d</sub></span>
                                 </td>
-                                <td><input class="normal" type="text"  name="Kp" id="Kp" onkeyup="return checkNumeric(this);" ></td>
+                                <td><input class="normal" type="text"  name="td" id="td" onkeyup="return checkNumeric(this);" ></td>
                             </tr>
                         </table>
                     </div>
@@ -133,13 +136,16 @@ $delay = rand(0, 1000) / 1000;
                     <p lang="<? echo $lang; ?>" style="font-size: smaller;font-style: italic">
                         Perform a simulation of the step-response of the closed-loop system.
                     </p>
-                    <input type="submit" value="Simulate" onclick="simulate();">
-                    
+                    <input type="submit" value="Simulate" onclick="simulate(<?echo $P1.",".$Q1.",".$Q2.",".$delay;?>);">                    
+                    <div id="response_results" style="display:none">
+                        <p style="font-weight: bold;text-align: center">Response Curve</p>
+                        <div id="placeholder" style="width:95%;height:300px;margin-left:20px;margin-top:20px"></div>
+                    </div>
                 </div>
-            </div>
-            <div class="footer" id="footer">
-                <? include('/footer.php') ?>
-            </div>
+                <div class="footer" id="footer">
+                    <? include('../footer.php') ?>
+                </div>
+            </div>            
         </div>
     </body>
 </html>

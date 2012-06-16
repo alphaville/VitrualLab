@@ -63,10 +63,10 @@ function display_bode(response_data){
     // Bode Plot:
     P_ = '['+response_data.response.P_+']';
     Q_ = '['+response_data.response.Q_+']';
-    alert("P="+P_+"\nQ="+Q_);
+//    alert("P="+P_+"\nQ="+Q_);
     var bodeUrl = '/engine/smt6565.php?id=example&write_to_file=0&P='+encodeURIComponent(P_)+'&Q='+
     encodeURIComponent(Q_)+'&delay='+response_data.response.delay+
-    '&sim_points=1500&sim_log_range='+encodeURIComponent('[-2 4]');    
+    '&sim_points=700&sim_log_range='+encodeURIComponent('[-2 4]');    
     $.ajax({        
         url: bodeUrl,
         type: 'GET',
@@ -92,8 +92,7 @@ function display_bode(response_data){
         var options_bode = {
             series: {lines: {show: true}},
             legend: {noColumns: 1,backgroundOpacity:0.6},
-            yaxes: [ {transform: function (v) {return Math.pow(10,v);},
-                      inverseTransform: function (v) {return Math.log(v)/Math.LN10;}},
+            yaxes: [ {},
                   {alignTicksWithAxis: 1,position: "right", tickFormatter: 
                           function(v,axis){return v.toFixed(axis.tickDecimals) +"rad";}} ],
             crosshair: {mode: "x"},
@@ -105,11 +104,7 @@ function display_bode(response_data){
             data:data_magnitude,  
             label:'log M(w) = -0.000',
             color:'red'
-        },{
-            data:data_phase,  
-            label:'Arg(w) = -0.00',
-            yaxis: 2,color:'green'
-        }],options_bode);
+        },{data:data_phase,  label:'Arg(w) = -0.00', yaxis: 2,color:'green'}],options_bode);
         plot.draw();           
     
         var legends = $("#bodeplaceholder .legendLabel");
@@ -127,22 +122,13 @@ function display_bode(response_data){
             var i, j, dataset = plot.getData();
             for (i = 0; i < dataset.length; ++i) {
                 var series = dataset[i];
-
-                // find the nearest points, x-wise
                 for (j = 0; j < series.data.length; ++j)
-                    if (series.data[j][0] > pos.x)
-                        break;
-
-                // now interpolate
+                    if (series.data[j][0] > pos.x){break;}
                 var y, p1 = series.data[j - 1], p2 = series.data[j];
-                if (p1 == null)
-                    y = p2[1];
-                else if (p2 == null)
-                    y = p1[1];
-                else
-                    y = p1[1] + (p2[1] - p1[1]) * (pos.x - p1[0]) / (p2[0] - p1[0]);
+                if (p1 == null){y = p2[1];}else if (p2 == null){y = p1[1];}
+                else{y = p1[1] + (p2[1] - p1[1]) * (pos.x - p1[0]) / (p2[0] - p1[0]);}
                 if (i==0){
-                    legends.eq(i).text(series.label.replace(/=.*/, "= " + (Math.log(y)/Math.LN10).toFixed(3)));
+                    legends.eq(i).text(series.label.replace(/=.*/, "= " + (Math.log(y)/Math.LN10).toFixed(3)));                
                 }else{
                     legends.eq(i).text(series.label.replace(/=.*/, "= " + y.toFixed(2)));
                     $("#w_freq").text(Math.pow(10,p1[0]).toFixed(3));
@@ -215,11 +201,9 @@ function run_engine(){
         success: function() {}
     }).done(function(data){        
         display_response(data);
-        if (do_bode){display_bode(data);}        
-    });
-    
-    
-};
+        if (do_bode){display_bode(data);}else{document.getElementById('bodewrapper').style.display='none';}    
+    });  
+}
 
 function loadMe(){
     if (document.getElementsByClassName == undefined) {
@@ -238,6 +222,50 @@ function loadMe(){
             return results;
         }
     }
+}
+
+function simulate(p1,q1,q2,delay){
+    //TODO: replace with 'response_results''
+    var responseResultsDiv = document.getElementById('response_results');
+    responseResultsDiv.style.display='none';
+
+    // Read parameters provided by the user
+    P='['+p1+" 1]";
+    Q='['+q2+' '+q1+' 1]';
+    Kc=$("#Kc").val();
+    ti=$("#ti").val();
+    td=$("#td").val();
+    horizon='auto';
+    sim_points='auto';   
+    closed_loop = 1;
+    excitation=1;
+    if (ti=='infty'){
+        if (td!=0){
+            Pc="["+(Kc*td)+" "+Kc+"]";
+        }else{
+            Pc="["+Kc+"]";
+        }
+        Qc="[1]";        
+    }else{
+        Pc="["+(td!=0?(Kc*ti*td):"")+" "+(Kc*ti) + " "+Kc+"]";
+        Qc="["+ti+" 0]";
+    }
+    var myurl = '/engine/smt9901.php?id=example&write_to_file=1&P='+encodeURIComponent(P)+'&Q='+
+    encodeURIComponent(Q)+'&Pm=1&Qm=1&Pf=1&Qf=1&Pc='+encodeURIComponent(Pc)+'&Qc='+
+    encodeURIComponent(Qc)+'&delay='+delay+"&closed_loop=1&excitation=step";
+    alert(myurl);
+    // Perform request against the WS
+    $.ajax({        
+        url: myurl,
+        type: 'GET',
+        error: function() {
+            alert('WS Failure!!!\n Please contact the system admins.');
+            done();
+        },
+        success: function() {}
+    }).done(function(data){        
+        display_response(data);
+    });  
 }
 // Check whether variable is OK
 function checkNumeric(inputElement){
