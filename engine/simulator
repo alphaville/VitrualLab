@@ -149,7 +149,7 @@ end
 try
 	if (closed_loop==1)
 		%Closed-loop transfer function
-		[E F] = __pade(delay,1,1);
+		[E F] = __pade(delay,3,4);
 		f=conv(conv(conv(P,Pc),Pf),E);% f = P Pc Pf E
 		d1=conv(conv(conv(Q,Qc),Qf),F);% d1 = Q Qc Qf F
 		d2=conv(f,Pm);% d2 = f Pm = P Pc Pf E Pm

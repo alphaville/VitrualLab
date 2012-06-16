@@ -20,6 +20,10 @@ for index=1:nargin
 	write_to_file=str2num(arg_list{++index});
     elseif strcmp(temp,"-delay")
 	delay=str2num(arg_list{++index});
+    elseif strcmp(temp,"-id")
+	id=arg_list{++index};
+    elseif strcmp(temp,"-write_to_file")
+	write_to_file=str2num(arg_list{++index});
     end
 end
 
@@ -47,8 +51,12 @@ for i=log_omega
 	j++;
 end
 
-__bode = struct('log_omega',log_omega,'phase',phase,'magnitude',magnitude);
+__bode = struct('log_omega',log_omega,'phase',phase,'magnitude',magnitude,"success",1,"P",P,"Q",Q);
 json = savejson('bode',__bode);
 disp(json);
 
-
+if (write_to_file==1)
+  fid = fopen([id '.json'], 'w');
+  fdisp(fid, json);
+  fclose(fid);
+end
