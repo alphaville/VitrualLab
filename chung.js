@@ -27,24 +27,10 @@ function display_response(data){
         d1.push([time[i], y[i]]);
     }        
     var options = {
-        series: {
-            lines: {
-                show: true
-            },
-            points: {
-                show: false
-            }
-        },
-        legend: {
-            noColumns: 2
-        },
-        grid: {
-            hoverable: true, 
-            clickable: true
-        },
-        selection: {
-            mode: "x"
-        }
+        series: {lines: {show: true},points: {show: false}},
+        legend: {noColumns: 2,backgroundOpacity:0.6},
+        grid: {hoverable: true, clickable: true},
+        selection: {mode: "x"}
     };    
     var placeholder = $("#placeholder");
     // React to plot selection
@@ -72,12 +58,15 @@ function display_response(data){
 }
 
 function display_bode(response_data){
+    var bodeplaceholder = document.getElementById('bodeplaceholder');
+    bodeplaceholder.style.display = 'none';
     // Bode Plot:
     P_ = '['+response_data.response.P_+']';
     Q_ = '['+response_data.response.Q_+']';
-//    alert("P="+P_+"\nQ="+Q_);
+    alert("P="+P_+"\nQ="+Q_);
     var bodeUrl = '/engine/smt6565.php?id=example&write_to_file=0&P='+encodeURIComponent(P_)+'&Q='+
-    encodeURIComponent(Q_)+'&delay='+response_data.response.delay+'&sim_points=800&sim_log_range='+encodeURIComponent('[-2 3]');    
+    encodeURIComponent(Q_)+'&delay='+response_data.response.delay+
+    '&sim_points=1500&sim_log_range='+encodeURIComponent('[-2 4]');    
     $.ajax({        
         url: bodeUrl,
         type: 'GET',
@@ -89,36 +78,39 @@ function display_bode(response_data){
         //alert('SUCCESS');
         }
     }).done(function(data){
-        var d2 = [];
-        var dp = [];
+        var data_magnitude = [];
+        var data_phase = [];
         var plot;
         log_omega = data.bode.log_omega;    
         magnitude = data.bode.magnitude;       
-        phase= data.bode.phase;       
+        phase= data.bode.phase;   
         for (var i = 0; i < log_omega.length; i += 1){
-            d2.push([log_omega[i], magnitude[i]]);
-            dp.push([log_omega[i], phase[i]]);
+            data_magnitude.push([log_omega[i], magnitude[i]]);
+            data_phase.push([log_omega[i], phase[i]]);
         }        
         
         var options_bode = {
             series: {lines: {show: true}},
-            legend: {noColumns: 1},
-            yaxes: [ { min: 0 },{alignTicksWithAxis: 1,position: "right"} ],
-            crosshair: { mode: "x" },
-            grid: { hoverable: true, autoHighlight: false }
+            legend: {noColumns: 1,backgroundOpacity:0.6},
+            yaxes: [ {transform: function (v) {return Math.pow(10,v);},
+                      inverseTransform: function (v) {return Math.log(v)/Math.LN10;}},
+                  {alignTicksWithAxis: 1,position: "right", tickFormatter: 
+                          function(v,axis){return v.toFixed(axis.tickDecimals) +"rad";}} ],
+            crosshair: {mode: "x"},
+            grid: {hoverable: true, autoHighlight: false}
         };
             
         var bode_plot_placeholder = $("#bodeplaceholder");
         plot = $.plot(bode_plot_placeholder, [{
-            data:d2,  
-            label:'M(w) = -0.0',
+            data:data_magnitude,  
+            label:'log M(w) = -0.000',
             color:'red'
         },{
-            data:dp,  
-            label:'Arg(w) = -0.0',
+            data:data_phase,  
+            label:'Arg(w) = -0.00',
             yaxis: 2,color:'green'
         }],options_bode);
-        plot.draw();        
+        plot.draw();           
     
         var legends = $("#bodeplaceholder .legendLabel");
         var updateLegendTimeout = null;
@@ -149,7 +141,12 @@ function display_bode(response_data){
                     y = p1[1];
                 else
                     y = p1[1] + (p2[1] - p1[1]) * (pos.x - p1[0]) / (p2[0] - p1[0]);
-                legends.eq(i).text(series.label.replace(/=.*/, "= " + y.toFixed(3)));
+                if (i==0){
+                    legends.eq(i).text(series.label.replace(/=.*/, "= " + (Math.log(y)/Math.LN10).toFixed(3)));
+                }else{
+                    legends.eq(i).text(series.label.replace(/=.*/, "= " + y.toFixed(2)));
+                    $("#w_freq").text(Math.pow(10,p1[0]).toFixed(3));
+                }
             }
         }
         
@@ -160,6 +157,7 @@ function display_bode(response_data){
         });
         
     });
+    bodeplaceholder.style.display = 'block';
 }
 
 function run_engine(){        
@@ -183,10 +181,14 @@ function run_engine(){
     frequency=$("#freq").val();
     // Calculate the transfer function of the controller (num+den).
     if (ti=='infty'){
-        Pc="["+(Kc*td)+" "+Kc+"]";
-        Qc="[1]";
+        if (td!=0){
+            Pc="["+(Kc*td)+" "+Kc+"]";
+        }else{
+            Pc="["+Kc+"]";
+        }
+        Qc="[1]";        
     }else{
-        Pc="["+(Kc*ti*td)+" "+(Kc*ti) + " "+Kc+"]";
+        Pc="["+(td!=0?(Kc*ti*td):"")+" "+(Kc*ti) + " "+Kc+"]";
         Qc="["+ti+" 0]";
     }
     var myurl = '/engine/smt9901.php?id=example&write_to_file=1&P='+encodeURIComponent(P)+'&Q='+
