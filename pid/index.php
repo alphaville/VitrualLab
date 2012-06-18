@@ -5,6 +5,10 @@ if (empty($_SESSION['count'])) {
 } else {
     $_SESSION['count']++;
 }
+function _default_($paramName,$def){
+    $fromUrl = $_GET[$paramName];
+    return $fromUrl?urldecode($fromUrl):$def;
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -33,22 +37,19 @@ if (empty($_SESSION['count'])) {
         <?
         include('../global.php');
         include('./constants.php');
-        if ($_POST == NULL) {
-            $open = 0;
-            $kcval = 1;
-            $tival = 'infty';
-            $tdval = 0;
-            $psval = "[1]";
-            $qsval = "[2   7   9   5   1]";
-            $delayval = 0.0;
-            $amplitude = 1;
-            $selectInputSignal = "1";
-            $freq = 100;
-            $bode = "1";
-            $simpoints = "auto";
-            $horizon = "auto";
-            $axes = "auto";
-        }
+        $open = _default_('open',0);
+        $kcval = _default_('kc',1);
+        $tival = _default_('ti',infty);
+        $tdval = _default_('td',0);
+        $psval = _default_('p','[1]');
+        $qsval = _default_('q','[2   7   9   5   1]');
+        $delayval = _default_('delay','0');
+        $amplitude = _default_('amplitude',1);
+        $selectInputSignal = _default_('inputsignal','1');
+        $freq = _default_('frequency',100);
+        $bode = _default_('bode',1);
+        $simpoints = _default_('simpoints','auto');
+        $horizon = _default_('horizon','auto');
         $image = $open == "1" ? 'PIDS2.png' : 'PIDS.png';
         ?>
         <div id="wrap">
@@ -140,8 +141,11 @@ if (empty($_SESSION['count'])) {
                             <span id="x">0</span>, 
                             <span id="y">0</span>).
                         </p>                        
+                        <div id="bodewrapper">
                         <p style="font-weight: bold;text-align: center">Bode Diagram</p>
                         <div id="bodeplaceholder" style="width:95%;height:300px;margin-left:20px;margin-top:20px"></div>
+                        <div style="font-size: smaller;font-style: italic">Frequency: <span id="w_freq">-00.000</span>Hz</div>
+                        </div>
                     </div>
                 </div>
                 <div class="footer" id="footer">
