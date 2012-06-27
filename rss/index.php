@@ -49,8 +49,8 @@ function genRandomString($length) {
         <script type='text/javascript' src='./account_utils.js' ></script>
         <script type="text/javascript" src="../ckeditor/ckeditor.js"></script>
         <link rel="shortcut icon" href="/vlab/favicon.ico" type="image/x-icon" >
-        <link href="/rss/feed.php" rel="alternate" type="application/rss+xml" title="RSS 2.0" />
-        <link href="/rss/feed.php" rel="alternate" type="application/atom+xml" title="Atom 1.0" />
+        <link href="<?echo $FEED_RSS;?>" rel="alternate" type="application/rss+xml" title="RSS 2.0" >
+        <link href="<?echo $FEED_ATOM;?>" rel="alternate" type="application/atom+xml" title="Atom 1.0" >
     </head>
     <body id="body" onload="loadMe();">    
 
@@ -88,9 +88,8 @@ function genRandomString($length) {
                                     '" . mysql_real_escape_string($_POST['rssguid']) . "',
                                         '" . mysql_real_escape_string($_POST['rssauthor']) . "', 
                                         '" . $_POST['rssdescription'] . "', '" .
-                                    mysql_real_escape_string($lang) . "')";
-                            echo $rsslink;
-                            echo mysql_query($query);
+                                    mysql_real_escape_string($lang) . "')";                            
+                            mysql_query($query);
                         }
                         mysql_close($con);
                         echo '<h1>News Added!</h1>';
