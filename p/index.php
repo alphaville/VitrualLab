@@ -5,6 +5,7 @@ if (empty($_SESSION['count'])) {
 } else {
     $_SESSION['count']++;
 }
+include("../global.php");
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd" 
     >
@@ -19,8 +20,8 @@ if (empty($_SESSION['count'])) {
         <script type='text/javascript' src='../chung.js' ></script>
         <script type='text/javascript'></script>
         <link rel="shortcut icon" href="/vlab/favicon.ico" type="image/x-icon" >
-        <link href="/rss/feed.php" rel="alternate" type="application/rss+xml" title="RSS 2.0" />
-        <link href="/rss/feed.php" rel="alternate" type="application/atom+xml" title="Atom 1.0" />
+        <link href="<?echo $FEED_RSS;?>" rel="alternate" type="application/rss+xml" title="RSS 2.0" >
+        <link href="<?echo $FEED_ATOM;?>" rel="alternate" type="application/atom+xml" title="Atom 1.0" >
     </head>
     <body id="body" onload="loadMe();">    
         <?include('../global.php');?>

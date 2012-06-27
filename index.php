@@ -32,8 +32,8 @@ if ($lang == NULL) {
         <meta name="rights" content="GNU GPL version 3" />
         <link rel="stylesheet" type="text/css" href="./style.css" >
         <link rel="shortcut icon" href="/vlab/favicon.ico" type="image/x-icon" />
-        <link href="/rss/feed.php" rel="alternate" type="application/rss+xml" title="RSS 2.0" />
-        <link href="/rss/feed.php" rel="alternate" type="application/atom+xml" title="Atom 1.0" />
+        <link href="<?echo $FEED_RSS;?>" rel="alternate" type="application/rss+xml" title="RSS 2.0" />
+        <link href="<?echo $FEED_ATOM;?>" rel="alternate" type="application/atom+xml" title="Atom 1.0" />
     </head>
     <body id="body" onload="loadMe();">
         <div id="wrap">
