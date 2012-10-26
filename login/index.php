@@ -86,7 +86,8 @@ include('../global.php');
                              style="width: 420px;margin-left: 100px;border:yellowgreen;
                              padding-top: 12px;padding-left:12px;padding-right:12px;
                              padding-bottom: 5px;border: 1px dashed #666;">
-                            <form method="POST" action="profile.php?what=member" >
+                            <?$redirect=$_GET["redirect"];$doredirect = isset($redirect);?>
+                            <form method="POST" action="profile.php?what=member<?if ($doredirect){echo '&redirect='.$redirect;}?>" >
                                 <table >
                                     <tr>
                                         <td><em>Username</em></td><td><input type="text" name="un"></td>
