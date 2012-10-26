@@ -27,10 +27,25 @@ function display_response(data){
         d1.push([time[i], y[i]]);
     }        
     var options = {
-        series: {lines: {show: true},points: {show: false}},
-        legend: {noColumns: 2,backgroundOpacity:0.6},
-        grid: {hoverable: true, clickable: true},
-        selection: {mode: "x"}
+        series: {
+            lines: {
+                show: true
+            },
+            points: {
+                show: false
+            }
+        },
+        legend: {
+            noColumns: 2,
+            backgroundOpacity:0.6
+        },
+        grid: {
+            hoverable: true, 
+            clickable: true
+        },
+        selection: {
+            mode: "x"
+        }
     };    
     var placeholder = $("#placeholder");
     // React to plot selection
@@ -63,7 +78,7 @@ function display_bode(response_data){
     // Bode Plot:
     P_ = '['+response_data.response.P_+']';
     Q_ = '['+response_data.response.Q_+']';
-//    alert("P="+P_+"\nQ="+Q_);
+    //    alert("P="+P_+"\nQ="+Q_);
     var bodeUrl = '/engine/smt6565.php?id=example&write_to_file=0&P='+encodeURIComponent(P_)+'&Q='+
     encodeURIComponent(Q_)+'&delay='+response_data.response.delay+
     '&sim_points=700&sim_log_range='+encodeURIComponent('[-2 4]');    
@@ -90,13 +105,31 @@ function display_bode(response_data){
         }        
         
         var options_bode = {
-            series: {lines: {show: true}},
-            legend: {noColumns: 1,backgroundOpacity:0.6},
+            series: {
+                lines: {
+                    show: true
+                }
+            },
+            legend: {
+                noColumns: 1,
+                backgroundOpacity:0.6
+            },
             yaxes: [ {},
-                  {alignTicksWithAxis: 1,position: "right", tickFormatter: 
-                          function(v,axis){return v.toFixed(axis.tickDecimals) +"rad";}} ],
-            crosshair: {mode: "x"},
-            grid: {hoverable: true, autoHighlight: false}
+            {
+                alignTicksWithAxis: 1,
+                position: "right", 
+                tickFormatter: 
+                function(v,axis){
+                    return v.toFixed(axis.tickDecimals) +"rad";
+                }
+            } ],
+            crosshair: {
+                mode: "x"
+            },
+            grid: {
+                hoverable: true, 
+                autoHighlight: false
+            }
         };
             
         var bode_plot_placeholder = $("#bodeplaceholder");
@@ -104,7 +137,12 @@ function display_bode(response_data){
             data:data_magnitude,  
             label:'log M(w) = -0.000',
             color:'red'
-        },{data:data_phase,  label:'Arg(w) = -0.00', yaxis: 2,color:'green'}],options_bode);
+        },{
+            data:data_phase,  
+            label:'Arg(w) = -0.00', 
+            yaxis: 2,
+            color:'green'
+        }],options_bode);
         plot.draw();           
     
         var legends = $("#bodeplaceholder .legendLabel");
@@ -123,10 +161,18 @@ function display_bode(response_data){
             for (i = 0; i < dataset.length; ++i) {
                 var series = dataset[i];
                 for (j = 0; j < series.data.length; ++j)
-                    if (series.data[j][0] > pos.x){break;}
+                    if (series.data[j][0] > pos.x){
+                        break;
+                    }
                 var y, p1 = series.data[j - 1], p2 = series.data[j];
-                if (p1 == null){y = p2[1];}else if (p2 == null){y = p1[1];}
-                else{y = p1[1] + (p2[1] - p1[1]) * (pos.x - p1[0]) / (p2[0] - p1[0]);}
+                if (p1 == null){
+                    y = p2[1];
+                }else if (p2 == null){
+                    y = p1[1];
+                }
+                else{
+                    y = p1[1] + (p2[1] - p1[1]) * (pos.x - p1[0]) / (p2[0] - p1[0]);
+                }
                 if (i==0){
                     legends.eq(i).text(series.label.replace(/=.*/, "= " + (Math.log(y)/Math.LN10).toFixed(3)));                
                 }else{
@@ -201,7 +247,11 @@ function run_engine(){
         success: function() {}
     }).done(function(data){        
         display_response(data);
-        if (do_bode){display_bode(data);}else{document.getElementById('bodewrapper').style.display='none';}    
+        if (do_bode){
+            display_bode(data);
+        }else{
+            document.getElementById('bodewrapper').style.display='none';
+        }    
     });  
 }
 
@@ -225,7 +275,6 @@ function loadMe(){
 }
 
 function simulate(p1,q1,q2,delay){
-    //TODO: replace with 'response_results''
     var responseResultsDiv = document.getElementById('response_results');
     responseResultsDiv.style.display='none';
 
@@ -253,20 +302,66 @@ function simulate(p1,q1,q2,delay){
     var myurl = '/engine/smt9901.php?id=example&write_to_file=1&P='+encodeURIComponent(P)+'&Q='+
     encodeURIComponent(Q)+'&Pm=1&Qm=1&Pf=1&Qf=1&Pc='+encodeURIComponent(Pc)+'&Qc='+
     encodeURIComponent(Qc)+'&delay='+delay+"&closed_loop=1&excitation=step";
-    alert(myurl);
     // Perform request against the WS
+    
+    var doSubmitInput = document.getElementById('doSubmit');
     $.ajax({        
         url: myurl,
         type: 'GET',
         error: function() {
-            alert('WS Failure!!!\n Please contact the system admins.');
+            alert('WS Failure!!!\n Please contact the system admins.');            
             done();
         },
-        success: function() {}
+        success: function() {            
+            doSubmitInput.style.display='block';
+        }
     }).done(function(data){        
+        if (!data.response.success){
+            if (!data.response.success){
+                doSubmitInput.style.display='none';
+            }
+        }
+        // Calculate a few things...
+        var dataArray = data.response.y;       
+        data['evaluation'] = new Object();
+        var lastVal = dataArray[dataArray.length-1];
+        var beforeLastVal = dataArray[dataArray.length-11];
+        var iqe = integrate(data.response.y,1,data.response.t[1]);
+        data['evaluation']['iqe'] = iqe;
+        data['evaluation']['max'] = Math.max.apply(null, dataArray);
+        data['evaluation']['ultimateValue'] = lastVal;
+        data['evaluation']['regulationDeviation'] = 1-lastVal;
+        data['evaluation']['stable'] = Math.abs((lastVal-beforeLastVal)/lastVal)<0.05;        
+        if (data.evaluation.stable){
+            $("#isStable").text("Most probably, yes").attr('style',"color:green");
+        }else{
+            $("#isStable").text("Unstable most likely").attr('style',"color:red");
+        }
+        $("#ultimateValue").text(lastVal.toPrecision(4));
+        $("#regDev").text(data.evaluation.regulationDeviation.toExponential(4));
+        $("#integral").text(iqe.toPrecision(5));
+        $("#max").text(data.evaluation.max.toPrecision(4));
+        $("#data").text(JSON.stringify(data));
         display_response(data);
     });  
 }
+
+function submit(){
+
+}
+
+/*
+ * Returns the integral of (y-setpoint) ^2
+ */
+function integrate(y,setpoint,dx){
+    var sum = Math.pow(y[0]-setpoint,2) + Math.pow(y[y.length - 1]-setpoint,2);
+    for (var i = 1; i <= y.length - 2; i++) {
+        sum = sum + 2* Math.pow(y[i]-setpoint,2);
+    }
+    sum = sum*dx/2;
+    return sum;
+}
+
 // Check whether variable is OK
 function checkNumeric(inputElement){
     var val = inputElement.value;
