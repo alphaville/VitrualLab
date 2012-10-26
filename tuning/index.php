@@ -157,7 +157,7 @@ function randomFloat($min, $max) {
                                 <td>
                                     <span class="hotspot" onmouseover="tooltip.show('<strong>K<sub>c</sub></strong> is the static gain of the PID controller.');" onmouseout="tooltip.hide();">K<sub>c</sub></span>
                                 </td>
-                                <td><input class="normal" type="text"  name="Kc" id="Kc" onkeyup="return checkNumeric(this);" ></td>
+                                <td><input class="normal" type="text"  value="1" name="Kc" id="Kc" onkeyup="return checkNumeric(this);" ></td>
                             </tr>
                             <tr>
                                 <td>
@@ -165,7 +165,7 @@ function randomFloat($min, $max) {
                                           onmouseover="tooltip.show('<strong>T<sub>i</sub></strong> is the intergral time of the PID controller.');" 
                                           onmouseout="tooltip.hide();">T<sub>i</sub></span>
                                 </td>
-                                <td><input class="normal" type="text" name="ti" id="ti" onkeyup="return checkNumeric(this);" ></td>
+                                <td><input class="normal" type="text" name="ti" value="1" id="ti" onkeyup="return checkNumeric(this);" ></td>
                             </tr>
                             <tr>
                                 <td>
@@ -173,7 +173,7 @@ function randomFloat($min, $max) {
                                           onmouseover="tooltip.show('<strong>T<sub>d</sub></strong> is the differential time of the PID controller.');" 
                                           onmouseout="tooltip.hide();">T<sub>d</sub></span>
                                 </td>
-                                <td><input class="normal" type="text"  name="td" id="td" onkeyup="return checkNumeric(this);" ></td>
+                                <td><input class="normal" type="text" value="0"  name="td" id="td" onkeyup="return checkNumeric(this);" ></td>
                             </tr>
                         </table>
                     </div>
@@ -235,8 +235,6 @@ function randomFloat($min, $max) {
 
                         <div id="submitReceipt" style="display:none;" >
                             <p lang="<? echo $lang; ?>" style="font-size: smaller;font-style: italic">
-                                <?
-                                ?>
                                 You have successfully saved these results in your account.
                             </p>
                         </div><!-- END OF submitReceipt -->
