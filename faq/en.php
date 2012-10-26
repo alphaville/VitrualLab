@@ -28,14 +28,6 @@ $a2="First of all, before you start experimenting with the interface you had bet
     don't work as expected and you think you have discovered a bug, please 
     <a href=\"https://github.com/alphaville/VitrualLab/issues\">submit a bug report</a>.";
 
-$q3="I have a question on an exercise. Where do I get help from?";
-$a3="First of all, before you start experimenting with the interface you had better
-    take a look at the <em>scope of the exercise</em> which is always provided on the 
-    corresponding page. Therein, you will find guidelines on how to use the interface and
-    what is expected from you. This solves most questions. If the question insists, for example,
-    if it is related to the logic of the exercise or some other sort of theory specific
-    problem you encounter, then you may <a href=\"/login/composer.php?force_rcpt=true&
-    rcpt_to=admin&to=Haralambos+Sarimveis\">send a message to your professor</a>. In case things 
-    don't work as expected and you think you have discovered a bug, please 
-    <a href=\"https://github.com/alphaville/VitrualLab/issues\">submit a bug report</a>.";
+$q3="Why do I need to login to do an exercise?";
+$a3="The goal of doing an exercise is to .";
 ?>
