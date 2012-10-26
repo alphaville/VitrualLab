@@ -1,3 +1,5 @@
+var simulationData;
+
 function wait(){
     waitforme = document.getElementById("pleasewait");
     waitforme.style.display="block";
@@ -342,12 +344,21 @@ function simulate(p1,q1,q2,delay){
         $("#integral").text(iqe.toPrecision(5));
         $("#max").text(data.evaluation.max.toPrecision(4));
         $("#data").text(JSON.stringify(data));
+        simulationData = data;
         display_response(data);
     });  
 }
 
 function submit(){
-
+    $.ajax({        
+        url: '/exercises/register.php',
+        type: 'POST',
+        data: 'exercise='+encodeURIComponent(JSON.stringify(simulationData))+'&type=tuning',
+        error: function() {
+            alert('WS Failure!!!\n Please contact the system admins.');            
+            done();
+        }
+    }).done(function(data){alert(data);});
 }
 
 /*
