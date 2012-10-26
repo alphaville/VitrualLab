@@ -1,5 +1,4 @@
 <?php
-
 include "../../global.php";
 include "../../database.php";
 $lang = $_GET['lang'];
@@ -29,8 +28,8 @@ if ($type == "rss") {
 } elseif ($type == "atom") {
     echo '<?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom"  xml:lang="en-gb">
-	<title type="text">Home</title>
-	<subtitle type="text">OpenTox NTUA web site</subtitle>
+	<title type="text">Virtual Lab</title>
+	<subtitle type="text">Automatic Control Virtual Lab</subtitle>
 	<link rel="alternate" type="text/html" href="' . $__URL__ . '"/>
 	<id>' . $__URL__ . '</id>
 	<updated>2012-04-07T11:19:34+00:00</updated>
@@ -40,9 +39,10 @@ if ($type == "rss") {
 
 $con = connect();
 if ($con) {
-    $query = "SELECT `title`,`link`, `guid`, `author`, `description`, `pubDate` from `rss` where lang='" . $lang . "' order by `pubDate` desc";
+    $query = "SELECT `title`,`link`, `guid`, `author`, `description`, `pubDate` from `rss` where lang='" . $lang . "' order by `pubDate` desc limit 25";
     $result = mysql_query($query, $con);
     while ($row = mysql_fetch_array($result)) {
+        //TODO: Modify to comply to ATOM standards
         echo "<item>
                         <title>" . $row['title'] . "</title>
                         <link>" . $row['link'] . "</link>
