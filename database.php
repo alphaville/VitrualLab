@@ -3,7 +3,7 @@
 function connect() {
     require("global.php");
     $con = mysql_connect($__DATABASE_URL__, $__DATABASE_USER__, $__DATABASE_PWD__);
-    
+
     if (!$con) {
         return null;
     }
@@ -29,7 +29,6 @@ function authorize_user($id, $token) {
         }
     }
 }
-
 
 function authorize_user_passwrd($id, $password) {
     $con = connect();
@@ -86,6 +85,20 @@ function getRole($id) {
             return -1;
         }
     }
+}
+
+function registerExercise($exerciseData, $user_id, $exercise_type) {    
+    $con = connect();
+    if (!$con) {
+        die('Could not connect: ' . mysql_error());
+    } else {
+        $insert_exercise_statement = "INSERT INTO `exercise` (`content`,`user_id`,`type`) VALUES (\"".$exerciseData.
+                "\", \"". $user_id."\", \"".$exercise_type."\")";
+        mysql_query($insert_exercise_statement , $con);
+        $update_exercise_id = mysql_insert_id();
+    }
+    mysql_close($con);
+    return $update_exercise_id;
 }
 
 ?>
