@@ -44,6 +44,7 @@ if (isset($what) & $what == "return") {
             mysql_query($insert_query, $con);
         }
         mysql_close($con);
+
         //TODO: Find authorization_key! It should be in the database
         $con = connect();
         $query_auth_key = "SELECT `authorization_key` as `token` from `people` where id='" . $id . "'";
@@ -160,7 +161,7 @@ $user_role = getRole($un);
 
                     <?
                     if (isset($email)) {
-                        echo '<h3>Your Profile</h3><div><img src="http://www.gravatar.com/avatar/' . $hash . '" ></div>';
+                        echo '<h3>Profile Info</h3><div><img src="http://www.gravatar.com/avatar/' . $hash . '" ></div>';
                         echo '<p>' . $fn . ' ' . $ln . ' &lt;<a href="mailto:' . $email . '">' . $email . '</a>&gt;</p>';
                         echo '<div id="text1"><p align="justify">You are logged in by <a href="' . $auth_uri . '">' . $authtype . '</a>';
                         $anonymous_email = "guest@" . $_SERVER['HTTP_HOST'];
@@ -182,34 +183,29 @@ $user_role = getRole($un);
                     }
                     if ($email != $anonymous_email) {
                         ?>
-                        <div id="profile-menu">
-                            <table cellpadding="5px">
-                                <tr>
-                                    <td><b>Main Menu</b></td>
-                                    <td><b>Admin Menu</b></td>
-                                </tr>
-                                <tr>
-                                    <td><div id="usersOptions">
-                                <div>
-                                    <a href="./composer.php" ><img src="../images/new_message.png" alt="new message" title="Compose Message" ></a>
-                                    <a href="./my_messages.php"><img src="../images/my_messages.png" alt="my messages" title="My Messages"> </a>
-                                    <a href=""><img src="../images/my_documents.png" alt="my messages" title="My Exercises"> </a>
+                        <div class="cl"></div>
+                        <div id="profile-menu">                            
+                            <div id="usersOptions">
+                                <p><b>Profile Management</b></p>
+                                <hr/>
+                                <a href="./composer.php" ><img src="../images/new_message.png" alt="new message" title="Compose Message" ></a>
+                                <a href="./my_messages.php"><img src="../images/inmail.png" alt="received messages" title="Received"> </a>
+                                <a href="./my_messages.php?t=sent"><img src="../images/outmail.png" alt="sent messages" title="Sent"> </a>
+                                <a href="../exercises/list.php"><img src="../images/my_documents.png" alt="my messages" title="My Exercises"> </a>
+                                <a href="../exercises/list.php"><img src="../images/editprofile.png" alt="my messages" title="Edit my profile"> </a>
+                            </div> 
+                            <div class="cl"></div>
+                            <div class="cl"></div>
+                            <? if ($user_role >= 10) { ?>
+                                <div id="adminOptions">
+                                    <p><b>Administrative Options</b></p>
+                                    <hr/>
+                                    <a href="./users.php"><img src="../images/people.png" alt="users" title="VLAB Users"> </a>                                        
+                                    <a href="../rss"><img src="../images/rss.png" alt="RSS Feeds" title="RSS"> </a>
+                                    <a href=""><img src="../images/professor.png" alt="students' work" title="Students' Work"> </a>
+                                    <a href=""><img src="../images/chart.png" alt="statistics" title="VLAB Statistics"> </a>
                                 </div>
-                            </div></td>
-                                    <td><? if ($user_role >= 10) { ?>                                <div id="adminOptions">
-
-                                    <div style="padding:3px;"></div>
-                                    <div>
-                                        <a href="./users.php"><img src="../images/people.png" alt="users" title="VLAB Users"> </a>                                        
-                                        <a href="../rss"><img src="../images/rss.png" width="70" alt="RSS Feeds" title="RSS"> </a>
-                                        <a href=""><img src="../images/professor.png" alt="my messages" title="Students' Work"> </a>
-                                    </div>
-                                </div>
-                            <? } ?></td>
-                                </tr>
-                            </table>
-                            
-                            
+                            <? } ?>
                         </div>
                         <?
                     }
