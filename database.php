@@ -112,7 +112,7 @@ function updateExercise($exerciseData, $exercise_id) {
         die('Could not connect: ' . mysql_error());
     } else {
         $update_exercise_statement = "UPDATE `exercise` SET `content`=\"".
-            $exerciseData."\" WHERE `id`=".$exercise_id;
+            $exerciseData."\", last_update_time=CURRENT_TIMESTAMP WHERE `id`=".$exercise_id;
         mysql_query($update_exercise_statement , $con);
     }
     mysql_close($con);

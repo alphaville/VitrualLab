@@ -27,7 +27,8 @@ CREATE  TABLE IF NOT EXISTS `vlab`.`people` (
   UNIQUE INDEX `authorization_key` (`authorization_key` ASC) )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_bin;
+COLLATE = utf8_bin
+PACK_KEYS = DEFAULT;
 
 
 -- -----------------------------------------------------
@@ -47,6 +48,7 @@ CREATE  TABLE IF NOT EXISTS `vlab`.`message` (
   INDEX `from_fk` (`from` ASC) ,
   INDEX `rcpt_to_fk` (`rcpt_to` ASC) ,
   INDEX `subject_key` USING BTREE (`subject` ASC) ,
+  INDEX `fk_reply` (`inreplyto` ASC) ,
   CONSTRAINT `from_fk`
     FOREIGN KEY (`from` )
     REFERENCES `vlab`.`people` (`id` )
@@ -56,7 +58,12 @@ CREATE  TABLE IF NOT EXISTS `vlab`.`message` (
     FOREIGN KEY (`rcpt_to` )
     REFERENCES `vlab`.`people` (`id` )
     ON DELETE CASCADE
-    ON UPDATE CASCADE)
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_reply`
+    FOREIGN KEY (`inreplyto` )
+    REFERENCES `vlab`.`message` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB
 AUTO_INCREMENT = 74
 DEFAULT CHARACTER SET = utf8
@@ -78,9 +85,16 @@ CREATE  TABLE IF NOT EXISTS `vlab`.`rss` (
   `description` TEXT CHARACTER SET 'utf8' COLLATE 'utf8_bin' NOT NULL COMMENT 'DESCRIPTION (HTML)' ,
   `pubDate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
   `lang` VARCHAR(10) CHARACTER SET 'utf8' COLLATE 'utf8_bin' NOT NULL DEFAULT 'en' ,
+  `user_id` VARCHAR(255) CHARACTER SET 'utf8' COLLATE 'utf8_bin' NOT NULL ,
   PRIMARY KEY (`id`) ,
   INDEX `title_key` USING BTREE (`title` ASC) ,
-  INDEX `lang_key` USING BTREE (`lang` ASC) )
+  INDEX `lang_key` USING BTREE (`lang` ASC) ,
+  INDEX `fk_rss_people1` (`user_id` ASC) ,
+  CONSTRAINT `fk_rss_people1`
+    FOREIGN KEY (`user_id` )
+    REFERENCES `vlab`.`people` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB
 AUTO_INCREMENT = 14
 DEFAULT CHARACTER SET = utf8
@@ -93,11 +107,23 @@ COLLATE = utf8_bin;
 DROP TABLE IF EXISTS `vlab`.`exercise` ;
 
 CREATE  TABLE IF NOT EXISTS `vlab`.`exercise` (
-  `id` INT NOT NULL ,
-  `content` VARCHAR(45) NULL ,
-  `exercisecol` MEDIUMTEXT NULL ,
-  `mark` VARCHAR(45) NULL ,
-  PRIMARY KEY (`id`) )
+  `id` INT NOT NULL AUTO_INCREMENT COMMENT 'ID of the exercise' ,
+  `content` TEXT NULL COMMENT 'Actual Content' ,
+  `creation_date` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Timestamp of first creation' ,
+  `mark` INT(11) NULL COMMENT 'Mark of the evaluated exercise' ,
+  `user_id` VARCHAR(255) CHARACTER SET 'utf8' COLLATE 'utf8_bin' NOT NULL COMMENT 'Creator of the exercise' ,
+  `status` INT NULL DEFAULT 0 COMMENT 'Draft or Sumbitted or Under Review etc' ,
+  `comments` MEDIUMTEXT CHARACTER SET 'big5' NULL COMMENT 'Accompanying text' ,
+  `submission_time` TIMESTAMP NULL COMMENT 'Timestamp of first submission' ,
+  `type` VARCHAR(45) NULL COMMENT 'type of the exercise (tuning, etc)' ,
+  `last_update_time` TIMESTAMP NULL ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_exercise_people1` (`user_id` ASC) ,
+  CONSTRAINT `fk_exercise_people1`
+    FOREIGN KEY (`user_id` )
+    REFERENCES `vlab`.`people` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
