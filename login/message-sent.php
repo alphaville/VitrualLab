@@ -1,24 +1,15 @@
 <?php
 include('../global.php');
 include("../database.php");
+
 if ($_SERVER['REQUEST_METHOD']!="POST"){
     header( 'Location: '.$__BASE_URI.'/index.php' ) ;
     echo '<html><head></head><body>Method not allowed! You are being redirected.</body></html>';    
     die();
 }
-session_start();
-if (empty($_SESSION['count'])) {
-    $_SESSION['count'] = 1;
-} else {
-    $_SESSION['count']++;
-}
 
-function getUser() {
-    $fn = $_COOKIE["fn"];
-    $ln = $_COOKIE["ln"];
-    $full_name = $fn . " " . $ln;
-    echo '<span id="username"><a href="/login/profile.php">' . $full_name . '</a></span>';
-}
+doStartSession();
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd" 
     >

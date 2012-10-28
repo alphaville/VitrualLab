@@ -1,11 +1,9 @@
 <?php
 include('../global.php');
-session_start();
-if (empty($_SESSION['count'])) {
-    $_SESSION['count'] = 1;
-} else {
-    $_SESSION['count']++;
-}
+include('../database.php');
+
+doStartSession();
+
 include_once $_SERVER['DOCUMENT_ROOT'] . '/securimage/securimage.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/database.php';
 $securimage = new Securimage();

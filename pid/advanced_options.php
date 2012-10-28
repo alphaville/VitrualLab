@@ -110,6 +110,9 @@ if ($selectInputSignal==1){echo $op1.$op2.$op3;}else if ($selectInputSignal==2){
 <td><input type="text" value="<?echo $horizon;?>" class="tinyInput" id="horizon" name="horizon" onkeyup="checkNumOrAuto(this);"></td>
 </tr>
 
+<tr><TD>Bode Freq. Range</TD>
+<td><input type="text" value="<?echo $freq_log_range;?>" class="tinyInput" id="freq_log_range" name="freq_log_range" onkeyup="checkNumOrAuto(this);"></td>
+</tr>
 </table>
 
 

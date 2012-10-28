@@ -119,7 +119,7 @@ function updateExercise($exerciseData, $exercise_id) {
 
 function fetchExerciseContent($exercise_id, $user_id) {
     $con = connect();
-    $query = "SELECT `content` FROM `exercise` WHERE user_id=\"$user_id\" AND `id`=$exercise_id";   
+    $query = "SELECT `content` FROM `exercise` WHERE user_id=\"$user_id\" AND `id`=$exercise_id";
     $result = mysql_query($query);
     $row = mysql_fetch_array($result);
     if ($row) {
@@ -129,6 +129,51 @@ function fetchExerciseContent($exercise_id, $user_id) {
     } else {
         mysql_close($con);
         return false;
+    }
+}
+
+/**
+ *
+ * @param type $user_name Username
+ * @param type $token Authentication Token
+ * @param type $requireAuthorisation Whether the resource required administrative 
+ * privileges or other advanced access rights. If set to false the parameter 
+ * minimumPrivileges is inactive and may be set to any arbitrary integer value or
+ * even null.
+ * @param type $minimumPrivileges Minimum role
+ * @return isAdmin whether the user is an administrator
+ */
+function authoriseUser($user_name, $token, $requireAuthorisation, $minimumPrivileges, $redirect) {
+    $redirectUrlParameter = "?noredirect=true";
+    if (!authorize_user($user_name, $token)) {
+        if ($redirect != null) {
+            $redirectUrlParameter = "?redirect=" . $redirect;
+            header('Location: ' . $__BASE_URI . '/login/index.php' . $redirectUrlParameter);
+            die("You are being redirect to another page...");
+        }else{
+            header("HTTP/1.0 401 Unauthorized");
+            die("Authentication Failure!");
+        }
+    }
+    // Check if the user is indeed an administrator - if not
+    // and administrative privileges are required, 
+    $user_role = getRole($_COOKIE["id"]);
+    if ($requireAuthorisation && $user_role < $minimumPrivileges) {
+        header('Location: ' . $__BASE_URI . '/login/index.php' . $redirectUrlParameter);
+        die("You are being redirected to another page...");
+    }
+    if ($user_role >= 10) {
+        return true;
+    }
+}
+
+function doStartSession() {
+    header("X-Powered-By: VLAB");
+    session_start();
+    if (empty($_SESSION['count'])) {
+        $_SESSION['count'] = 1;
+    } else {
+        $_SESSION['count']++;
     }
 }
 

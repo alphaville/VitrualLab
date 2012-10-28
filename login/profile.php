@@ -192,7 +192,7 @@ $user_role = getRole($un);
                                 <a href="./my_messages.php"><img src="../images/inmail.png" alt="received messages" title="Received"> </a>
                                 <a href="./my_messages.php?t=sent"><img src="../images/outmail.png" alt="sent messages" title="Sent"> </a>
                                 <a href="../exercises/list.php"><img src="../images/my_documents.png" alt="my messages" title="My Exercises"> </a>
-                                <a href="../exercises/list.php"><img src="../images/editprofile.png" alt="my messages" title="Edit my profile"> </a>
+                                <a href="./edit.php"><img src="../images/editprofile.png" alt="my messages" title="Edit my profile"> </a>
                             </div> 
                             <div class="cl"></div>
                             <div class="cl"></div>

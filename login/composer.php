@@ -1,20 +1,13 @@
 <?php
 include('../global.php');
 include("../database.php");
-if (!$_COOKIE["id"]) {//unauthorized user!    
-    header('Location: ' . $__BASE_URI . '/login/index.php');
-    die("You are being redirect to another page...");
-}
-if (!authorize_user($_COOKIE["id"], $_COOKIE["token"])) {
-    header('Location: ' . $__BASE_URI . '/login/index.php');
-    die("You are being redirect to another page...");
-}
-session_start();
-if (empty($_SESSION['count'])) {
-    $_SESSION['count'] = 1;
-} else {
-    $_SESSION['count']++;
-}
+
+doStartSession();
+
+$un = $_COOKIE['id'];
+$token = $_COOKIE['token'];
+authoriseUser($un, $token, false, -1, 'login/composer.php');
+
 $force_rcpt = $_GET['force_rcpt'];
 $rcpt_to = urldecode($_GET['rcpt_to']);
 $send_to=urldecode($_GET['to']);

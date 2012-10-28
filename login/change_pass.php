@@ -1,11 +1,12 @@
 <?php
 include('../global.php');
 include("../database.php");
-if (!authorize_user($_COOKIE["id"], $_COOKIE["token"])) {
-    header('Location: ' . $__BASE_URI . '/login/index.php');
-    die("You are being redirected...");
-}
+
+doStartSession();
+
 $un = $_COOKIE['id'];
+$token = $_COOKIE['token'];
+$isadmin = authoriseUser($un, $token, false, -1, 'login/change_pass.php');
 ?>
 <!DOCTYPE html>
 <html>

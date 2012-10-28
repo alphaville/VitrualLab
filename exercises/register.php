@@ -2,15 +2,15 @@
 /*
  * A web service allowing clients to register a new exercise (temporarily save)
  */
-session_start();
-if (empty($_SESSION['count'])) {
-    $_SESSION['count'] = 1;
-} else {
-    $_SESSION['count']++;
-}
 include("../global.php");
 include("../database.php");
-header("X-Powered-By: VLAB");
+
+doStartSession();
+
+$userid=$_COOKIE["id"];
+$token=$_COOKIE["token"];
+authoriseUser($userid, $token, false, -1, null);
+
 $data = $_POST['exercise'];
 if (!$data){
     header("HTTP/1.0 400 Bad Request");
@@ -20,13 +20,6 @@ $type = $_POST['type'];
 if (!$type){
     header("HTTP/1.0 400 Bad Request");
     die('Type not specified');
-}
-$userid=$_COOKIE["id"];
-if (!authorize_user($userid, $_COOKIE["token"])) {
-    //TODO: Handle Auth Failure!!!  
-    //TODO: header 401
-    header("HTTP/1.0 401 Unauthorized");
-    die('Authentication Failure!');
 }
 
 $overwrite = $_POST['overwrite'];

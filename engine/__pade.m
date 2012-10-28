@@ -23,7 +23,7 @@ function [E F] = __pade(delay,n,m)
 		F=1;
 	else
 		if (n==3 && m==4)
-			E = [_delay^4/840 _delay^3*2/105 _delay^2*1/7 delay*4/7 1];
+			E = [_delay^4/840 _delay^3*2/105 _delay^2*1/7 _delay*4/7 1];
 			F = [-_delay^3/210 _delay^2/14 -3*_delay/7 1];
 		elseif (n==3 && m==3)
 			E=[_delay^3/120 _delay^2/10 _delay/2 1];

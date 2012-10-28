@@ -1,33 +1,14 @@
 <?php
 include('../global.php');
 include("../database.php");
-if (!authorize_user($_COOKIE["id"], $_COOKIE["token"])) {
-    header('Location: ' . $__BASE_URI . '/login/index.php');
-    die("You are being redirect to another page...");
-}
-session_start();
-if (empty($_SESSION['count'])) {
-    $_SESSION['count'] = 1;
-} else {
-    $_SESSION['count']++;
-}
-$user_role = getRole($_COOKIE["id"]);
-$isadmin = false;
-if ($user_role < 10) {
-    header('Location: ' . $__BASE_URI . '/login/index.php');
-    die("You are being redirect to another page...");
-} else {
-    $isadmin = true;
-}
-$message_id = $_GET['id'];
-$un = $_COOKIE['id'];
+doStartSession();
 
-function getUser() {
-    $fn = $_COOKIE["fn"];
-    $ln = $_COOKIE["ln"];
-    $full_name = $fn . " " . $ln;
-    echo '<span id="username"><a href="/login/profile.php">' . $full_name . '</a></span>';
-}
+$un = $_COOKIE['id'];
+$token = $_COOKIE['token'];
+$isadmin = authoriseUser($un, $token, true, 10, 'login/users.php');// Requires role>=10 to access this resource
+
+$message_id = $_GET['id'];
+
 
 function utf8_substr($str, $start) {
     preg_match_all("/./u", $str, $ar);

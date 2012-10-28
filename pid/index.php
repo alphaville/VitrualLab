@@ -6,9 +6,10 @@ if (empty($_SESSION['count'])) {
 } else {
     $_SESSION['count']++;
 }
-function _default_($paramName,$def){
+
+function _default_($paramName, $def) {
     $fromUrl = $_GET[$paramName];
-    return $fromUrl?urldecode($fromUrl):$def;
+    return $fromUrl ? urldecode($fromUrl) : $def;
 }
 ?>
 <!DOCTYPE html>
@@ -30,27 +31,28 @@ function _default_($paramName,$def){
         <script type='text/javascript' src="/flot/jquery.flot.selection.min.js"></script>
         <script type='text/javascript' src="/flot/jquery.flot.crosshair.min.js"></script>
         <link rel="shortcut icon" href="/vlab/favicon.ico" type="image/x-icon" >   
-        <link href="<?echo $FEED_RSS;?>" rel="alternate" type="application/rss+xml" title="RSS 2.0" >
-        <link href="<?echo $FEED_ATOM;?>" rel="alternate" type="application/atom+xml" title="Atom 1.0" >
+        <link href="<? echo $FEED_RSS; ?>" rel="alternate" type="application/rss+xml" title="RSS 2.0" >
+        <link href="<? echo $FEED_ATOM; ?>" rel="alternate" type="application/atom+xml" title="Atom 1.0" >
     </head>
 
     <body id="body" onload="loadMe();">        
-        <?        
+        <?
         include('./constants.php');
-        $open = _default_('open',0);
-        $kcval = _default_('kc',1);
-        $tival = _default_('ti',infty);
-        $tdval = _default_('td',0);
-        $psval = _default_('p','[1]');
-        $qsval = _default_('q','[2   7   9   5   1]');
-        $delayval = _default_('delay','0');
-        $amplitude = _default_('amplitude',1);
-        $selectInputSignal = _default_('inputsignal','1');
-        $freq = _default_('frequency',100);
-        $bode = _default_('bode',1);
-        $simpoints = _default_('simpoints','auto');
-        $horizon = _default_('horizon','auto');
+        $open = _default_('open', 0);
+        $kcval = _default_('kc', 1);
+        $tival = _default_('ti', infty);
+        $tdval = _default_('td', 0);
+        $psval = _default_('p', '[1]');
+        $qsval = _default_('q', '[2   7   9   5   1]');
+        $delayval = _default_('delay', '0');
+        $amplitude = _default_('amplitude', 1);
+        $selectInputSignal = _default_('inputsignal', '1');
+        $freq = _default_('frequency', 100);
+        $bode = _default_('bode', 1);
+        $simpoints = _default_('simpoints', 'auto');
+        $horizon = _default_('horizon', 'auto');
         $image = $open == "1" ? 'PIDS2.png' : 'PIDS.png';
+        $freq_log_range = "[-2 4]";
         ?>
         <div id="wrap">
             <div id="background">
@@ -106,13 +108,12 @@ function _default_($paramName,$def){
                     </p>
                     <form method="POST" action="#simulations">
                         <input type="hidden" value="<? echo htmlspecialchars(session_id()); ?>" name="session_id">
-                        <? include('main_table.php'); ?>
+<? include('main_table.php'); ?>
                         <div class="smallTip">
                             <a style="color:blue;cursor:pointer" onclick="showAdvanced();">
                                 <span id="advancedOptionsText">Show Advanced Options</span></a>
                         </div>
-                        <? include('advanced_options.php')
-                        ?>
+                        <? include('advanced_options.php') ?>
                         <div class="cl">
                         </div>
                         <table style="vertical-align: middle">
@@ -142,9 +143,9 @@ function _default_($paramName,$def){
                             <span id="y">0</span>).
                         </p>                        
                         <div id="bodewrapper">
-                        <p style="font-weight: bold;text-align: center">Bode Diagram</p>
-                        <div id="bodeplaceholder" style="width:95%;height:300px;margin-left:20px;margin-top:20px"></div>
-                        <div style="font-size: smaller;font-style: italic">Frequency: <span id="w_freq">-00.000</span>Hz</div>
+                            <p style="font-weight: bold;text-align: center">Bode Diagram</p>
+                            <div id="bodeplaceholder" style="width:95%;height:300px;margin-left:20px;margin-top:20px"></div>
+                            <div style="font-size: smaller;font-style: italic">Frequency: <span id="w_freq">-00.000</span>Hz</div>
                         </div>
                     </div>
                 </div>

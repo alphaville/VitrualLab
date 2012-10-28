@@ -1,32 +1,30 @@
 <?php
-session_start();
-if (empty($_SESSION['count'])) {
-    $_SESSION['count'] = 1;
-} else {
-    $_SESSION['count']++;
-}
 include("../global.php");
 include("../database.php");
-header("X-Powered-By: VLAB");
+
+doStartSession();
+
 header('Content-type: text/plain');
 
-$userid=$_COOKIE["id"];
-if (!authorize_user($userid, $_COOKIE["token"])) {
-    header("HTTP/1.0 401 Unauthorized");
-    die('Authentication Failure!');
-}
+$un = $_COOKIE["id"];
+$token = $_COOKIE["token"];
+authoriseUser($un, $token, false, -1, null); // do not require admin rights
 
 $exercise_id = $_GET['id'];
 $user_id = $_GET['user_id'];
+if ($user_id != $un) {
+    header("HTTP/1.0 403 Forbidden");
+    die('Invalid request - forbidden!');
+}
 
 //TODO: Check parameters, authenticate etc...
 
 $content = fetchExerciseContent($exercise_id, $user_id);
-if (!$content){
+if (!$content) {
     header("HTTP/1.0 404 Not Found");
     die('Not found');
 }
-$header ="Content-Disposition: attachment; filename=\"$exercise_id.txt\""; 
+$header = "Content-Disposition: attachment; filename=\"$exercise_id.txt\"";
 header($header);
 echo $content;
 ?>

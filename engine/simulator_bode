@@ -32,7 +32,7 @@ if (!exist("sim_log_range","var")) || isempty(sim_log_range)
 end
 
 if (!exist("sim_points","var")) || isempty(sim_points)
-	sim_points = 1000;
+	sim_points = 2000;
 end
 
 if (!exist("delay","var")) || isempty(delay)

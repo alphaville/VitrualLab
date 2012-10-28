@@ -1,25 +1,15 @@
 <?php
 include('../global.php');
 include("../database.php");
-if (!authorize_user($_COOKIE["id"], $_COOKIE["token"])) {
-    header('Location: ' . $__BASE_URI . '/login/index.php');
-    die("You are being redirected...");
-}
-session_start();
-if (empty($_SESSION['count'])) {
-    $_SESSION['count'] = 1;
-} else {
-    $_SESSION['count']++;
-}
-$message_id = $_GET['id'];
-$un = $_COOKIE['id'];
 
-function getUser() {
-    $fn = $_COOKIE["fn"];
-    $ln = $_COOKIE["ln"];
-    $full_name = $fn . " " . $ln;
-    echo '<span id="username"><a href="/login/profile.php">' . $full_name . '</a></span>';
-}
+doStartSession();
+
+$un = $_COOKIE['id'];
+$token = $_COOKIE['token'];
+authoriseUser($un, $token, false, -1, 'login/composer.php');
+
+$message_id = $_GET['id'];
+
 ?>
 <!DOCTYPE html>
 <html>

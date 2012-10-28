@@ -2,25 +2,15 @@
 /**
  * TUNING :: /tuning
  */
-session_start();
-if (empty($_SESSION['count'])) {
-    $_SESSION['count'] = 1;
-} else {
-    $_SESSION['count']++;
-}
-include("../global.php");
+include('../global.php');
 include("../database.php");
 
+doStartSession();
 
-/*
- * Check if the user is authenticated. If not redirect
- * to the login page and back here.
- */
-if (!authorize_user($_COOKIE["id"], $_COOKIE["token"])) {
-    header('Location: ' . $__BASE_URI . '/login/index.php?redirect=tuning');
-    die("You are being redirected...");
-}
 $un = $_COOKIE['id'];
+$token = $_COOKIE['token'];
+authoriseUser($un, $token, false, -1, 'tuning');
+
 
 $lang = $_GET['lang'];
 // Get the language 
@@ -38,8 +28,10 @@ if ($lang == NULL) {
  * values from these cookies.
  */
 $P1 = $_COOKIE["P1"];
+$Q0 = $_COOKIE["Q0"];
 $Q1 = $_COOKIE["Q1"];
 $Q2 = $_COOKIE["Q2"];
+$Q3 = $_COOKIE["Q3"];
 $delay = $_COOKIE["delay"];
 
 if (!isset($P1) || !isset($Q1) || !isset($Q2) || !isset($delay)) {
@@ -47,7 +39,7 @@ if (!isset($P1) || !isset($Q1) || !isset($Q2) || !isset($delay)) {
     $Q3 = randomFloat(1.8, 2.2); //coefficient of s^3 in Q
     $Q2 = randomFloat(4.7, 5.4); //coefficient of s^2 in Q
     $Q1 = randomFloat(3.8, 4.3); //coefficient of s in Q
-    $Q0 = randomFloat(0.9, 10); //constant term in Q
+    $Q0 = randomFloat(0.8, 1.7); //constant term in Q
     /*
      * i.e. Q = Q0 + Q1 s + Q2 s^2 + Q3 s^3 
      */
@@ -138,11 +130,13 @@ function randomFloat($min, $max) {
                     <p lang="<? echo $lang; ?>" style="font-size: smaller;font-style: italic">
                         The following data are given for the above system: The numerator of the transfer function
                         of the plant is P(s)=1<? echo ($P1 < 0 ? "-" : "+") . "" . abs($P1); ?>s and the denominator is
-                        Q(s)=1<? echo ($Q1 < 0 ? "-" : "+") . "" . abs($Q1); ?>s<? echo ($Q2 < 0 ? "-" : "+") . "" . abs($Q2); ?>s<sup>2</sup>.
+                        Q(s)=<?echo $Q0;?><? echo ($Q1 < 0 ? "-" : "+") . "" . abs($Q1); ?>s
+                        <? echo ($Q2 < 0 ? "-" : "+") . "" . abs($Q2); ?>s<sup>2</sup>
+                        <? echo ($Q3 < 0 ? "-" : "+") . "" . abs($Q3); ?>s<sup>3</sup>.
                         The delay is t<sub>d</sub>=<? echo $delay; ?>. The measuring element does not affect the dynamics and
                         it can be considered to have G<sub>f</sub>(s)=1.
-                        You may use the <a href="/pid?kc=1&ti=infty&td=0&p=[<? echo $P1; ?> 1]&q=[<? echo $Q2; ?> <? echo $Q1; ?> 1]
-                                           &delay=<? echo $delay; ?>" target="_blank" >PID workbench</a> of VLAB to tune a PID controller for this system.
+                        You may use the <a href="/pid?kc=1&ti=infty&td=0&p=[<? echo $P1; ?> 1]&q=[<? echo $Q3." ".$Q2." ".$Q1." ".$Q0?>]&delay=<? echo $delay; 
+                        ?>" target="_blank" >PID workbench</a> of VLAB to tune a PID controller for this system.
                         Once you have completed the tuning, enter your result in the form below and click the "Simulate" button:
                     </p>
                     <div class="cl"></div>
