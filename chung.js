@@ -81,9 +81,10 @@ function display_bode(response_data){
     P_ = '['+response_data.response.P_+']';
     Q_ = '['+response_data.response.Q_+']';
     //    alert("P="+P_+"\nQ="+Q_);
+    freq_log_range=$("#freq_log_range").val();
     var bodeUrl = '/engine/smt6565.php?id=example&write_to_file=0&P='+encodeURIComponent(P_)+'&Q='+
         encodeURIComponent(Q_)+'&delay='+response_data.response.delay+
-        '&sim_points=700&sim_log_range='+encodeURIComponent('[-2 4]');    
+        '&sim_points=700&sim_log_range='+encodeURIComponent(freq_log_range);    
     $.ajax({        
         url: bodeUrl,
         type: 'GET',
@@ -205,7 +206,7 @@ function run_engine(){
     Q=$("#qs").val();
     Kc=$("#Kc").val();
     ti=$("#ti").val();
-    td=$("#td").val();
+    td=$("#td").val();    
     horizon=$('#horizon').val();
     sim_points=$('#simpoints').val();   
     delay=$("#delay").val();

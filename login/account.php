@@ -8,14 +8,6 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/securimage/securimage.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/database.php';
 $securimage = new Securimage();
 
-function genRandomString($length) {
-    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    $string = '';
-    for ($p = 0; $p < $length; $p++) {
-        $string .= $characters[mt_rand(0, strlen($characters))];
-    }
-    return $string;
-}
 ?>
 <!DOCTYPE html>
 <html>

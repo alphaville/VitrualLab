@@ -16,7 +16,7 @@ function authorize_user($id, $token) {
     if (!$con) {
         die("MySQL connectivity error : " . mysql_error());
     } else {
-        $query = "select count(*) as `check` from people where `id`='" . $id . "' AND `authorization_key`='" . $token . "'";
+        $query = "SELECT COUNT(*) AS `check` FROM `token` WHERE `people_id`='$id' AND `token_id`='$token'";
         $result = mysql_query($query);
         $row = mysql_fetch_array($result);
         if ($row) {
@@ -35,7 +35,7 @@ function authorize_user_passwrd($id, $password) {
     if (!$con) {
         die("MySQL connectivity error : " . mysql_error());
     } else {
-        $query = "select count(*) as `check` from people where `id`='" . $id . "' AND `pwd_hash_md5`='" . md5(trim($password)) . "'";
+        $query = "SELECT COUNT(*) AS `check` FROM `people` WHERE `id`='$id' AND `pwd_hash_md5`='md5(trim($password))'";
         $result = mysql_query($query);
         $row = mysql_fetch_array($result);
         if ($row) {
@@ -54,7 +54,7 @@ function getNameForId($id) {
     if (!$con) {
         die("MySQL connectivity error : " . mysql_error());
     } else {
-        $query = "select `fn`,`ln` from people where `id`='" . $id . "'";
+        $query = "SELECT `fn`,`ln` FROM `people` WHERE `id`='$id'";
         $result = mysql_query($query);
         $row = mysql_fetch_array($result);
         if ($row) {
@@ -177,4 +177,12 @@ function doStartSession() {
     }
 }
 
+function genRandomString($length) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $string = '';
+    for ($p = 0; $p < $length; $p++) {
+        $string .= $characters[mt_rand(0, strlen($characters))];
+    }
+    return $string;
+}
 ?>

@@ -7,6 +7,7 @@ setcookie("auth", "", time() - 3600, "/");
 setcookie("hash", "", time() - 3600, "/");
 setcookie("id", "", time() - 3600, "/");
 setcookie("token", "", time() - 3600, "/");
+//TODO: [IMPT] Kill token - Remove from DB! Security Leak!!!
 include('../global.php');
 ?>
 <!DOCTYPE html>

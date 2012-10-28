@@ -1,125 +1,55 @@
 <?php
-session_start();
-if (empty($_SESSION['count'])) {
-    $_SESSION['count'] = 1;
-} else {
-    $_SESSION['count']++;
-}
 include('../global.php');
 include("../database.php");
+include("./login-utils.php");
+
+doStartSession();
+
 $what = $_GET["what"];
-if (isset($what) & $what == "return") {
-    $authtype = $_GET["authtype"];
-    if ($authtype == "google") {
-        $fn = $_GET["openid_ext1_value_firstname"];
-        $ln = $_GET["openid_ext1_value_lastname"];
-        $email = $_GET["openid_ext1_value_email"];
-        $id = $_GET["openid_identity"];
-        $auth_uri = "http://www.google.com";
-    } else if ($authtype == "yahoo") {
-        $auth_uri = $id;
-        $fn = $_GET["openid_ax_value_fullname"];
-        $ln = "";
-        $email = $_GET["openid_ax_value_email"];
-        $id = $_GET["openid_identity"];
-        $auth_uri = $id;
-    }
-    if (isset($email)) {
-        $hash = md5(strtolower(trim($email)));
-    }
-    if (isset($fn)) {
-        setcookie("id", $id, time() + 36000, "/");
-        setcookie("auth", $authtype, time() + 36000, "/");
-        setcookie("fn", $fn, time() + 36000, "/");
-        setcookie("ln", $ln, time() + 36000, "/");
-        setcookie("email", $email, time() + 36000, "/");
-        setcookie("hash", $hash, time() + 36000, "/");
-        // Are you new to the neighborhood???
-        $con = connect();
-        if (!$con) {
-            die('Could not connect: ' . mysql_error());
-        } else {
-            $insert_query = "INSERT IGNORE INTO people (`id`,`fn`,`ln`,`email`,`login_method`,`authorization_key`) VALUES ('" . $id . "', '" .
-                    $fn . "', '" . $ln . "', '" . $email . "', '" . $authtype . "', md5(rand()) );";
-            mysql_query($insert_query, $con);
-        }
-        mysql_close($con);
 
-        //TODO: Find authorization_key! It should be in the database
-        $con = connect();
-        $query_auth_key = "SELECT `authorization_key` as `token` from `people` where id='" . $id . "'";
-        $result = mysql_query($query_auth_key);
-        $row = mysql_fetch_array($result);
-        if ($row) {
-            $token = $row["token"];
-        }
-        mysql_close($con);
-        setcookie("token", $token, time() + 36000, "/");
-    }
-} elseif (isset($what) & $what == "member") {
-    /**
-     * Find user in the database...
-     */
-    $un = $_POST['un'];
-    $pwd = $_POST['pwd'];
-    $con = connect();
-    mysql_select_db("vlab", $con);
-    if (!$con) {
-        die('Could not connect: ' . mysql_error());
-    } else {
-        $result = mysql_query("SELECT `fn`,`ln`,`email`,`pwd_hash_md5`,`authorization_key` 
-            FROM people WHERE id='" . $un . "'");
-        $row = mysql_fetch_array($result);
-        $pwd_in_sql = $row['pwd_hash_md5'];
-        if ((is_null($row)) || (md5($pwd) != $pwd_in_sql)) {
-            // Invalid Login
-            $unauthorized = true;
-        } else {
-            // Correct login
-            $email = $row["email"];
-            $fn = $row["fn"];
-            $ln = $row["ln"];
-            $authtype = "VLAB";
-            $auth_uri = $_SERVER['HTTP_HOST'];
-            $hash = md5(strtolower(trim($email)));
-            $authorization_key = $row["authorization_key"];
-            setcookie("id", $un, time() + 36000, "/");
-            setcookie("auth", $authtype, time() + 36000, "/");
-            setcookie("fn", $fn, time() + 36000, "/");
-            setcookie("ln", $ln, time() + 36000, "/");
-            setcookie("email", $email, time() + 36000, "/");
-            setcookie("hash", $hash, time() + 36000, "/");
-            setcookie("token", $authorization_key, time() + 36000, "/");
-
-            $redirect = $_GET["redirect"];
-            if (isset($redirect)) {
-                header('Location: ' . $__BASE_URI . '/' . $redirect);
-            }
-        }
-    }
-    mysql_close($con);
+$myUser = new User();
+if (isset($what) & $what == "return") {// Authenticate by OpenID
+    $myUser = authOpenID();
+} elseif (isset($what) & $what == "member") {// Authenticate by VLAB-AS
+    $myUser = authMember();
+}
+if (isset($what)) {
+    $email = $myUser->email;
+    $un = $myUser->un;
+    $fn = $myUser->fn;
+    $ln = $myUser->ln;
+    $hash = $myUser->hash;
+    $authtype = $myUser->authType;
+    $token = $myUser->token;
 } else {
-    $un = $_COOKIE["id"];
-    $fn = $_COOKIE["fn"];
-    $ln = $_COOKIE["ln"];
-    $email = $_COOKIE["email"];
-    $hash = $_COOKIE["hash"];
-    $authtype = $_COOKIE["auth"];
-    $token = $_COOKIE["token"];
-    if (!isset($fn)) {
+    $email = $_COOKIE['email'];
+    $un = $_COOKIE['id'];
+    $fn = $_COOKIE['fn'];
+    $ln = $_COOKIE['ln'];
+    $hash = $_COOKIE['hash'];
+    $authtype = $_COOKIE['authType'];
+    $token = $_COOKIE['token'];
+}
+
+if (!isset($what)) {// Just want to see my profile, dude
+    if (!isset($_COOKIE['fn'])) {
         $fn = "Anonymous";
     };
-    if (!isset($email)) {
+    if (!isset($_COOKIE['email'])) {
         $email = "guest@" . $_SERVER['HTTP_HOST'];
     };
-    if (!isset($authtype)) {
+    if (!isset($_COOKIE['auth_type'])) {
         $authtype = "vlab";
     };
 }
-if (isset($unauthorized) & $unauthorized) {
-    header('HTTP/1.1 401 Unauthorized');
-}
+
 $user_role = getRole($un);
+
+$redirect=$_GET['redirect'];
+if (isset($redirect)){
+    header("Location: /$redirect");
+    die();
+}
 ?>
 <!DOCTYPE html>
 <html>
