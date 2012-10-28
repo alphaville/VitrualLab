@@ -87,14 +87,14 @@ function getRole($id) {
     }
 }
 
-function registerExercise($exerciseData, $user_id, $exercise_type) {    
+function registerExercise($exerciseData, $user_id, $exercise_type) {
     $con = connect();
     if (!$con) {
         die('Could not connect: ' . mysql_error());
     } else {
-        $insert_exercise_statement = "INSERT INTO `exercise` (`content`,`user_id`,`type`) VALUES (\"".$exerciseData.
-                "\", \"". $user_id."\", \"".$exercise_type."\")";
-        mysql_query($insert_exercise_statement , $con);
+        $insert_exercise_statement = "INSERT INTO `exercise` (`content`,`user_id`,`type`) VALUES (\"" . $exerciseData .
+                "\", \"" . $user_id . "\", \"" . $exercise_type . "\")";
+        mysql_query($insert_exercise_statement, $con);
         $update_exercise_id = mysql_insert_id();
         //NOTE: The method mysql_insert_id(), according to the documentation
         // will return the last created ID on the *current connection*, so it
@@ -105,16 +105,31 @@ function registerExercise($exerciseData, $user_id, $exercise_type) {
     return $update_exercise_id;
 }
 
-
-function updateExercise($exerciseData, $exercise_id) {    
+function updateExercise($exerciseData, $exercise_id) {
     $con = connect();
     if (!$con) {
         die('Could not connect: ' . mysql_error());
     } else {
-        $update_exercise_statement = "UPDATE `exercise` SET `content`=\"".
-            $exerciseData."\", last_update_time=CURRENT_TIMESTAMP WHERE `id`=".$exercise_id;
-        mysql_query($update_exercise_statement , $con);
+        $update_exercise_statement = "UPDATE `exercise` SET `content`=\"" .
+                $exerciseData . "\", last_update_time=CURRENT_TIMESTAMP WHERE `id`=" . $exercise_id;
+        mysql_query($update_exercise_statement, $con);
     }
     mysql_close($con);
 }
+
+function fetchExerciseContent($exercise_id, $user_id) {
+    $con = connect();
+    $query = "SELECT `content` FROM `exercise` WHERE user_id=\"$user_id\" AND `id`=$exercise_id";   
+    $result = mysql_query($query);
+    $row = mysql_fetch_array($result);
+    if ($row) {
+        $answer = $row['content'];
+        mysql_close($con);
+        return $answer;
+    } else {
+        mysql_close($con);
+        return false;
+    }
+}
+
 ?>
