@@ -77,10 +77,10 @@ $offset = $page * $rowsPerPage;
             <div id="container">
                 <div id="nav">
                     <a href=".." style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Back to Main</span></a>
-                    <a href="composer.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Send Message</span></a>                    
-                    <a href="my_messages.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">My Inbox</span></a>
-                    <a href="profile.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">My Profile</span></a>
-                    <a href="logout.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Logout</span></a>
+                    <a href="../login/composer.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Send Message</span></a>                    
+                    <a href="../login/my_messages.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">My Inbox</span></a>
+                    <a href="../login/profile.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">My Profile</span></a>
+                    <a href="../login/logout.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Logout</span></a>
                 </div>
                 <div id="centercolumn">
                     <h3>My Exercises</h3>                     
@@ -88,17 +88,22 @@ $offset = $page * $rowsPerPage;
                         <table class="fancy">
                             <?
                             $con = connect();
-                            echo '<tr><th>Exercise ID</th><th>Status</th><th>Last Update</th><th>Action</th></tr>';
-                            $query = "SELECT `id`,`status`,`last_update_time`
+                            echo '<tr><th>ID</th><th>Status</th><th>Created</th><th>Last Update</th><th>Action</th></tr>';
+                            $query = "SELECT `id`,`status`,`creation_date`,`last_update_time`
                                 from `exercise` 
                                 order by `creation_date` desc limit " . mysql_real_escape_string($offset) . ", " . mysql_real_escape_string($rowsPerPage);
                             $result = mysql_query($query, $con);
                             while ($row = mysql_fetch_array($result)) {
                                 echo "<tr>
-                                    <td>" . $row['id'] . "</td>
-                                    <td>" . $row['status'] . "</td>                                    
-                                    <td>" . $row['last_update_time'] ."</td>
-                                        <td>X</td></tr>";
+                                        <td><a href=\"\">" . $row['id'] . "</a></td>
+                                        <td>" . "draft" . "</td>                                    
+                                        <td>" . $row['creation_date'] ."</td>
+                                        <td>" . $row['last_update_time'] ."</td>
+                                        <td>
+                                            <img src=\"../images/comment.png\" style=\"height: 20px\">
+                                            <img src=\"../images/document_delete.png\" style=\"height: 20px\">
+                                        </td>
+                                      </tr>";
                             }
                             mysql_close($con);
                             ?>
