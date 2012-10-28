@@ -53,12 +53,12 @@ function display_response(data){
     // React to plot selection
     placeholder.bind("plotselected", function (event, ranges) {
         plot = $.plot(placeholder, [d1],
-            $.extend(true, {}, options, {
-                xaxis: {
-                    min: ranges.xaxis.from, 
-                    max: ranges.xaxis.to
-                }
-            }));
+        $.extend(true, {}, options, {
+            xaxis: {
+                min: ranges.xaxis.from, 
+                max: ranges.xaxis.to
+            }
+        }));
     });    
     // Read position of the mouse pointer
     placeholder.bind("plothover", function (event, pos, item) {
@@ -67,9 +67,9 @@ function display_response(data){
     });      
     responseResultsDiv.style.display = 'block';    
     var plot = $.plot(placeholder, [{
-        data:d1,  
-        label:'Step Response'
-    }],options);
+            data:d1,  
+            label:'Step Response'
+        }],options);
     plot.draw();              
     done();
 }
@@ -82,8 +82,8 @@ function display_bode(response_data){
     Q_ = '['+response_data.response.Q_+']';
     //    alert("P="+P_+"\nQ="+Q_);
     var bodeUrl = '/engine/smt6565.php?id=example&write_to_file=0&P='+encodeURIComponent(P_)+'&Q='+
-    encodeURIComponent(Q_)+'&delay='+response_data.response.delay+
-    '&sim_points=700&sim_log_range='+encodeURIComponent('[-2 4]');    
+        encodeURIComponent(Q_)+'&delay='+response_data.response.delay+
+        '&sim_points=700&sim_log_range='+encodeURIComponent('[-2 4]');    
     $.ajax({        
         url: bodeUrl,
         type: 'GET',
@@ -92,7 +92,7 @@ function display_bode(response_data){
             done();
         },
         success: function() {
-        //alert('SUCCESS');
+            //alert('SUCCESS');
         }
     }).done(function(data){
         var data_magnitude = [];
@@ -117,14 +117,14 @@ function display_bode(response_data){
                 backgroundOpacity:0.6
             },
             yaxes: [ {},
-            {
-                alignTicksWithAxis: 1,
-                position: "right", 
-                tickFormatter: 
-                function(v,axis){
-                    return v.toFixed(axis.tickDecimals) +"rad";
-                }
-            } ],
+                {
+                    alignTicksWithAxis: 1,
+                    position: "right", 
+                    tickFormatter: 
+                        function(v,axis){
+                        return v.toFixed(axis.tickDecimals) +"rad";
+                    }
+                } ],
             crosshair: {
                 mode: "x"
             },
@@ -136,15 +136,15 @@ function display_bode(response_data){
             
         var bode_plot_placeholder = $("#bodeplaceholder");
         plot = $.plot(bode_plot_placeholder, [{
-            data:data_magnitude,  
-            label:'log M(w) = -0.000',
-            color:'red'
-        },{
-            data:data_phase,  
-            label:'Arg(w) = -0.00', 
-            yaxis: 2,
-            color:'green'
-        }],options_bode);
+                data:data_magnitude,  
+                label:'log M(w) = -0.000',
+                color:'red'
+            },{
+                data:data_phase,  
+                label:'Arg(w) = -0.00', 
+                yaxis: 2,
+                color:'green'
+            }],options_bode);
         plot.draw();           
     
         var legends = $("#bodeplaceholder .legendLabel");
@@ -226,9 +226,9 @@ function run_engine(){
         Qc="["+ti+" 0]";
     }
     var myurl = '/engine/smt9901.php?id=example&write_to_file=1&P='+encodeURIComponent(P)+'&Q='+
-    encodeURIComponent(Q)+'&Pm=1&Qm=1&Pc='+encodeURIComponent(Pc)+'&Qc='+
-    encodeURIComponent(Qc)+'&delay='+delay+"&closed_loop="+
-    (closed_loop?"1":"0")+"&excitation="+excitation;
+        encodeURIComponent(Q)+'&Pm=1&Qm=1&Pc='+encodeURIComponent(Pc)+'&Qc='+
+        encodeURIComponent(Qc)+'&delay='+delay+"&closed_loop="+
+        (closed_loop?"1":"0")+"&excitation="+excitation;
     if (horizon!='auto'){
         myurl+='&sim_horizon='+horizon;
     }
@@ -302,8 +302,8 @@ function simulate(p1,q1,q2,delay){
         Qc="["+ti+" 0]";
     }
     var myurl = '/engine/smt9901.php?id=example&write_to_file=1&P='+encodeURIComponent(P)+'&Q='+
-    encodeURIComponent(Q)+'&Pm=1&Qm=1&Pf=1&Qf=1&Pc='+encodeURIComponent(Pc)+'&Qc='+
-    encodeURIComponent(Qc)+'&delay='+delay+"&closed_loop=1&excitation=step";
+        encodeURIComponent(Q)+'&Pm=1&Qm=1&Pf=1&Qf=1&Pc='+encodeURIComponent(Pc)+'&Qc='+
+        encodeURIComponent(Qc)+'&delay='+delay+"&closed_loop=1&excitation=step";
     // Perform request against the WS
     
     var doSubmitInput = document.getElementById('doSubmit');
@@ -323,6 +323,8 @@ function simulate(p1,q1,q2,delay){
                 doSubmitInput.style.display='none';
             }
         }
+        var submitEle = document.getElementById('submitReceipt');
+        submitEle.style.display="none";
         // Calculate a few things...
         var dataArray = data.response.y;       
         data['evaluation'] = new Object();
@@ -350,16 +352,53 @@ function simulate(p1,q1,q2,delay){
 }
 
 function submit(){
+    // should we submit it?
+    var tuning_exercise_id = getCookie('tuning_exercise_id');
+    var submitEle = document.getElementById('submitReceipt');
+    var postData = 'exercise='+encodeURIComponent(JSON.stringify(simulationData))+
+        '&type=tuning&overwrite='+(tuning_exercise_id!=null)+'&working_id='+tuning_exercise_id;
     $.ajax({        
         url: '/exercises/register.php',
         type: 'POST',
-        data: 'exercise='+encodeURIComponent(JSON.stringify(simulationData))+'&type=tuning',
+        data: postData,
         error: function() {
             alert('WS Failure!!!\n Please contact the system admins.');            
             done();
         }
-    }).done(function(data){alert(data);});
+    }).done(
+    function(data)
+    {        
+        alert(data);
+        setCookie('tuning_exercise_id',data,1);
+        $("#savedMsg").html("You have successfully saved these results in \n\
+            your account with ID <a href=\"/exercises/?id="+data+"\">"+data+"</a>");
+        submitEle.style.display="block";               
+    });        
 }
+
+function getCookie(c_name)
+{
+    var i,x,y,ARRcookies=document.cookie.split(";");
+    for (i=0;i<ARRcookies.length;i++)
+    {
+        x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
+        y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
+        x=x.replace(/^\s+|\s+$/g,"");
+        if (x==c_name)
+        {
+            return unescape(y);
+        }
+    }
+}
+
+function setCookie(c_name,value,exdays)
+{
+    var exdate=new Date();
+    exdate.setDate(exdate.getDate() + exdays);
+    var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
+    document.cookie=c_name + "=" + c_value;
+}
+
 
 /*
  * Returns the integral of (y-setpoint) ^2
@@ -459,7 +498,7 @@ function openLoopAction(chkBox) {
 // NEW POPUP
 function newPopup(url) {
     popupWindow = window.open(
-        url,'popUpWindow','height=250,width=500,left=10,top=10,resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no,status=no');
+    url,'popUpWindow','height=250,width=500,left=10,top=10,resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no,status=no');
 }
 
 function showAdvanced(){
@@ -516,7 +555,7 @@ function dehighlight(object){
     fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 
-!function(d,s,id){
+    !function(d,s,id){
     var js,fjs=d.getElementsByTagName(s)[0];
     if(!d.getElementById(id)){
         js=d.createElement(s);

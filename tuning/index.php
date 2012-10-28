@@ -68,8 +68,7 @@ function randomFloat($min, $max) {
     return ((float) $num);
 }
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd" 
-    >    
+<!DOCTYPE html>    
 <html lang="<? echo $lang; ?>"> 
     <head>
         <title><? echo $page_title ?></title>
@@ -235,7 +234,7 @@ function randomFloat($min, $max) {
 
                         <div id="submitReceipt" style="display:none;" >
                             <p lang="<? echo $lang; ?>" style="font-size: smaller;font-style: italic">
-                                You have successfully saved these results in your account.
+                                <span id="savedMsg"></span>
                             </p>
                         </div><!-- END OF submitReceipt -->
                     </div><!-- END OF response_results -->                   

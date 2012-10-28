@@ -96,9 +96,25 @@ function registerExercise($exerciseData, $user_id, $exercise_type) {
                 "\", \"". $user_id."\", \"".$exercise_type."\")";
         mysql_query($insert_exercise_statement , $con);
         $update_exercise_id = mysql_insert_id();
+        //NOTE: The method mysql_insert_id(), according to the documentation
+        // will return the last created ID on the *current connection*, so it
+        // is fail safe provided that the connection is not shared between 
+        // different threads.
     }
     mysql_close($con);
     return $update_exercise_id;
 }
 
+
+function updateExercise($exerciseData, $exercise_id) {    
+    $con = connect();
+    if (!$con) {
+        die('Could not connect: ' . mysql_error());
+    } else {
+        $update_exercise_statement = "UPDATE `exercise` SET `content`=\"".
+            $exerciseData."\" WHERE `id`=".$exercise_id;
+        mysql_query($update_exercise_statement , $con);
+    }
+    mysql_close($con);
+}
 ?>
