@@ -1,5 +1,5 @@
 <?php
-
+ini_set('display_errors', 'on'); error_reporting(E_ALL);
 /**
  * Project:     Securimage: A PHP class for creating and managing form CAPTCHA images<br />
  * File:        securimage_show.php<br />
