@@ -27,7 +27,7 @@ if (isset($what)) {
     $fn = $_COOKIE['fn'];
     $ln = $_COOKIE['ln'];
     $hash = $_COOKIE['hash'];
-    $authtype = $_COOKIE['authType'];
+    $authtype = $_COOKIE['auth'];
     $token = $_COOKIE['token'];
 }
 

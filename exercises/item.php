@@ -4,7 +4,7 @@ include("../database.php");
 
 doStartSession();
 
-header('Content-type: text/plain');
+header('Content-type: application/json');
 
 $un = $_COOKIE["id"];
 $token = $_COOKIE["token"];
@@ -24,7 +24,7 @@ if (!$content) {
     header("HTTP/1.0 404 Not Found");
     die('Not found');
 }
-$header = "Content-Disposition: attachment; filename=\"$exercise_id.txt\"";
+$header = "Content-Disposition: attachment; filename=\"$exercise_id.json\"";
 header($header);
 echo $content;
 ?>

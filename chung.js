@@ -48,7 +48,7 @@ function display_response(data){
         selection: {
             mode: "x"
         }
-    };    
+    };
     var placeholder = $("#placeholder");
     // React to plot selection
     placeholder.bind("plotselected", function (event, ranges) {
@@ -305,8 +305,7 @@ function simulate(p1,q1,q2,delay){
     var myurl = '/engine/smt9901.php?id=example&write_to_file=1&P='+encodeURIComponent(P)+'&Q='+
         encodeURIComponent(Q)+'&Pm=1&Qm=1&Pf=1&Qf=1&Pc='+encodeURIComponent(Pc)+'&Qc='+
         encodeURIComponent(Qc)+'&delay='+delay+"&closed_loop=1&excitation=step";
-    // Perform request against the WS
-    
+    // Perform request against the WS    
     var doSubmitInput = document.getElementById('doSubmit');
     $.ajax({        
         url: myurl,
@@ -353,7 +352,6 @@ function simulate(p1,q1,q2,delay){
 }
 
 function submit(){
-    // should we submit it?
     var tuning_exercise_id = getCookie('tuning_exercise_id');
     var submitEle = document.getElementById('submitReceipt');
     var postData = 'exercise='+encodeURIComponent(JSON.stringify(simulationData))+
