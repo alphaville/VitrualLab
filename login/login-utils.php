@@ -107,7 +107,7 @@ function authMember() {
     $myUser->setLn($ln);
     $myUser->setEmail($email);
     $myUser->setHash($hash);
-    $myUser->setAuthType($authType);
+    $myUser->setAuthType($authtype);
     $myUser->setToken($token);
     return $myUser;
 }

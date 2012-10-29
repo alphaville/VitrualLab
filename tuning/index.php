@@ -70,6 +70,8 @@ function randomFloat($min, $max) {
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
         <script type='text/javascript' src="/chung.js"></script>   
         <script type='text/javascript' src="../ga.js"></script>   
+        <script type='text/javascript' src="../canvas2image.js"></script>   
+        <script type='text/javascript' src="../base64.js"></script>   
         <script type='text/javascript' src="/flot/jquery.min.js"></script>
         <script type='text/javascript' src="/flot/jquery.flot.min.js"></script>
         <script type='text/javascript' src="/flot/jquery.flot.selection.min.js"></script>
@@ -130,12 +132,12 @@ function randomFloat($min, $max) {
                     <p lang="<? echo $lang; ?>" style="font-size: smaller;font-style: italic">
                         The following data are given for the above system: The numerator of the transfer function
                         of the plant is P(s)=1<? echo ($P1 < 0 ? "-" : "+") . "" . abs($P1); ?>s and the denominator is
-                        Q(s)=<?echo $Q0;?><? echo ($Q1 < 0 ? "-" : "+") . "" . abs($Q1); ?>s
+                        Q(s)=<? echo $Q0; ?><? echo ($Q1 < 0 ? "-" : "+") . "" . abs($Q1); ?>s
                         <? echo ($Q2 < 0 ? "-" : "+") . "" . abs($Q2); ?>s<sup>2</sup>
                         <? echo ($Q3 < 0 ? "-" : "+") . "" . abs($Q3); ?>s<sup>3</sup>.
                         The delay is t<sub>d</sub>=<? echo $delay; ?>. The measuring element does not affect the dynamics and
                         it can be considered to have G<sub>f</sub>(s)=1.
-                        You may use the <a href="/pid?kc=1&ti=infty&td=0&p=[<? echo $P1; ?> 1]&q=[<? echo $Q3." ".$Q2." ".$Q1." ".$Q0?>]&delay=<? echo $delay; 
+                        You may use the <a href="/pid?kc=1&ti=infty&td=0&p=[<? echo $P1; ?> 1]&q=[<? echo $Q3 . " " . $Q2 . " " . $Q1 . " " . $Q0 ?>]&delay=<? echo $delay;
                         ?>" target="_blank" >PID workbench</a> of VLAB to tune a PID controller for this system.
                         Once you have completed the tuning, enter your result in the form below and click the "Simulate" button:
                     </p>
@@ -175,6 +177,13 @@ function randomFloat($min, $max) {
                         Perform a simulation of the step-response of the closed-loop system.
                     </p>
                     <input type="submit" value="Simulate" onclick="simulate(<? echo $P1 . "," . $Q1 . "," . $Q2 . "," . $delay; ?>);">                    
+                    <script>                                                
+                        function clickedSavePng() {
+                            var oPlaceholder = document.getElementById('placeholder');
+                            var oCanvas = oPlaceholder.firstChild;
+                            bRes = Canvas2Image.saveAsPNG(oCanvas);
+                        }
+                    </script>
                     <div id="response_results" style="display:none">
                         <p lang="<? echo $lang; ?>" style="font-size: smaller;font-style: italic">
                             This is the closed-loop step response of the system with the PID controller
@@ -182,6 +191,9 @@ function randomFloat($min, $max) {
                         </p>
                         <p style="font-weight: bold;text-align: center">Response Curve</p>
                         <div id="placeholder" style="width:95%;height:300px;margin-left:20px;margin-top:20px"></div>
+                        <p style="text-align: right">
+                            <a style="font-size: smaller;font-style:italic;" href="javascript:clickedSavePng();">save as png...</a>
+                        </p>
                         <p lang="<? echo $lang; ?>" style="font-size: smaller;font-style: italic">
                             Here is some evaluation of the closed loop system:</p>
                         <table style="font-size: smaller;font-style: italic">
@@ -203,7 +215,7 @@ function randomFloat($min, $max) {
                                           onmouseout="tooltip.hide();">Regulation Deviation</span>&nbsp;&nbsp;&nbsp;
                                 </td><td><span id="regDev"></span></td>
                             </tr>
-                            <tr>
+                            <tr>                                
                                 <td><span class="hotspot" 
                                           onmouseover="tooltip.show('Integral over time of the quadratic deviation from \n\
                                           the set-point.');" onmouseout="tooltip.hide();">IQE</span>
