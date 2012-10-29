@@ -72,8 +72,13 @@ if ($lang == NULL) {
                     <?
                     $first = $_COOKIE["fn"];
                     if (isset($first)) {
-                        echo'Dear <a href="./login/profile.php" style="text-decoration:none">' . $first . '</a>, 
-                        you are logged in. <a href="./login/logout.php" style="text-decoration:none">Logout</a>.';
+                        echo "Dear <a href=\"/login/profile.php\" style=\"text-decoration:none\">$first</a>, 
+                        you are logged in. <a href=\"./login/logout.php\" style=\"text-decoration:none\">Logout</a>.<br/>
+                        <a href=\"/login/profile.php\" style=\"text-decoration:none\" title=\"My Profile\"><img src=\"images/im-user.png\"></img></a>
+                        <a href=\"/exercises/list.php\" style=\"text-decoration:none\" title=\"My Exercises\"><img src=\"images/folder-txt.png\"></img></a>
+                        <a href=\"/login/my_messages.php\" style=\"text-decoration:none\" title=\"Incoming Messages\"><img src=\"images/mail-mark-read.png\"></img></a>
+                        <a href=\"/login/composer.php\" style=\"text-decoration:none\" title=\"Compose Message\"><img src=\"images/mail-message-new.png\"></img></a>";
+                        
                     } else {
                         echo $welcome . ' <a href="./login/profile.php" style="text-decoration:none">Guest</a>.
                         ' . $youmay . ' <a href="./login" style="text-decoration:none">Login</a>.';
@@ -82,7 +87,7 @@ if ($lang == NULL) {
                 </div>
                 <div id="menubar" align="center">
                     <span class="menuoption"><a href="/?lang=<? echo $lang; ?>"><? echo $home_page; ?></a></span> | 
-                    <span class="menuoption"><a href=""><? echo $experiments; ?></a></span> | 
+                    <span class="menuoption"><a href="/experiments"><? echo $experiments; ?></a></span> | 
                     <span class="menuoption"><a href="https://github.com/alphaville/VitrualLab/issues"><? echo $report_bug; ?></a></span> | 
                     <span class="menuoption"><a href="/faq?lang=<? echo $lang; ?>" title="Frequently Asked Questions"><? echo $faq; ?></a></span>
                 </div>
