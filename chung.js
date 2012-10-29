@@ -369,10 +369,9 @@ function submit(){
     }).done(
     function(data)
     {        
-        alert(data);
         setCookie('tuning_exercise_id',data,1);
         $("#savedMsg").html("You have successfully saved these results in \n\
-            your account with ID <a href=\"/exercises/?id="+data+"\">"+data+"</a>");
+            your account with ID <a href=\"/exercises/inspect.php?id="+data+"\">"+data+"</a>");
         submitEle.style.display="block";               
     });        
 }

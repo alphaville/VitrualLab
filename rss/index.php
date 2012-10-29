@@ -1,39 +1,15 @@
 <?php
 include('../global.php');
 include("../database.php");
-if (!authorize_user($_COOKIE["id"], $_COOKIE["token"])) {
-    header('Location: ' . $__BASE_URI . '/login/index.php');
-    die("You are being redirect to another page...");
-}
-session_start();
-if (empty($_SESSION['count'])) {
-    $_SESSION['count'] = 1;
-} else {
-    $_SESSION['count']++;
-}
-$user_role = getRole($_COOKIE["id"]);
-if ($user_role < 10) {
-    header('Location: ' . $__BASE_URI . '/login/index.php');
-    die("You are being redirect to another page...");
-}
-$message_id = $_GET['id'];
+
+doStartSession();
+
 $un = $_COOKIE['id'];
+$token = $_COOKIE['token'];
+authoriseUser($un, $token, true, 10, 'rss');
 
-function getUser() {
-    $fn = $_COOKIE["fn"];
-    $ln = $_COOKIE["ln"];
-    $full_name = $fn . " " . $ln;
-    echo '<span id="username"><a href="/login/profile.php">' . $full_name . '</a></span>';
-}
 
-function genRandomString($length) {
-    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    $string = '';
-    for ($p = 0; $p < $length; $p++) {
-        $string .= $characters[mt_rand(0, strlen($characters))];
-    }
-    return $string;
-}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -82,13 +58,13 @@ function genRandomString($length) {
                             $lang = $_POST['rsslang'];
                             $rsslink = mysql_real_escape_string($rsslink);
                             $query = "INSERT INTO `rss` (`title`,`link`, 
-                                `guid`, `author`, `description`, `lang`) VALUES 
+                                `guid`, `author`, `description`, `lang`, `user_id`) VALUES 
                                 ('" . mysql_real_escape_string($_POST["rsstitle"]) . "', 
                                     '" . $rsslink . "', 
                                     '" . mysql_real_escape_string($_POST['rssguid']) . "',
                                         '" . mysql_real_escape_string($_POST['rssauthor']) . "', 
                                         '" . $_POST['rssdescription'] . "', '" .
-                                    mysql_real_escape_string($lang) . "')";                            
+                                    mysql_real_escape_string($lang) . "', '$un')";
                             mysql_query($query);
                         }
                         mysql_close($con);

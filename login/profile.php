@@ -14,13 +14,13 @@ if (isset($what) & $what == "return") {// Authenticate by OpenID
     $myUser = authMember();
 }
 if (isset($what)) {
-    $email = $myUser->email;
-    $un = $myUser->un;
-    $fn = $myUser->fn;
-    $ln = $myUser->ln;
-    $hash = $myUser->hash;
-    $authtype = $myUser->authType;
-    $token = $myUser->token;
+    $email = $myUser->getEmail();
+    $un = $myUser->getUn();
+    $fn = $myUser->getFn();
+    $ln = $myUser->getLn();
+    $hash = $myUser->getHash();
+    $authtype = $myUser->getAuthType();
+    $token = $myUser->getToken();
 } else {
     $email = $_COOKIE['email'];
     $un = $_COOKIE['id'];

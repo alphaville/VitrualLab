@@ -22,7 +22,7 @@ if ($lang == NULL) {
     >    
 <html lang="<? echo $lang; ?>"> 
     <head>
-        <title><? echo $page_title ?></title>
+        <title>Virtual Experiments</title>
         <meta name="keywords" content="Automatic Control Lab, Virtual Lab, Automatic Control Playground" >
         <meta name="description" content="Online automatic control lab." >
         <meta name="author" content="Pantelis Sopasakis">
@@ -32,8 +32,8 @@ if ($lang == NULL) {
         <script type='text/javascript' src="/jquery.js"></script>
         <link rel="stylesheet" type="text/css" href="/style.css" >
         <link rel="shortcut icon" href="/vlab/favicon.ico" type="image/x-icon" />
-        <link href="<?echo $FEED_RSS;?>" rel="alternate" type="application/rss+xml" title="RSS 2.0" >
-        <link href="<?echo $FEED_ATOM;?>" rel="alternate" type="application/atom+xml" title="Atom 1.0" >
+        <link href="<? echo $FEED_RSS; ?>" rel="alternate" type="application/rss+xml" title="RSS 2.0" >
+        <link href="<? echo $FEED_ATOM; ?>" rel="alternate" type="application/atom+xml" title="Atom 1.0" >
     </head>
     <body id="body" onload="loadMe();">
         <div id="wrap">
@@ -86,7 +86,7 @@ if ($lang == NULL) {
                 </div>
                 <div id="menubar" align="center">
                     <span class="menuoption"><a href="/?lang=<? echo $lang; ?>"><? echo $home_page; ?></a></span> | 
-                    <span class="menuoption"><a href="/experiments"><? echo $experiments; ?></a></span> | 
+                    <span class="menuoption"><a href=""><? echo $experiments; ?></a></span> | 
                     <span class="menuoption"><a href="https://github.com/alphaville/VitrualLab/issues"><? echo $report_bug; ?></a></span> | 
                     <span class="menuoption"><a href="/faq/index.php?lang=<? echo $lang; ?>" title="Frequently Asked Questions"><? echo $faq; ?></a></span>
                 </div>
@@ -95,40 +95,23 @@ if ($lang == NULL) {
                     <p lang="<? echo $lang; ?>" style="font-size: smaller;font-style: italic"><? echo $subheader; ?></p>
 
                     <div class="qa">
-                        <div class="quesion" >
-                            <p><b>1. <?echo $q1;?></b></p>
-                        </div>
+                        <div class="quesion" ><p><b>1. <? echo $q1; ?></b></p></div>
+                        <div class="answer"><p align="justify" lang="<? echo $lang; ?>"><? echo $a1_1; ?></p></div>                     
+                    </div>
 
-                        <div class="answer">
-                            <p align="justify" lang="<? echo $lang; ?>"><? echo $a1_1; ?></p>
-                            <div align="center">
-                                <img src="/images/LoonyGearsAnimation.gif" height="250" alt="screenshot - 1">
-                            </div>
-                            <p align="justify" lang="<? echo $lang; ?>"><? echo $a1_2; ?></p>
-                        </div>                     
-                    </div>
-                    
                     <div class="qa">
-                        <div class="quesion" >
-                            <p><b>2. <?echo $q2;?></b></p>
-                        </div>
-                        <div class="answer">
-                            <p align="justify" lang="<? echo $lang; ?>"><? echo $a2; ?></p>                            
-                        </div>                     
+                        <div class="quesion" ><p><b>2. <? echo $q2; ?></b></p></div>
+                        <div class="answer"><p align="justify" lang="<? echo $lang; ?>"><? echo $a2; ?></p></div>
                     </div>
-                    
+
                     <div class="qa">
-                        <div class="quesion" >
-                            <p><b>3. <?echo $q3;?></b></p>
-                        </div>
-                        <div class="answer">
-                            <p align="justify" lang="<? echo $lang; ?>"><? echo $a3; ?></p>
-                        </div>                     
+                        <div class="quesion" ><p><b>3. <? echo $q3; ?></b></p></div>
+                        <div class="answer"><p align="justify" lang="<? echo $lang; ?>"><? echo $a3; ?></p></div>                     
                     </div>
 
                     <div class="cl"></div>
                     <div class="cl"></div>
-                                        
+
                 </div>
             </div>
             <div class="footer" id="footer">

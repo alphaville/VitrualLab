@@ -1,5 +1,11 @@
 <?php
+include('../global.php');
+include('../database.php');
 session_destroy();
+
+$logging_out_user = $_COOKIE['id'];
+clearToken($logging_out_user);
+
 setcookie("fn", "", time() - 3600, "/");
 setcookie("ln", "", time() - 3600, "/");
 setcookie("email", "", time() - 3600, "/");
@@ -7,14 +13,13 @@ setcookie("auth", "", time() - 3600, "/");
 setcookie("hash", "", time() - 3600, "/");
 setcookie("id", "", time() - 3600, "/");
 setcookie("token", "", time() - 3600, "/");
-//TODO: [IMPT] Kill token - Remove from DB! Security Leak!!!
-include('../global.php');
+
 ?>
 <!DOCTYPE html>
 <html>
     <head>
         <title>Logout Page</title>
-        <meta name="keywords" content="<?echo $__KEYWORDS__;?>" >
+        <meta name="keywords" content="<? echo $__KEYWORDS__; ?>" >
         <meta name="robots" content="noindex,nofollow">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <link rel="stylesheet" type="text/css" href="../tooltip/style.css" >    
@@ -23,8 +28,8 @@ include('../global.php');
         <script type='text/javascript' src='../chung.js' ></script>
         <script type='text/javascript'></script>
         <link rel="shortcut icon" href="/vlab/favicon.ico" type="image/x-icon" >
-        <link href="<?echo $FEED_RSS;?>" rel="alternate" type="application/rss+xml" title="RSS 2.0" >
-        <link href="<?echo $FEED_ATOM;?>" rel="alternate" type="application/atom+xml" title="Atom 1.0" >
+        <link href="<? echo $FEED_RSS; ?>" rel="alternate" type="application/rss+xml" title="RSS 2.0" >
+        <link href="<? echo $FEED_ATOM; ?>" rel="alternate" type="application/atom+xml" title="Atom 1.0" >
     </head>
     <body id="body" onload="loadMe();">    
         <div id="wrap">

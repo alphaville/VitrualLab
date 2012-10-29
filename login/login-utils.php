@@ -43,20 +43,20 @@ function authOpenID() {
     $token = createTokenForUser($id);
     setcookie("token", $token, time() + 36000, "/");
     $myUser = new User();
-    $myUser->un = $id;
-    $myUser->fn = $fn;
-    $myUser->ln = $ln;
-    $myUser->email = $email;
-    $myUser->hash = $hash;
-    $myUser->authType = $authtype;
-    $myUser->token = $token;   
+    $myUser->setUn($id);
+    $myUser->setFn($fn);
+    $myUser->setLn($ln);
+    $myUser->setEmail($email);
+    $myUser->setHash($hash);
+    $myUser->setAuthType($authType);
+    $myUser->setToken($token);
     return $myUser;
 }
 
 function createTokenForUser($user_id) {
     // Create and store new authentication token for this user
     $con = connect(); //OPEN CONNECTION : X001
-    $randomToken = genRandomString(20) . "----";
+    $randomToken = genRandomString(50) . "----";
     $create_token = "INSERT INTO `token` (`token_id`,`people_id`) VALUES ('$randomToken','$user_id')";
     mysql_query($create_token);
     mysql_close($con); //CLOSE CONNECTION : X001
@@ -102,13 +102,13 @@ function authMember() {
     $token = createTokenForUser($un);
     setcookie("token", $token, time() + 36000, "/");
     $myUser = new User();
-    $myUser->un = $un;
-    $myUser->fn = $fn;
-    $myUser->ln = $ln;
-    $myUser->email = $email;
-    $myUser->hash = $hash;
-    $myUser->authType = $authtype;
-    $myUser->token = $token;
+    $myUser->setUn($un);
+    $myUser->setFn($fn);
+    $myUser->setLn($ln);
+    $myUser->setEmail($email);
+    $myUser->setHash($hash);
+    $myUser->setAuthType($authType);
+    $myUser->setToken($token);
     return $myUser;
 }
 

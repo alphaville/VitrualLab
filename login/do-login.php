@@ -27,25 +27,24 @@ if (isset($logintype)) {
         header('Location: ' . $endpoint . $fields); //step 5
     }
     /*
-     * FACEBOOK LOGIN
+     * YAHOO LOGIN
      */ else if ($logintype == 'yahoo') {                 
         try {
             $openid->required = array('contact/email');
             $openid->optional = array('namePerson', 'namePerson/friendly', 'birthDate', 'person/gender'); //
             $openid->returnUrl = $__URL__."/login/profile.php?what=return&authtype=yahoo";
             if (!$openid->mode) {
-                $openid->identity = 'yahoo.com';                
+                $openid->identity = 'me.yahoo.com';
                 header('Location: ' . $openid->authUrl() );
             } elseif ($openid->mode == 'cancel') {
                 echo 'User has canceled authentication!';
             } else {
                 echo 'User ' . ($openid->validate() ? $openid->identity . ' has ' : 'has not ') . 'logged in.';
-                print_r($openid->getAttributes()); //
+                print_r($openid->getAttributes());
             }
         } catch (Exception $e) {
             print_r($e);
         }
-        //header('Location: ' . $endpoint . $fields); //step 5
     }
 }
 ?>

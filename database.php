@@ -3,7 +3,6 @@
 function connect() {
     require("global.php");
     $con = mysql_connect($__DATABASE_URL__, $__DATABASE_USER__, $__DATABASE_PWD__);
-
     if (!$con) {
         return null;
     }
@@ -150,7 +149,7 @@ function authoriseUser($user_name, $token, $requireAuthorisation, $minimumPrivil
             $redirectUrlParameter = "?redirect=" . $redirect;
             header('Location: ' . $__BASE_URI . '/login/index.php' . $redirectUrlParameter);
             die("You are being redirect to another page...");
-        }else{
+        } else {
             header("HTTP/1.0 401 Unauthorized");
             die("Authentication Failure!");
         }
@@ -185,4 +184,12 @@ function genRandomString($length) {
     }
     return $string;
 }
+
+function clearToken($user_id) {
+    $con = connect() or die('Could not connect to the database!');
+    $clear_query = "DELETE FROM `token` WHERE `people_id`='$user_id'";
+    mysql_query($clear_query);
+    mysql_close();
+}
+
 ?>
