@@ -5,10 +5,9 @@ doStartSession();
 
 $un = $_COOKIE['id'];
 $token = $_COOKIE['token'];
-$isadmin = authoriseUser($un, $token, true, 10, 'login/users.php');// Requires role>=10 to access this resource
+$isadmin = authoriseUser($un, $token, true, 10, 'login/users.php'); // Requires role>=10 to access this resource
 
 $message_id = $_GET['id'];
-
 
 function utf8_substr($str, $start) {
     preg_match_all("/./u", $str, $ar);
@@ -22,7 +21,7 @@ function utf8_substr($str, $start) {
 }
 
 $search_type = $_GET["t"] == "sent" ? "sent" : "received";
-$rowsPerPage = $_GET["offset"]?$_GET["offset"]:20;
+$rowsPerPage = $_GET["offset"] ? $_GET["offset"] : 20;
 $page = $_GET["page"] != null ? $_GET["page"] : 1;
 $page--;
 $offset = $page * $rowsPerPage;
@@ -40,8 +39,8 @@ $offset = $page * $rowsPerPage;
         <script type='text/javascript' src='../chung.js' ></script>
         <script type="text/javascript" src="../ckeditor/ckeditor.js"></script>
         <link rel="shortcut icon" href="/vlab/favicon.ico" type="image/x-icon" >
-        <link href="<?echo $FEED_RSS;?>" rel="alternate" type="application/rss+xml" title="RSS 2.0" >
-        <link href="<?echo $FEED_ATOM;?>" rel="alternate" type="application/atom+xml" title="Atom 1.0" >
+        <link href="<? echo $FEED_RSS; ?>" rel="alternate" type="application/rss+xml" title="RSS 2.0" >
+        <link href="<? echo $FEED_ATOM; ?>" rel="alternate" type="application/atom+xml" title="Atom 1.0" >
     </head>
     <body id="body" onload="loadMe();">    
         <div id="wrap">
@@ -56,12 +55,11 @@ $offset = $page * $rowsPerPage;
                 <!-- RIGHT COLUMN -->	
             </div>
             <div id="container">
-                <div id="nav">
-                    <a href=".." style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Back to Main</span></a>
-                    <a href="composer.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Send Message</span></a>                    
-                    <a href="my_messages.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">My Inbox</span></a>
-                    <a href="profile.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">My Profile</span></a>
-                    <a href="logout.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Logout</span></a>
+                <div id="login">
+                    <div id="language" style="float:right">
+                        <a href="?lang=en">English</a> | <a href="?lang=el">Ελληνικά</a>
+                    </div>
+                    <?include("../loginHeader.php");?>
                 </div>
                 <div id="centercolumn">
                     <h3>VLAB Users</h3>  
@@ -78,7 +76,7 @@ $offset = $page * $rowsPerPage;
                             mysql_close($son);
                         }
                         // CREATE AN ADMINISTRATOR
-                        if ($method=="update_admin"){
+                        if ($method == "update_admin") {
                             $con = connect() or die("MySQL Error: Could not connect to the database");
                             if ($con) {
                                 $query = "UPDATE `people` SET role=10 WHERE `id`='" . urldecode($user_id) . "'";
@@ -87,7 +85,7 @@ $offset = $page * $rowsPerPage;
                             mysql_close($son);
                         }
                         // REVOKE AN ADMINISTRATOR
-                        if ($method=="undo_admin"){
+                        if ($method == "undo_admin") {
                             $con = connect() or die("MySQL Error: Could not connect to the database");
                             if ($con) {
                                 $query = "UPDATE `people` SET role=0 WHERE `id`='" . urldecode($user_id) . "'";
@@ -116,13 +114,13 @@ $offset = $page * $rowsPerPage;
                                         <td><a title=\"Send Message\" 
                                         href=\"composer.php?force_rcpt=true&rcpt_to=" . urlencode($row['id']) . "&to=" . urlencode($row['fn'] . " " . $row['ln']) . "\">
                                             <img src=\"../images/new_message.png\" style=\"width: 20px\"></a>";
-                                if ($row['role'] < 10 && $row['role'] >=0){
+                                if ($row['role'] < 10 && $row['role'] >= 0) {
                                     echo "<a title=\"Make Admin\" href=\"?method=update_admin&user_id=" . urlencode($row['id']) . "\"><img src=\"../images/meeting-chair.png\" style=\"width: 20px\"></a>";
                                 }
-                                if ($row['role'] >=1 && $row['role'] <= 10){
+                                if ($row['role'] >= 1 && $row['role'] <= 10) {
                                     echo "<a title=\"Revoke Admin\" href=\"?method=undo_admin&user_id=" . urlencode($row['id']) . "\"><img src=\"../images/undo-admin.png\" style=\"width: 20px\"></a>";
                                 }
-                                if ($row['role'] <= 1 && $row['role'] >=0) {
+                                if ($row['role'] <= 1 && $row['role'] >= 0) {
                                     echo "<a title=\"Delete\" href=\"?method=delete&user_id=" . urlencode($row['id']) . "\"><img src=\"../images/user-delete.png\" style=\"width: 20px\"></a>";
                                 }
                                 echo "</td></tr>";
@@ -141,11 +139,11 @@ $offset = $page * $rowsPerPage;
                         $npages = ceil($count / $rowsPerPage);
                         $page++;
                         if ($page > 1) {
-                            echo '<a href="?&page=' . ($page - 1) . '&offset='.$rowsPerPage.'">Previous</a>';
+                            echo '<a href="?&page=' . ($page - 1) . '&offset=' . $rowsPerPage . '">Previous</a>';
                         }
                         echo ' Page ' . $page . ' ';
                         if ($page < $npages) {
-                            echo '<a href="?page=' . ($page + 1) . '&offset='.$rowsPerPage.'">Next</a>';
+                            echo '<a href="?page=' . ($page + 1) . '&offset=' . $rowsPerPage . '">Next</a>';
                         }
                         ?>
                     </div>

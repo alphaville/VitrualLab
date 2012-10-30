@@ -38,7 +38,7 @@ if (!isset($what)) {// Just want to see my profile, dude
     if (!isset($_COOKIE['email'])) {
         $email = "guest@" . $_SERVER['HTTP_HOST'];
     };
-    if (!isset($_COOKIE['auth_type'])) {
+    if (!isset($_COOKIE['auth'])) {
         $authtype = "vlab";
     };
 }

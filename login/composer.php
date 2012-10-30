@@ -10,7 +10,8 @@ authoriseUser($un, $token, false, -1, 'login/composer.php');
 
 $force_rcpt = $_GET['force_rcpt'];
 $rcpt_to = urldecode($_GET['rcpt_to']);
-$send_to=urldecode($_GET['to']);
+$send_to = urldecode($_GET['to']);
+
 function getUser() {
     $fn = $_COOKIE["fn"];
     $ln = $_COOKIE["ln"];
@@ -34,8 +35,8 @@ $what = $_GET['what'];
         <script type='text/javascript' src='../chung.js' ></script>
         <script type="text/javascript" src="../ckeditor/ckeditor.js"></script>
         <link rel="shortcut icon" href="/vlab/favicon.ico" type="image/x-icon" >
-        <link href="<?echo $FEED_RSS;?>" rel="alternate" type="application/rss+xml" title="RSS 2.0" >
-        <link href="<?echo $FEED_ATOM;?>" rel="alternate" type="application/atom+xml" title="Atom 1.0" >
+        <link href="<? echo $FEED_RSS; ?>" rel="alternate" type="application/rss+xml" title="RSS 2.0" >
+        <link href="<? echo $FEED_ATOM; ?>" rel="alternate" type="application/atom+xml" title="Atom 1.0" >
     </head>
     <body id="body" onload="loadMe();">                    
         <div id="wrap">
@@ -50,11 +51,24 @@ $what = $_GET['what'];
                 <!-- RIGHT COLUMN -->	
             </div>
             <div id="container">
-                <div id="nav">
-                    <a href=".." style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Back to Main</span></a>
-                    <a href="profile.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">My Profile</span></a>
-                    <a href="my_messages.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">My Messages</span></a>
-                    <a href="logout.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Logout</span></a>
+                <div id="login">
+                    <div id="language" style="float:right">
+                        <a href="?lang=en">English</a> | <a href="?lang=el">Ελληνικά</a>
+                    </div>
+                    <?
+                    $first = $_COOKIE["fn"];
+                    if (isset($first)) {
+                        echo "Dear <a href=\"/login/profile.php\" style=\"text-decoration:none\">$first</a>, 
+                        you are logged in. <a href=\"./login/logout.php\" style=\"text-decoration:none\">Logout</a>.<br/>
+                        <a href=\"/login/profile.php\" style=\"text-decoration:none\" title=\"My Profile\"><img src=\"/images/im-user.png\"></img></a>
+                        <a href=\"/exercises/list.php\" style=\"text-decoration:none\" title=\"My Exercises\"><img src=\"/images/folder-txt.png\"></img></a>
+                        <a href=\"/login/my_messages.php\" style=\"text-decoration:none\" title=\"Incoming Messages\"><img src=\"/images/mail-mark-read.png\"></img></a>
+                        <a href=\"/login/composer.php\" style=\"text-decoration:none\" title=\"Compose Message\"><img src=\"/images/mail-message-new.png\"></img></a>";
+                    } else {
+                        echo $welcome . ' <a href="/login/profile.php" style="text-decoration:none">Guest</a>.
+                        ' . $youmay . ' <a href="/login" style="text-decoration:none">Login</a>.';
+                    }
+                    ?>
                 </div>
                 <div id="centercolumn">
                     <h1>
@@ -100,8 +114,8 @@ $what = $_GET['what'];
                                                     }
                                                     mysql_close($con);
                                                     echo '</select>';
-                                                }else{
-                                                    echo '<input type="hidden" name="receiver" id="receiver" value="'.$rcpt_to.'">'.$send_to;
+                                                } else {
+                                                    echo '<input type="hidden" name="receiver" id="receiver" value="' . $rcpt_to . '">' . $send_to;
                                                 }
                                                 ?>
                                             </td>

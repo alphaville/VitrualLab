@@ -38,19 +38,26 @@ authoriseUser($un, $token, false, -1);// do not require admin rights
                 <!-- RIGHT COLUMN -->	
             </div>
             <div id="container">
-                <div id="nav">
-                    <a href=".." style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Back to Main</span></a>
-                    <a href="../login/composer.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Send Message</span></a>                    
-                    <a href="../login/my_messages.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">My Inbox</span></a>
-                    <a href="../login/profile.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">My Profile</span></a>
-                    <a href="../login/logout.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Logout</span></a>
+                <div id="login">
+                    <div id="language" style="float:right">
+                        <a href="?lang=en">English</a> | <a href="?lang=el">Ελληνικά</a>
+                    </div>
+                    <?include("../loginHeader.php");?>
                 </div>
                 <div id="centercolumn">
                     <h3>Profile Parameters</h3>                     
                     <div><img src="../images/editprofile.png" alt="my profile"></div>
-                    <table>
+                    <table cellspacing="3" style="font-size: small">
                         <tr>
                             <td><b>Username</b></td><td><?echo $un;?></td>
+                        </tr>
+                        <tr>
+                            <?$fn = $_COOKIE['fn'];?>
+                            <td><b>First Name</b></td><td><?echo "<input type=\"text\" name=\"fn\" value=\"$fn\"></input>";?></td>
+                        </tr>
+                        <tr>
+                            <?$ln = $_COOKIE['ln'];?>
+                            <td><b>Last Name</b></td><td><?echo "<input type=\"text\" name=\"ln\" value=\"$ln\"></input>";?></td>
                         </tr>
                     </table>
                 </div>     
