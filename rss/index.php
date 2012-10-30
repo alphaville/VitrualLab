@@ -74,7 +74,6 @@ authoriseUser($un, $token, true, 10, 'rss');
                         echo '<h1>News Added!</h1>';
                     } else {
                         ?>
-
                         <h1>
                             Add News
                         </h1>                    
