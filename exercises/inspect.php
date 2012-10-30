@@ -18,6 +18,8 @@ if ($lang == NULL) {
 $exercise_id = $_GET['id'];
 
 $un = $_COOKIE['id'];
+$fn = $_COOKIE['fn'];
+$ln = $_COOKIE['ln'];
 $token = $_COOKIE['token'];
 authoriseUser($un, $token, false, -1, 'login/composer.php');
 ?>
@@ -43,7 +45,7 @@ authoriseUser($un, $token, false, -1, 'login/composer.php');
             <div id="background">
                 <img src="/images/background.jpg" class="stretch" alt="" >
             </div>
-            <div id="leftcolumn">                
+            <div id="leftcolumn">
                 <? include('../sidebar.php'); ?>
                 <div class="left-text">
                     <div class="news"  lang="<? echo $lang; ?>">
@@ -86,10 +88,32 @@ authoriseUser($un, $token, false, -1, 'login/composer.php');
                         ' . $youmay . ' <a href="/login" style="text-decoration:none">Login</a>.';
                     }
                     ?>
-                </div>         
+                </div>
                 <div id="centercolumn" lang="<? echo $lang; ?>">
-                    Inspect Exercise <? echo "<a href=\"item.php?id=$exercise_id&user_id=$un\">$exercise_id</a>"; ?>    
-                    Download the file from 
+                    <div style="font-size: smaller"> 
+                        <table>
+                            <tr>
+                                <td><img src="/images/notebook.png"  alt="" ></td>
+                                <td><b>General Information</b><br/><br/>
+                                    <table>
+                                        <tr>
+                                            <td>Exercise ID</td><td><? echo "<a href=\"\">$exercise_id</a>"; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td>JSON Format</td><td><? echo "<a href=\"item.php?id=$exercise_id&user_id=$un\">Download</a>"; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Author</td><td><? echo "<a href=\"/login/profile.php\">$fn $ln</a>"; ?></td>
+                                        </tr>
+                                    </table>                                
+                                </td>
+                            </tr>
+                        </table>   
+                    </div>
+                    <div class="cl"></div>
+                    <div style="font-size: smaller">
+                        <b>Submission Information</b>
+                    </div>
                 </div>
             </div>
             <div class="footer" id="footer">

@@ -42,8 +42,11 @@ authoriseUser($un, $token, true, 10, 'rss');
                 <!-- RIGHT COLUMN -->	
             </div>
             <div id="container">
-                <div id="nav">
-                    <a href=".." style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Back to Main</span></a>
+                <div id="login">
+                    <div id="language" style="float:right">
+                        <a href="?lang=en">English</a> | <a href="?lang=el">Ελληνικά</a>
+                    </div>
+                    <?include("../loginHeader.php");?>
                 </div>
                 <div id="centercolumn">
 
@@ -71,7 +74,6 @@ authoriseUser($un, $token, true, 10, 'rss');
                         echo '<h1>News Added!</h1>';
                     } else {
                         ?>
-
                         <h1>
                             Add News
                         </h1>                    

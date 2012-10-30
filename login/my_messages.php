@@ -54,16 +54,11 @@ $offset = $page * $rowsPerPage;
                 <!-- RIGHT COLUMN -->	
             </div>
             <div id="container">
-                <div id="nav">
-                    <a href=".." style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Back to Main</span></a>
-                    <a href="composer.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Send Message</span></a>
-                    <a href="profile.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">My Profile</span></a>                    
-                    <? if ($search_type == "received") { ?>
-                        <a href="my_messages.php?t=sent" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Sent</span></a>
-                    <? } else { ?>
-                        <a href="my_messages.php?t=received" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Received</span></a>
-                    <? } ?>
-                    <a href="logout.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Logout</span></a>
+               <div id="login">
+                    <div id="language" style="float:right">
+                        <a href="?lang=en">English</a> | <a href="?lang=el">Ελληνικά</a>
+                    </div>
+                    <?include("../loginHeader.php");?>
                 </div>
                 <div id="centercolumn">
                     <?
