@@ -1,6 +1,7 @@
 <?php
 include('../global.php');
 include("../database.php");
+require_once("./Status.php");
 if (!authorize_user($_COOKIE["id"], $_COOKIE["token"])) {
     header('Location: ' . $__BASE_URI . '/login/index.php');
     die("You are being redirect to another page...");
@@ -45,6 +46,12 @@ $rowsPerPage = $_GET["offset"]?$_GET["offset"]:20;
 $page = $_GET["page"] != null ? $_GET["page"] : 1;
 $page--;
 $offset = $page * $rowsPerPage;
+
+$dodelete = $_GET['delete'];
+$urlid = $_GET['id'];
+if (!is_null($dodelete) && !is_null($urlid) & strcmp($dodelete, "true")==0){
+    deleteExerciseById($urlid);
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -94,14 +101,16 @@ $offset = $page * $rowsPerPage;
                                 order by `creation_date` desc limit " . mysql_real_escape_string($offset) . ", " . mysql_real_escape_string($rowsPerPage);
                             $result = mysql_query($query, $con);
                             while ($row = mysql_fetch_array($result)) {
+                                $status = new Status();
+                                $status->setStatus($row['status']);
                                 echo "<tr>
-                                        <td><a href=\"\">" . $row['id'] . "</a></td>
-                                        <td>" . "draft" . "</td>                                    
+                                        <td><a href=\"/exercises/inspect.php?id=".$row['id']."\">" . $row['id'] . "</a></td>
+                                        <td>" . $status->getStatusText() . "</td>
                                         <td>" . $row['creation_date'] ."</td>
                                         <td>" . $row['last_update_time'] ."</td>
                                         <td>
                                             <img src=\"../images/comment.png\" style=\"height: 20px\">
-                                            <img src=\"../images/document_delete.png\" style=\"height: 20px\">
+                                            <a href=\"?delete=true&id=".$row['id']."\"><img src=\"../images/document_delete.png\" style=\"height: 20px\"></a>
                                         </td>
                                       </tr>";
                             }

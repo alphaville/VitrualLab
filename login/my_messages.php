@@ -2,6 +2,7 @@
 include('../global.php');
 include("../database.php");
 
+
 doStartSession();
 
 $un = $_COOKIE['id'];
@@ -20,7 +21,7 @@ function utf8_substr($str, $start) {
 }
 
 $search_type = $_GET["t"] == "sent" ? "sent" : "received";
-$rowsPerPage = 20;
+$rowsPerPage = 10;
 $page = $_GET["page"] != null ? $_GET["page"] : 1;
 $page--;
 $offset = $page * $rowsPerPage;
@@ -42,6 +43,7 @@ $offset = $page * $rowsPerPage;
         <link href="<?echo $FEED_ATOM;?>" rel="alternate" type="application/atom+xml" title="Atom 1.0" >
     </head>
     <body id="body" onload="loadMe();">    
+        <?if (!haveIReadThisMessage(85, "chung")){echo "I have not read this message";};?>
         <div id="wrap">
             <div id="background">
                 <img src="../images/background.jpg" class="stretch" alt="" >
@@ -85,8 +87,12 @@ $offset = $page * $rowsPerPage;
                             }
                             $result = mysql_query($query, $con);
                             while ($row = mysql_fetch_array($result)) {
+                                $haveIReadThis = haveIReadThisMessage($row['id'], $un);
                                 echo "<tr><td><a href=\"./message.php?id=" . $row['id'] . "\">#" .
-                                $row['id'] . "</a></td><td>" . utf8_substr($row['subject'], 0, 25) . (strlen($row['subject']) > 25 ? "..." : "") . "</td><td>" . getNameForId($row['peer']) . "</td><td>" . $row['creation_date'] . "</td></tr>";
+                                $row['id'] . "</a></td><td>". (!$haveIReadThis?"<span style=\"color:red\">":"") . utf8_substr($row['subject'], 0, 25) . 
+                                        (strlen($row['subject']) > 25 ? "..." : "") . 
+                                        (!$haveIReadThis?"</span>":""). "</td><td>" . getNameForId($row['peer']) . 
+                                        "</td><td>" . $row['creation_date'] . "</td></tr>";
                             }
                             mysql_close($con);
                             ?>

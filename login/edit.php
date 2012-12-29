@@ -59,6 +59,16 @@ authoriseUser($un, $token, false, -1);// do not require admin rights
                             <?$ln = $_COOKIE['ln'];?>
                             <td><b>Last Name</b></td><td><?echo "<input type=\"text\" name=\"ln\" value=\"$ln\"></input>";?></td>
                         </tr>
+                        <tr>
+                            <?$email = $_COOKIE['email'];?>
+                            <td><b>E-mail</b></td><td><?echo "<input type=\"text\" name=\"email\" value=\"$email\"></input>";?></td>
+                        </tr>
+                        <tr>
+                            <td><b>Semester</b></td><td><?echo "<input type=\"text\" name=\"semester\" value=\"8\"></input>";?></td>
+                        </tr>
+                        <tr>
+                            <td><b>Student's ID</b></td><td><?echo "<input type=\"text\" name=\"stdid\" value=\"05102032\"></input>";?></td>
+                        </tr>
                     </table>
                 </div>     
             </div>
