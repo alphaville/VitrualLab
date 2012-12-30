@@ -81,16 +81,9 @@ if (isset($redirect)) {
                     <div id="language" style="float:right">
                         <a href="?lang=en">English</a> | <a href="?lang=el">Ελληνικά</a>
                     </div>
-                    <?
-                    $first = $_COOKIE["fn"];
-                    if (isset($first)) {
-                        try{
-                            include('../loginHeader.php');
-                        }catch (Exception $e){echo 'Caught exception: ',  $e->getMessage(), "\n";}
-                    } else {
-                        echo $welcome . ' <a href="/login/profile.php" style="text-decoration:none">Guest</a>.
-                        ' . $youmay . ' <a href="/login" style="text-decoration:none">Login</a>.';
-                    }
+                    <?  // This is to make sure that we're using the correct path
+                        $root = realpath($_SERVER["DOCUMENT_ROOT"]);
+                        include_once "$root/loginHeader.php";
                     ?>
                 </div>
                 <div id="centercolumn">
