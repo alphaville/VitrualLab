@@ -22,7 +22,7 @@ CREATE  TABLE IF NOT EXISTS `vlab`.`people` (
   `semester` INT(10) NOT NULL DEFAULT '8' ,
   `creation_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
   `login_method` VARCHAR(40) CHARACTER SET 'utf8' COLLATE 'utf8_bin' NOT NULL DEFAULT 'vlab' ,
-  `authorization_key` VARCHAR(255) CHARACTER SET 'utf8' COLLATE 'utf8_bin' NOT NULL ,
+  `authorization_key` VARCHAR(255) CHARACTER SET 'utf8' COLLATE 'utf8_bin' NOT NULL COMMENT 'deprecated.' ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `authorization_key` (`authorization_key` ASC) )
 ENGINE = InnoDB
@@ -44,6 +44,7 @@ CREATE  TABLE IF NOT EXISTS `vlab`.`message` (
   `body` TEXT CHARACTER SET 'utf8' COLLATE 'utf8_bin' NOT NULL COMMENT 'Body of the message (HTML)' ,
   `creation_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
   `inreplyto` INT(10) NULL DEFAULT NULL ,
+  `isRead` TINYINT(1) NULL DEFAULT FALSE COMMENT 'whether the user has read the msg' ,
   PRIMARY KEY (`id`) ,
   INDEX `from_fk` (`from` ASC) ,
   INDEX `rcpt_to_fk` (`rcpt_to` ASC) ,
@@ -126,6 +127,76 @@ CREATE  TABLE IF NOT EXISTS `vlab`.`exercise` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+
+-- -----------------------------------------------------
+-- Table `vlab`.`token`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `vlab`.`token` ;
+
+CREATE  TABLE IF NOT EXISTS `vlab`.`token` (
+  `token_id` VARCHAR(255) NOT NULL ,
+  `people_id` VARCHAR(255) CHARACTER SET 'utf8' COLLATE 'utf8_bin' NOT NULL ,
+  `creation_date` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ,
+  PRIMARY KEY (`token_id`) ,
+  INDEX `fk_token_people1` (`people_id` ASC) ,
+  CONSTRAINT `fk_token_people1`
+    FOREIGN KEY (`people_id` )
+    REFERENCES `vlab`.`people` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+COMMENT = 'Every user has a set of tokens (multi-login allowed)';
+
+
+-- -----------------------------------------------------
+-- Table `vlab`.`haveReadAnnouncement`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `vlab`.`haveReadAnnouncement` ;
+
+CREATE  TABLE IF NOT EXISTS `vlab`.`haveReadAnnouncement` (
+  `people_id` VARCHAR(255) CHARACTER SET 'utf8' COLLATE 'utf8_bin' NOT NULL ,
+  `message_id` INT(10) NOT NULL ,
+  `read_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+  INDEX `fk_HaveReadAnnouncement_people1` (`people_id` ASC) ,
+  INDEX `fk_HaveReadAnnouncement_message1` (`message_id` ASC) ,
+  PRIMARY KEY (`people_id`, `message_id`) ,
+  CONSTRAINT `fk_HaveReadAnnouncement_people1`
+    FOREIGN KEY (`people_id` )
+    REFERENCES `vlab`.`people` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_HaveReadAnnouncement_message1`
+    FOREIGN KEY (`message_id` )
+    REFERENCES `vlab`.`message` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- procedure count_unread
+-- -----------------------------------------------------
+
+USE `vlab`;
+DROP procedure IF EXISTS `vlab`.`count_unread`;
+
+DELIMITER $$
+USE `vlab`$$
+CREATE PROCEDURE count_unread(OUT number_unread_msg INT, IN user_identifier VARCHAR(255))
+BEGIN
+        -- Check if user exists
+        DECLARE n INT;
+        SET n = (SELECT COUNT(*) FROM `people` WHERE `people`.`id`=user_identifier);
+        IF n=0 THEN
+            -- If user does not exist return 0...
+            SELECT 0 INTO number_unread_msg;
+        ELSE 
+            -- If user exists calculate the number of unread messages
+            SELECT (SELECT COUNT(`id`) FROM `message` WHERE `rcpt_to`=user_identifier AND `isRead`=0)+(SELECT COUNT(`id`) FROM `message` WHERE `rcpt_to`='everybody')-(SELECT COUNT(`message_id`) FROM `haveReadAnnouncement` WHERE `people_id`=user_identifier) AS `unread` INTO number_unread_msg;
+        END IF;
+END$$
+
+DELIMITER ;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

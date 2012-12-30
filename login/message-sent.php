@@ -43,10 +43,8 @@ doStartSession();
                 <!-- RIGHT COLUMN -->	
             </div>
             <div id="container">
-                <div id="nav">
-                    <a href=".." style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Back to Main</span></a>
-                    <a href="my_messages.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">My Messages</span></a>
-                    <a href="profile.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">My Profile</span></a>
+                <div id="login">
+                    <?include("../loginHeader.php");?>
                 </div>
                 <div id="centercolumn">                                       
                     <div>                        

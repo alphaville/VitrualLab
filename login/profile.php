@@ -1,6 +1,6 @@
 <?php
 include('../global.php');
-include("../database.php");
+include_once("../database.php");
 include("./login-utils.php");
 
 doStartSession();
@@ -45,8 +45,8 @@ if (!isset($what)) {// Just want to see my profile, dude
 
 $user_role = getRole($un);
 
-$redirect=$_GET['redirect'];
-if (isset($redirect)){
+$redirect = $_GET['redirect'];
+if (isset($redirect)) {
     header("Location: /$redirect");
     die();
 }
@@ -76,13 +76,15 @@ if (isset($redirect)){
             </div>
             <div id="rightcolumn">
             </div>
-            <div id="container">
-                <div id="nav">
-                    <a href=".." style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Back to Main</span></a>
-                    <? if (strcmp($authtype, "VLAB") == 0) { ?>
-                        <a href="change_pass.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Change Password</span></a>
-                    <? } ?>
-                    <a href="logout.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Logout</span></a>
+            <div id="container">                
+                <div id="login">
+                    <div id="language" style="float:right">
+                        <a href="?lang=en">English</a> | <a href="?lang=el">Ελληνικά</a>
+                    </div>
+                    <?  // This is to make sure that we're using the correct path
+                        $root = realpath($_SERVER["DOCUMENT_ROOT"]);
+                        include_once "$root/loginHeader.php";
+                    ?>
                 </div>
                 <div id="centercolumn">
                     <h1>

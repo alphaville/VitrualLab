@@ -1,5 +1,8 @@
 <?php
 
+require_once("../database.php");
+require_once("./Status.php");
+
 class Exercise {
 
     private $id; //ID of the exercise (integer)
@@ -42,6 +45,9 @@ class Exercise {
     }
 
     public function getMark() {
+        if (empty($this->mark)) {
+            return "Pending";
+        }
         return $this->mark;
     }
 
@@ -58,7 +64,9 @@ class Exercise {
     }
 
     public function getStatus() {
-        return $this->status;
+        $s = new Status();
+        $s->setStatus($this->status);
+        return $s;
     }
 
     public function setStatus($status) {
@@ -66,6 +74,9 @@ class Exercise {
     }
 
     public function getComments() {
+         if (empty($this->comments)) {
+            return "No comments yet.";
+        }
         return $this->comments;
     }
 
@@ -74,6 +85,9 @@ class Exercise {
     }
 
     public function getSumbission_time() {
+        if (empty($this->sumbission_time)) {
+            return "Not Submitted";
+        }
         return $this->sumbission_time;
     }
 
@@ -95,6 +109,28 @@ class Exercise {
 
     public function setLast_update_time($last_update_time) {
         $this->last_update_time = $last_update_time;
+    }
+
+    public static function fetchExerciseByID($exercise_id) {
+        $xrc = new Exercise();
+        $con = connect();
+        $query = "SELECT `id`,`content`,`creation_date`,`mark`,`user_id`,`status`,`comments`,`submission_time`,`type`,`last_update_time`
+                                from `exercise` 
+                                where id='$exercise_id'";
+        $result = mysql_query($query, $con);
+        $row = mysql_fetch_array($result);
+        $xrc->setContent($row['content']);
+        $xrc->setComments($row['comments']);
+        $xrc->setCreation_date($row['creation_date']);
+        $xrc->setId($exercise_id);
+        $xrc->setLast_update_time($row['last_update_time']);
+        $xrc->setMark($row['mark']);
+        $xrc->setStatus($row['status']);
+        $xrc->setSumbission_time($row['submission_time']);
+        $xrc->setType($row['type']);
+        $xrc->setUser_id($row['user_id']);
+        mysql_close($con);
+        return $xrc;
     }
 
 }

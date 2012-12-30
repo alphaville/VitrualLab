@@ -10,6 +10,7 @@ authoriseUser($un, $token, false, -1, 'login/composer.php');
 
 $message_id = $_GET['id'];
 
+IHaveReadThisMessage($message_id, $un);
 ?>
 <!DOCTYPE html>
 <html>
@@ -40,12 +41,8 @@ $message_id = $_GET['id'];
                 <!-- RIGHT COLUMN -->	
             </div>
             <div id="container">
-                <div id="nav">
-                    <a href=".." style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Back to Main</span></a>
-                    <a href="composer.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Send Message</span></a>
-                    <a href="profile.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">My Profile</span></a>
-                    <a href="my_messages.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">My Messages</span></a>
-                    <a href="logout.php" style="text-decoration:none"><span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Logout</span></a>
+                <div id="login">
+                    <?include("../loginHeader.php");?>
                 </div>
                 <div id="centercolumn">                                                               
                     <h3>Message ID <? echo $message_id != null ? $message_id : 'undefined' ?></h3>
@@ -72,11 +69,11 @@ $message_id = $_GET['id'];
                         }
                         mysql_close($con);
                         if ($row) {
-                            ?>
+                        ?>
                             <div id="message-details">
                                 <table cellpadding="5">
                                     <colgroup>
-                                        <col width="100">
+                                        <col width="130">
                                         <col>
                                     </colgroup>
                                     <tbody>
@@ -121,9 +118,9 @@ $message_id = $_GET['id'];
                                     <span id="msg-body"><? echo $body; ?></span>
                                     <br>
                                     <? $reply_link = "composer.php?what=reply&message_id=" . $message_id . "&inreplyto=" . urlencode($fromName) . "&from=" . $from; ?>
-        <? if (($un != $from) | $rcpt_to == "everybody") { ?>
+                                        <? if (($un != $from) | $rcpt_to == "everybody") { ?>
                                         <a href="<? echo $reply_link; ?>"><strong>Reply to this message</strong></a>
-        <? } ?>
+                                        <? } ?>
                                 </div>
                                 <div class="cl"></div>
                                 <div>
@@ -141,7 +138,7 @@ $message_id = $_GET['id'];
                 </div>     
             </div>
             <div class="footer" id="footer">
-<? include('../footer.php') ?>
+                <? include('../footer.php') ?>
             </div>
         </div>
     </body>

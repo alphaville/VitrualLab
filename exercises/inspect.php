@@ -1,6 +1,8 @@
 <?php
 include("../global.php");
-include("../database.php");
+require_once("../database.php");
+require_once("./Exercise.php");
+require_once("./Status.php");
 
 doStartSession();
 
@@ -22,6 +24,8 @@ $fn = $_COOKIE['fn'];
 $ln = $_COOKIE['ln'];
 $token = $_COOKIE['token'];
 authoriseUser($un, $token, false, -1, 'login/composer.php');
+
+$xrc = Exercise::fetchExerciseByID($exercise_id);
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd" 
     >    
@@ -77,12 +81,7 @@ authoriseUser($un, $token, false, -1, 'login/composer.php');
                     <?
                     $first = $_COOKIE["fn"];
                     if (isset($first)) {
-                        echo "Dear <a href=\"/login/profile.php\" style=\"text-decoration:none\">$first</a>, 
-                        you are logged in. <a href=\"./login/logout.php\" style=\"text-decoration:none\">Logout</a>.<br/>
-                        <a href=\"/login/profile.php\" style=\"text-decoration:none\" title=\"My Profile\"><img src=\"/images/im-user.png\"></img></a>
-                        <a href=\"/exercises/list.php\" style=\"text-decoration:none\" title=\"My Exercises\"><img src=\"/images/folder-txt.png\"></img></a>
-                        <a href=\"/login/my_messages.php\" style=\"text-decoration:none\" title=\"Incoming Messages\"><img src=\"/images/mail-mark-read.png\"></img></a>
-                        <a href=\"/login/composer.php\" style=\"text-decoration:none\" title=\"Compose Message\"><img src=\"/images/mail-message-new.png\"></img></a>";
+                        include("../loginHeader.php");
                     } else {
                         echo $welcome . ' <a href="/login/profile.php" style="text-decoration:none">Guest</a>.
                         ' . $youmay . ' <a href="/login" style="text-decoration:none">Login</a>.';
@@ -96,6 +95,10 @@ authoriseUser($un, $token, false, -1, 'login/composer.php');
                                 <td><img src="/images/notebook.png"  alt="" ></td>
                                 <td><b>General Information</b><br/><br/>
                                     <table>
+                                        <colgroup>
+                                            <col width="100">
+                                            <col>
+                                        </colgroup>
                                         <tr>
                                             <td>Exercise ID</td><td><? echo "<a href=\"\">$exercise_id</a>"; ?></td>
                                         </tr>
@@ -105,7 +108,10 @@ authoriseUser($un, $token, false, -1, 'login/composer.php');
                                         <tr>
                                             <td>Author</td><td><? echo "<a href=\"/login/profile.php\">$fn $ln</a>"; ?></td>
                                         </tr>
-                                    </table>                                
+                                        <tr>
+                                            <td>Type</td><td><? echo "<a href=\"/tuning\">Tuning Exercise</a>"; ?></td>
+                                        </tr>
+                                    </table>
                                 </td>
                             </tr>
                         </table>   
@@ -113,6 +119,39 @@ authoriseUser($un, $token, false, -1, 'login/composer.php');
                     <div class="cl"></div>
                     <div style="font-size: smaller">
                         <b>Submission Information</b>
+                        <table>
+                            <colgroup>
+                                <col width="100">
+                                <col>
+                            </colgroup>
+                            <tr>
+                                <td>Status</td><td><? echo $xrc->getStatus()->getStatusText(); ?></td>
+                            </tr>
+                            <tr>
+                                <td>Created</td><td><? echo $xrc->getCreation_date(); ?></td>
+                            </tr>
+                            <tr>
+                                <td>Last Updated</td><td><? echo $xrc->getLast_update_time(); ?></td>
+                            </tr>
+                            <tr>
+                                <td>Submitted</td><td><? echo $xrc->getSumbission_time(); ?></td>
+                            </tr>
+                        </table>                                
+                    </div>
+                    <div style="font-size: smaller;margin-top: 20px">
+                        <b>Evaluation Information</b>
+                        <table>
+                            <colgroup>
+                                <col width="100">
+                                <col>
+                            </colgroup>
+                            <tr>
+                                <td>Mark</td><td><? echo $xrc->getMark(); ?></td>
+                            </tr>
+                            <tr>
+                                <td>Comments</td><td><? echo $xrc->getComments(); ?></td>
+                            </tr>
+                        </table>                                
                     </div>
                 </div>
             </div>
