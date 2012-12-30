@@ -69,7 +69,7 @@ if ($lang == NULL) {
                     <div id="language" style="float:right">
                         <a href="?lang=en">English</a> | <a href="?lang=el">Ελληνικά</a>
                     </div>
-                    <?include("../loginHeader.php");?>
+                    <?include "/var/www/vlab/loginHeader.php";?>
                 </div>
                 <div id="menubar" align="center">
                     <span class="menuoption"><a href="/?lang=<? echo $lang; ?>"><? echo $home_page; ?></a></span> | 

@@ -87,11 +87,11 @@ $offset = $page * $rowsPerPage;
                             }
                             $result = mysql_query($query, $con);
                             while ($row = mysql_fetch_array($result)) {
-                                $haveIReadThis = haveIReadThisMessage($row['id'], $un);
+                                $isThisNotRead = strcmp("sent",$search_type)!=0 && !haveIReadThisMessage($row['id'], $un);
                                 echo "<tr><td><a href=\"./message.php?id=" . $row['id'] . "\">#" .
-                                $row['id'] . "</a></td><td>". (!$haveIReadThis?"<span style=\"color:red\">":"") . utf8_substr($row['subject'], 0, 25) . 
+                                $row['id'] . "</a></td><td>". ($isThisNotRead?"<span style=\"color:red\">":"") . utf8_substr($row['subject'], 0, 25) . 
                                         (strlen($row['subject']) > 25 ? "..." : "") . 
-                                        (!$haveIReadThis?"</span>":""). "</td><td>" . getNameForId($row['peer']) . 
+                                        ($isThisNotRead?"</span>":""). "</td><td>" . getNameForId($row['peer']) . 
                                         "</td><td>" . $row['creation_date'] . "</td></tr>";
                             }
                             mysql_close($con);

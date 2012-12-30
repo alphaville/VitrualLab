@@ -1,7 +1,11 @@
 <?php
-include('./database.php');
+
+$root = realpath($_SERVER["DOCUMENT_ROOT"]);
+include_once "$root/database.php";
+
 $first = $_COOKIE["fn"];
 $unreadMessages = countUnread($_COOKIE['id'])>0;
+
 if (isset($first)) {
     echo "Dear <a href=\"/login/profile.php\" style=\"text-decoration:none\">$first</a>, 
           you are logged in. <a href=\"./login/logout.php\" style=\"text-decoration:none\">Logout</a>.<br/>
@@ -14,4 +18,5 @@ if (isset($first)) {
     echo $welcome . ' <a href="/login/profile.php" style="text-decoration:none">Guest</a>.
                         ' . $youmay . ' <a href="/login" style="text-decoration:none">Login</a>.';
 }
+
 ?>

@@ -1,6 +1,6 @@
 <?php
 include('../global.php');
-include("../database.php");
+include_once("../database.php");
 include("./login-utils.php");
 
 doStartSession();
@@ -84,7 +84,9 @@ if (isset($redirect)) {
                     <?
                     $first = $_COOKIE["fn"];
                     if (isset($first)) {
-                        include("../loginHeader.php");
+                        try{
+                            include('../loginHeader.php');
+                        }catch (Exception $e){echo 'Caught exception: ',  $e->getMessage(), "\n";}
                     } else {
                         echo $welcome . ' <a href="/login/profile.php" style="text-decoration:none">Guest</a>.
                         ' . $youmay . ' <a href="/login" style="text-decoration:none">Login</a>.';

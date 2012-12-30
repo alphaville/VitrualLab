@@ -113,9 +113,19 @@ function randomFloat($min, $max) {
                 </div>
             </div>
             <div id="container">                
-                <div id="nav">
-                    <a href=".." style="text-decoration:none">
-                        <span class="navLink" onmouseover="highlight(this);" onmouseout="dehighlight(this);">Back to Main</span></a>
+                <div id="login">
+                    <div id="language" style="float:right">
+                        <a href="?lang=en">English</a> | <a href="?lang=el">Ελληνικά</a>
+                    </div>
+                    <?
+                    $first = $_COOKIE["fn"];
+                    if (isset($first)) {
+                        include("../loginHeader.php");
+                    } else {
+                        echo $welcome . ' <a href="/login/profile.php" style="text-decoration:none">Guest</a>.
+                        ' . $youmay . ' <a href="/login" style="text-decoration:none">Login</a>.';
+                    }
+                    ?>
                 </div>
                 <div id="centercolumn" lang="<? echo $lang; ?>">
                     <h1 lang="<? echo $lang; ?>"><? echo $header; ?></h1>

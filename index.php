@@ -35,7 +35,7 @@ if ($lang == NULL) {
         <link href="<?echo $FEED_RSS;?>" rel="alternate" type="application/rss+xml" title="RSS 2.0" />
         <link href="<?echo $FEED_ATOM;?>" rel="alternate" type="application/atom+xml" title="Atom 1.0" />
     </head>
-    <body id="body" onload="loadMe();">
+    <body id="body" onload="loadMe();">        
         <div id="wrap">
             <div id="background">
                 <img src="./images/background.jpg" class="stretch" alt="" >
