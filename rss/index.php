@@ -64,7 +64,7 @@ authoriseUser($un, $token, true, 10, 'rss');
                                 `guid`, `author`, `description`, `lang`, `user_id`) VALUES 
                                 ('" . mysql_real_escape_string($_POST["rsstitle"]) . "', 
                                     '" . $rsslink . "', 
-                                    '" . mysql_real_escape_string($_POST['rssguid']) . "',
+                                    '" . mysql_real_escape_string(genRandomString(32)) . "',
                                         '" . mysql_real_escape_string($_POST['rssauthor']) . "', 
                                         '" . $_POST['rssdescription'] . "', '" .
                                     mysql_real_escape_string($lang) . "', '$un')";

@@ -15,7 +15,7 @@ doStartSession();
     >
 <html>
     <head>
-        <title>Message Composer</title>
+        <title>Message Sent</title>
         <meta name="robots" content="noindex,nofollow">
         <meta name="keywords" content="Automatic Control Lab, Virtual Lab, Automatic Control Playground" >
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">

@@ -1,18 +1,19 @@
 <?php
-include('../global.php');
-include("../database.php");
+include_once('../global.php');
+include_once("../database.php");
+include_once("./Statistics.php");
 
 doStartSession();
 
 // Authorise User...
 $un = $_COOKIE["id"];
 $token = $_COOKIE["token"];
-authoriseUser($un, $token, false, -1);// do not require admin rights
+authoriseUser($un, $token, false, -1); // do not require admin rights
 ?>
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Edit Profile</title>
+        <title>Statistics</title>
         <meta name="robots" content="noindex,nofollow">
         <meta name="keywords" content="Automatic Control Lab, Virtual Lab, Automatic Control Playground" >
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -22,8 +23,8 @@ authoriseUser($un, $token, false, -1);// do not require admin rights
         <script type='text/javascript' src='../chung.js' ></script>
         <script type="text/javascript" src="../ckeditor/ckeditor.js"></script>
         <link rel="shortcut icon" href="/vlab/favicon.ico" type="image/x-icon" >
-        <link href="<? echo $FEED_RSS; ?>" rel="alternate" type="application/rss+xml" title="RSS 2.0" >
-        <link href="<? echo $FEED_ATOM; ?>" rel="alternate" type="application/atom+xml" title="Atom 1.0" >
+        <link href="<?= $FEED_RSS; ?>" rel="alternate" type="application/rss+xml" title="RSS 2.0" >
+        <link href="<?= $FEED_ATOM; ?>" rel="alternate" type="application/atom+xml" title="Atom 1.0" >
     </head>
     <body id="body" onload="loadMe();">    
         <div id="wrap">
@@ -42,34 +43,26 @@ authoriseUser($un, $token, false, -1);// do not require admin rights
                     <div id="language" style="float:right">
                         <a href="?lang=en">English</a> | <a href="?lang=el">Ελληνικά</a>
                     </div>
-                    <?include("../loginHeader.php");?>
+                    <? include("../loginHeader.php"); ?>
                 </div>
                 <div id="centercolumn">
-                    <h3>Profile Parameters</h3>                     
-                    <div><img src="../images/editprofile.png" alt="my profile"></div>
-                    <table cellspacing="3" style="font-size: small">
+                    <h2>Statistics</h2>
+                    <table>
+                        <colgroup>
+                            <col width="160">
+                            <col>
+                        </colgroup>
                         <tr>
-                            <td><b>Username</b></td><td><?echo $un;?></td>
+                            <td>No. Users</td><td><?= "<a href=\"/login/users.php\">".Statistics::countUsers()."</a>"; ?></td>
                         </tr>
                         <tr>
-                            <?$fn = $_COOKIE['fn'];?>
-                            <td><b>First Name</b></td><td><?echo "<input type=\"text\" name=\"fn\" value=\"$fn\"></input>";?></td>
+                            <td>No. RSS</td><td><?= "<a href=\"/rss/feed/\">".Statistics::countRSS()."</a>"; ?></td>
                         </tr>
                         <tr>
-                            <?$ln = $_COOKIE['ln'];?>
-                            <td><b>Last Name</b></td><td><?echo "<input type=\"text\" name=\"ln\" value=\"$ln\"></input>";?></td>
-                        </tr>
-                        <tr>
-                            <?$email = $_COOKIE['email'];?>
-                            <td><b>E-mail</b></td><td><?echo "<input type=\"text\" name=\"email\" value=\"$email\"></input>";?></td>
-                        </tr>
-                        <tr>
-                            <td><b>Semester</b></td><td><?echo "<input type=\"text\" name=\"semester\" value=\"8\"></input>";?></td>
-                        </tr>
-                        <tr>
-                            <td><b>Student's ID</b></td><td><?echo "<input type=\"text\" name=\"stdid\" value=\"05102032\"></input>";?></td>
+                            <td>No. Exercises</td><td><?= Statistics::countExercises(); ?></td>
                         </tr>
                     </table>
+                    
                 </div>     
             </div>
             <div class="footer" id="footer">

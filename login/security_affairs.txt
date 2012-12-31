@@ -6,5 +6,5 @@ List of critical security points to be checked...
 4. /exercises/list.php or /exercises/item.php with insufficient privileges
    (Make sure that users cannot see the exercises of one another)
 5. Login with wrong credentials
-6. /rss with insufficient privileges (only for admins)
+6. /rss with insufficient privileges (only for administrators)
 7. 

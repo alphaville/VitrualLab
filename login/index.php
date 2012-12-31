@@ -48,7 +48,8 @@ include('../global.php');
                     $firstName = $_COOKIE["fn"];
                     $lastName = $_COOKIE["ln"];
                     $mail = $_COOKIE["email"];
-                    $hash = $_COOKIE["hash"];
+                    // Note the password is not revealed through cookies not even as a hashed string!
+                    $hash = $_COOKIE["hash"];//This corresponds to the hash of the email! (not the password)
                     if (isset($firstName)) {
                         echo '<div><img src="http://www.gravatar.com/avatar/' . $hash . '" ></div>';
                         echo '<p>' . $firstName . ', you are already logged in...</p>';

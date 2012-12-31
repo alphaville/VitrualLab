@@ -1,6 +1,8 @@
 <?php
+
 function connect() {
-    require("/var/www/vlab/global.php");
+    $root = realpath($_SERVER["DOCUMENT_ROOT"]);
+    require("$root/global.php");
     $con = mysql_connect($__DATABASE_URL__, $__DATABASE_USER__, $__DATABASE_PWD__);
     if (!$con) {
         return null;
@@ -10,7 +12,8 @@ function connect() {
 }
 
 function connectAsMySQLi(){
-    require("/var/www/vlab/global.php");
+    $root = realpath($_SERVER["DOCUMENT_ROOT"]);
+    require("$root/global.php");
     return new mysqli($__DATABASE_URL__, $__DATABASE_USER__, $__DATABASE_PWD__, $__DATABASE_NAME__);
 }
 
@@ -182,9 +185,9 @@ function doStartSession() {
 
 function genRandomString($length) {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    $string = '';
+    $string = "";
     for ($p = 0; $p < $length; $p++) {
-        $string .= $characters[mt_rand(0, strlen($characters))];
+        $string .= $characters[mt_rand(0, strlen($characters)-1)];
     }
     return $string;
 }

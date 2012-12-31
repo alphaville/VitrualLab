@@ -20,8 +20,8 @@ if ($user_role < 10) {
 } else {
     $isadmin = true;
 }
-$message_id = $_GET['id'];
-$un = $_COOKIE['id'];
+$message_id = isset($_GET['id'])?$_GET['id']:null;
+$un = isset($_COOKIE['id'])?$_COOKIE['id']:null;
 
 function getUser() {
     $fn = $_COOKIE["fn"];
@@ -41,14 +41,14 @@ function utf8_substr($str, $start) {
     }
 }
 
-$search_type = $_GET["t"] == "sent" ? "sent" : "received";
-$rowsPerPage = $_GET["offset"]?$_GET["offset"]:20;
-$page = $_GET["page"] != null ? $_GET["page"] : 1;
+$search_type = (isset($_GET["t"])&&($_GET["t"] == "sent")) ? "sent" : "received";
+$rowsPerPage = isset($_GET["offset"])?$_GET["offset"]:20;
+$page = isset($_GET["page"])? $_GET["page"] : 1;
 $page--;
 $offset = $page * $rowsPerPage;
 
-$dodelete = $_GET['delete'];
-$urlid = $_GET['id'];
+$dodelete = isset($_GET['delete'])?$_GET['delete']:null;
+$urlid = isset($_GET['id'])?$_GET['id']:null;
 if (!is_null($dodelete) && !is_null($urlid) & strcmp($dodelete, "true")==0){
     deleteExerciseById($urlid);
 }
@@ -97,8 +97,8 @@ if (!is_null($dodelete) && !is_null($urlid) & strcmp($dodelete, "true")==0){
                             $con = connect();
                             echo '<tr><th>ID</th><th>Status</th><th>Created</th><th>Last Update</th><th>Action</th></tr>';
                             $query = "SELECT `id`,`status`,`creation_date`,`last_update_time`
-                                from `exercise` 
-                                order by `creation_date` desc limit " . mysql_real_escape_string($offset) . ", " . mysql_real_escape_string($rowsPerPage);
+                                FROM `exercise` WHERE `user_id`='$un'
+                                ORDER BY `creation_date` DESC LIMIT " . mysql_real_escape_string($offset) . ", " . mysql_real_escape_string($rowsPerPage);
                             $result = mysql_query($query, $con);
                             while ($row = mysql_fetch_array($result)) {
                                 $status = new Status();

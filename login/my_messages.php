@@ -29,7 +29,7 @@ $offset = $page * $rowsPerPage;
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Message Composer</title>
+        <title>Messages</title>
         <meta name="robots" content="noindex,nofollow">
         <meta name="keywords" content="Automatic Control Lab, Virtual Lab, Automatic Control Playground" >
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -43,7 +43,6 @@ $offset = $page * $rowsPerPage;
         <link href="<?echo $FEED_ATOM;?>" rel="alternate" type="application/atom+xml" title="Atom 1.0" >
     </head>
     <body id="body" onload="loadMe();">    
-        <?if (!haveIReadThisMessage(85, "chung")){echo "I have not read this message";};?>
         <div id="wrap">
             <div id="background">
                 <img src="../images/background.jpg" class="stretch" alt="" >

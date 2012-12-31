@@ -6,7 +6,7 @@ if (empty($_SESSION['count'])) {
     $_SESSION['count']++;
 }
 include("../global.php");
-$lang = $_GET['lang'];
+$lang = (isset($_GET)&& isset($_GET['lang']))?$_GET['lang']:null;
 // Get the language 
 if ($lang == NULL) {
     include('./en.php');

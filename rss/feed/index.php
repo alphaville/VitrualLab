@@ -15,15 +15,14 @@ if ($type == "rss") {
     header("Content-type:application/atom+xml; charset=utf-8");
 }
 if ($type == "rss") {
-    echo '<?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    echo '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
         <channel>
                 <title>Virtual Lab</title>
                 <description>Automatic Control Virtual Lab</description>
                 <link>' . $__URL__ . '</link>
                 <lastBuildDate>Tue, 03 Apr 2012 15:52:28 +0000</lastBuildDate>
                 <generator>VLAB Internal RSS Generator</generator>
-                <atom:link rel="self" type="application/rss+xml" href="' . $__URL__ . '"/>
+                <atom:link rel="self" type="application/rss+xml" href="' . $__URL__.$_SERVER['REQUEST_URI'] . '"/>
                 <language>en-gb</language>';
 } elseif ($type == "atom") {
     echo '<?xml version="1.0" encoding="utf-8"?>
@@ -39,7 +38,10 @@ if ($type == "rss") {
 
 $con = connect();
 if ($con) {
-    $query = "SELECT `title`,`link`, `guid`, `author`, `description`, `pubDate` from `rss` where lang='" . $lang . "' order by `pubDate` desc limit 25";
+    $query = "SELECT `rss`.`title`,`rss`.`link`, `rss`.`guid`, `rss`.`author`, 
+    `rss`.`description`, `rss`.`pubDate`, `people`.`email` 
+    FROM `rss` INNER JOIN `people` ON `rss`.`user_id`=`people`.`id`
+    WHERE `rss`.`lang`='$lang' ORDER BY `rss`.`pubDate` DESC LIMIT 20";
     $result = mysql_query($query, $con);
     while ($row = mysql_fetch_array($result)) {
         //TODO: Modify to comply to ATOM standards
@@ -48,7 +50,7 @@ if ($con) {
                         <link>" . $row['link'] . "</link>
                         <guid isPermaLink=\"false\">" . $row['guid'] . "</guid>
                         <description><![CDATA[<p>" . $row['description'] . "<p>]]></description>
-                        <author>" . $row['author'] . "</author>
+                        <author>".$row['email']." (" .$row['author'] . ")</author>
                         <pubDate>" . date('r',strtotime($row['pubDate'])) . "</pubDate>
               </item>
               ";

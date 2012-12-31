@@ -1,0 +1,33 @@
+<?
+ /*
+  * Create a copy of this file with the name
+  * 'global.php' and make it accessible to www-data for 'read',
+  * i.e. chown www-data global.php; chmod +r global.php
+  * Then customise the following parameters...
+  * 
+  * !!!Treat this file as confidential!!!
+  */
+
+ // Parameters that you need to customize...
+ $__DOMAIN_NAME__ = "vlab.mooo.info";// Domain Name
+ $__PHPMYADMIN_URL__ = "http://$__DOMAIN_NAME__/phpmyadmin/";// Location of PHPMYADMIN
+ $__KEYWORDS__="Automatic Control, Virtual Lab, VLAB, NTUA, Automatic Control Playground";//Keywords for VLAB
+ $__DATABASE_URL__ = "localhost";//Database Domain Name (Localhost by default)
+ $__DATABASE_PORT__ = "3306";//Database Port (3306 by default)
+ $__DATABASE_PWD__ = "Your-Password-Goes-Here";
+ $__DATABASE_USER__ = "Database-User-Goes-Here";
+ 
+ // Salts for better password protection
+ // After choosing the salts do not modify these values
+ // otherwise the users will not be able to login any more.
+ $__SALT_0='salt-0-goes-here';
+ $__SALT_1='salt-1-goes-here';
+ $__SALT_2='salt-2-goes-here';
+ 
+ // Parameters that most probably you don't 
+ // need to modify
+ $__URL__= "http://$__DOMAIN_NAME__";
+ $__DATABASE_NAME__ = "vlab";
+ $FEED_RSS = "/rss/feed?type=rss";
+ $FEED_ATOM = "/rss/feed?type=atom";
+?>

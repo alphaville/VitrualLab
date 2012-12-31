@@ -12,9 +12,9 @@ $token = $_COOKIE['token'];
 authoriseUser($un, $token, false, -1, 'tuning');
 
 
-$lang = $_GET['lang'];
+$lang = isset($_GET['lang'])?$_GET['lang']:null;
 // Get the language 
-if ($lang == NULL) {
+if (is_null($lang)) {
     include('./en.php');
 } else {
     $includename = './' . $lang . '.php';
@@ -45,12 +45,12 @@ if (!isset($P1) || !isset($Q1) || !isset($Q2) || !isset($delay)) {
      */
     $delay = randomFloat(0.01, 1); //random delay
     // SET COOKIES...
-    setcookie("P1", $P1, time() + 36000, "/tuning");
-    setcookie("Q0", $Q0, time() + 36000, "/tuning");
-    setcookie("Q1", $Q1, time() + 36000, "/tuning");
-    setcookie("Q2", $Q2, time() + 36000, "/tuning");
-    setcookie("Q3", $Q3, time() + 36000, "/tuning");
-    setcookie("delay", $delay, time() + 36000, "/tuning");
+    setcookie("P1", $P1, time() + 36000, "/");
+    setcookie("Q0", $Q0, time() + 36000, "/");
+    setcookie("Q1", $Q1, time() + 36000, "/");
+    setcookie("Q2", $Q2, time() + 36000, "/");
+    setcookie("Q3", $Q3, time() + 36000, "/");
+    setcookie("delay", $delay, time() + 36000, "/");
 }
 
 function randomFloat($min, $max) {

@@ -6,9 +6,9 @@ if (empty($_SESSION['count'])) {
     $_SESSION['count']++;
 }
 include("./global.php");
-$lang = $_GET['lang'];
+$lang = (isset($_GET)&& isset($_GET['lang']))?$_GET['lang']:null;
 // Get the language 
-if ($lang == NULL) {
+if (is_null($lang)) {
     include('./en.php');
 } else {
     $includename = './' . $lang . '.php';
@@ -19,10 +19,10 @@ if ($lang == NULL) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="<? echo $lang; ?>">
+<html lang="<?= $lang; ?>">
     <head>
-        <title><? echo $page_title ?></title>
-        <meta name="keywords" content="<? echo $__KEYWORDS__; ?>" >
+        <title><?= $page_title ?></title>
+        <meta name="keywords" content="<?= $__KEYWORDS__; ?>" >
         <meta name="description" content="Online automatic control lab." >
         <meta name="author" content="Pantelis Sopasakis">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
@@ -32,8 +32,8 @@ if ($lang == NULL) {
         <meta name="rights" content="GNU GPL version 3" />
         <link rel="stylesheet" type="text/css" href="./style.css" >
         <link rel="shortcut icon" href="/vlab/favicon.ico" type="image/x-icon" />
-        <link href="<?echo $FEED_RSS;?>" rel="alternate" type="application/rss+xml" title="RSS 2.0" />
-        <link href="<?echo $FEED_ATOM;?>" rel="alternate" type="application/atom+xml" title="Atom 1.0" />
+        <link href="<?= $FEED_RSS;?>" rel="alternate" type="application/rss+xml" title="RSS 2.0" />
+        <link href="<?= $FEED_ATOM;?>" rel="alternate" type="application/atom+xml" title="Atom 1.0" />
     </head>
     <body id="body" onload="loadMe();">        
         <div id="wrap">
@@ -43,10 +43,10 @@ if ($lang == NULL) {
             <div id="leftcolumn">                
                 <? include('./sidebar.php'); ?>
                 <div class="left-text">
-                    <div class="news"  lang="<? echo $lang; ?>">
+                    <div class="news"  lang="<?= $lang; ?>">
                         <span style="font: bolder small times"><? echo $about_title; ?></span>
                         <p style="margin-top:5px;" id="left_paragraph" align="justify">
-                            <? echo $about_vlab_text; ?>                            
+                            <?= $about_vlab_text; ?>                            
                         </p>
                         <div id="elearning">
                             <div align="center">                            
