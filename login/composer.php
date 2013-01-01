@@ -8,9 +8,9 @@ $un = $_COOKIE['id'];
 $token = $_COOKIE['token'];
 authoriseUser($un, $token, false, -1, 'login/composer.php');
 
-$force_rcpt = $_GET['force_rcpt'];
-$rcpt_to = urldecode($_GET['rcpt_to']);
-$send_to = urldecode($_GET['to']);
+$force_rcpt = isset($_GET['force_rcpt'])?$_GET['force_rcpt']:null;
+$rcpt_to = isset($_GET['rcpt_to'])?urldecode($_GET['rcpt_to']):null;
+$send_to = isset($_GET['to'])?urldecode($_GET['to']):null;
 
 function getUser() {
     $fn = $_COOKIE["fn"];
@@ -20,7 +20,7 @@ function getUser() {
 }
 
 $user_role = getRole($_COOKIE["id"]);
-$what = $_GET['what'];
+$what = isset($_GET['what'])?$_GET['what']:null;
 ?>
 <!DOCTYPE html>
 <html>

@@ -57,7 +57,7 @@ doStartSession();
                             $rcpt_to = $_POST["receiver"];
                             $subject = $_POST["subject"];
                             $body = $_POST["editor1"];
-                            $inreplyto = $_POST["inreplyto"];
+                            $inreplyto = isset($_POST["inreplyto"])?$_POST["inreplyto"]:null;
                             if (!$inreplyto){
                                 $inreplyto="NULL";
                             }

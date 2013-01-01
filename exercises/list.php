@@ -4,21 +4,13 @@ include("../database.php");
 require_once("./Status.php");
 if (!authorize_user($_COOKIE["id"], $_COOKIE["token"])) {
     header('Location: ' . $__BASE_URI . '/login/index.php');
-    die("You are being redirect to another page...");
+    echo("You are being redirect to another page...");
 }
 session_start();
 if (empty($_SESSION['count'])) {
     $_SESSION['count'] = 1;
 } else {
     $_SESSION['count']++;
-}
-$user_role = getRole($_COOKIE["id"]);
-$isadmin = false;
-if ($user_role < 10) {
-    header('Location: ' . $__BASE_URI . '/login/index.php');
-    die("You are being redirect to another page...");
-} else {
-    $isadmin = true;
 }
 $message_id = isset($_GET['id'])?$_GET['id']:null;
 $un = isset($_COOKIE['id'])?$_COOKIE['id']:null;

@@ -9,7 +9,7 @@ if (empty($_SESSION['count'])) {
 <!DOCTYPE html>
 <html>
     <?
-    $lang = $_GET['lang'];
+    $lang = (isset($_GET)&& isset($_GET['lang']))?$_GET['lang']:null;
     // Get the language 
     if ($lang == NULL) {
         include('./en.php');

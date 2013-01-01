@@ -27,14 +27,14 @@ if (is_null($lang)) {
  * Check if there are cookies with the parameters. If yes, retrieve the
  * values from these cookies.
  */
-$P1 = $_COOKIE["P1"];
-$Q0 = $_COOKIE["Q0"];
-$Q1 = $_COOKIE["Q1"];
-$Q2 = $_COOKIE["Q2"];
-$Q3 = $_COOKIE["Q3"];
-$delay = $_COOKIE["delay"];
+$P1 = isset($_COOKIE["P1"])?$_COOKIE["P1"]:null;
+$Q0 = isset($_COOKIE["Q0"])?$_COOKIE["Q0"]:null;
+$Q1 = isset($_COOKIE["Q1"])?$_COOKIE["Q1"]:null;
+$Q2 = isset($_COOKIE["Q2"])?$_COOKIE["Q1"]:null;
+$Q3 = isset($_COOKIE["Q3"])?$_COOKIE["Q3"]:null;
+$delay = isset($_COOKIE["delay"])?$_COOKIE["delay"]:null;
 
-if (!isset($P1) || !isset($Q1) || !isset($Q2) || !isset($delay)) {
+if (is_null($P1) || is_null($Q1) || is_null($Q2) || is_null($delay)) {
     $P1 = randomFloat(0.01, 0.2); //coefficient of s in P
     $Q3 = randomFloat(1.8, 2.2); //coefficient of s^3 in Q
     $Q2 = randomFloat(4.7, 5.4); //coefficient of s^2 in Q

@@ -8,7 +8,7 @@ if (empty($_SESSION['count'])) {
 }
 
 function _default_($paramName, $def) {
-    $fromUrl = $_GET[$paramName];
+    $fromUrl = isset($_GET[$paramName])?$_GET[$paramName]:null;
     return $fromUrl ? urldecode($fromUrl) : $def;
 }
 ?>
@@ -40,7 +40,7 @@ function _default_($paramName, $def) {
         include('./constants.php');
         $open = _default_('open', 0);
         $kcval = _default_('kc', 1);
-        $tival = _default_('ti', infty);
+        $tival = _default_('ti', 'infty');
         $tdval = _default_('td', 0);
         $psval = _default_('p', '[1]');
         $qsval = _default_('q', '[2   7   9   5   1]');

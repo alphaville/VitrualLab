@@ -1,5 +1,4 @@
 <?php
-
 function connect() {
     $root = realpath($_SERVER["DOCUMENT_ROOT"]);
     require("$root/global.php");

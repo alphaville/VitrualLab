@@ -8,7 +8,7 @@ doStartSession();
 // Authorise User...
 $un = $_COOKIE["id"];
 $token = $_COOKIE["token"];
-authoriseUser($un, $token, false, -1); // do not require admin rights
+authoriseUser($un, $token, false, 1, "statistics"); // admin rights required
 ?>
 <!DOCTYPE html>
 <html>
