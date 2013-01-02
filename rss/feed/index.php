@@ -15,15 +15,14 @@ if ($type == "rss") {
     header("Content-type:application/atom+xml; charset=utf-8");
 }
 if ($type == "rss") {
-    echo '<?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    echo '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
         <channel>
                 <title>Virtual Lab</title>
                 <description>Automatic Control Virtual Lab</description>
                 <link>' . $__URL__ . '</link>
                 <lastBuildDate>Tue, 03 Apr 2012 15:52:28 +0000</lastBuildDate>
                 <generator>VLAB Internal RSS Generator</generator>
-                <atom:link rel="self" type="application/rss+xml" href="' . $__URL__ . '"/>
+                <atom:link rel="self" type="application/rss+xml" href="' . $__URL__.$_SERVER['REQUEST_URI'] . '"/>
                 <language>en-gb</language>';
 } elseif ($type == "atom") {
     echo '<?xml version="1.0" encoding="utf-8"?>
