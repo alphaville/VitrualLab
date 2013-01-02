@@ -5,7 +5,7 @@ include("./login-utils.php");
 
 doStartSession();
 
-$what = $_GET["what"];
+$what = (isset($_GET)&& isset($_GET['what']))?$_GET['what']:null;
 
 $myUser = new User();
 if (isset($what) & $what == "return") {// Authenticate by OpenID
@@ -45,7 +45,7 @@ if (!isset($what)) {// Just want to see my profile, dude
 
 $user_role = getRole($un);
 
-$redirect = $_GET['redirect'];
+$redirect = isset($_GET['redirect'])?$_GET['redirect']:null;
 if (isset($redirect)) {
     header("Location: /$redirect");
     die();
@@ -95,7 +95,8 @@ if (isset($redirect)) {
                     if (isset($email)) {
                         echo '<h3>Profile Info</h3><div><img src="http://www.gravatar.com/avatar/' . $hash . '" ></div>';
                         echo '<p>' . $fn . ' ' . $ln . ' &lt;<a href="mailto:' . $email . '">' . $email . '</a>&gt;</p>';
-                        echo '<div id="text1"><p align="justify">You are logged in by <a href="' . $auth_uri . '">' . $authtype . '</a>';
+                        echo "<div id=\"text1\"><p align=\"justify\">You are logged in by <a href=\"".
+                                (isset($auth_uri)?$auth_uri:"/")."\">$authtype</a>";
                         $anonymous_email = "guest@" . $_SERVER['HTTP_HOST'];
                         if ($email == $anonymous_email) {
                             echo ' as guest. Check the <a href="/login">login page</a> on how 
@@ -135,7 +136,8 @@ if (isset($redirect)) {
                                     <a href="./users.php"><img src="../images/people.png" alt="users" title="VLAB Users"> </a>                                        
                                     <a href="../rss"><img src="../images/rss.png" alt="RSS Feeds" title="RSS"> </a>
                                     <a href=""><img src="../images/professor.png" alt="students' work" title="Students' Work"> </a>
-                                    <a href=""><img src="../images/chart.png" alt="statistics" title="VLAB Statistics"> </a>
+                                    <a href="/statistics"><img src="../images/chart.png" alt="statistics" title="VLAB Statistics"> </a>
+                                    <a href="<?=$__PHPMYADMIN_URL__;?>" target="_blank"><img src="../images/mysql_logo.png" alt="mysql" title="MySQL Admin"> </a>
                                 </div>
                             <? } ?>
                         </div>

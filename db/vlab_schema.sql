@@ -183,7 +183,7 @@ DROP procedure IF EXISTS `vlab`.`count_unread`;
 DELIMITER $$
 USE `vlab`$$
 CREATE PROCEDURE count_unread(OUT number_unread_msg INT, IN user_identifier VARCHAR(255))
-BEGIN
+    BEGIN
         -- Check if user exists
         DECLARE n INT;
         SET n = (SELECT COUNT(*) FROM `people` WHERE `people`.`id`=user_identifier);
@@ -193,8 +193,88 @@ BEGIN
         ELSE 
             -- If user exists calculate the number of unread messages
             SELECT (SELECT COUNT(`id`) FROM `message` WHERE `rcpt_to`=user_identifier AND `isRead`=0)+(SELECT COUNT(`id`) FROM `message` WHERE `rcpt_to`='everybody')-(SELECT COUNT(`message_id`) FROM `haveReadAnnouncement` WHERE `people_id`=user_identifier) AS `unread` INTO number_unread_msg;
-        END IF;
-END$$
+        END IF;        
+    END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- function count_users
+-- -----------------------------------------------------
+
+USE `vlab`;
+DROP function IF EXISTS `vlab`.`count_users`;
+
+DELIMITER $$
+USE `vlab`$$
+
+
+
+CREATE FUNCTION count_users()
+    RETURNS INT DETERMINISTIC
+    BEGIN
+        RETURN (SELECT COUNT(`id`) FROM `people` WHERE `id`!='everybody');
+    END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- function count_rss
+-- -----------------------------------------------------
+
+USE `vlab`;
+DROP function IF EXISTS `vlab`.`count_rss`;
+
+DELIMITER $$
+USE `vlab`$$
+
+
+
+CREATE FUNCTION count_rss()
+    RETURNS INT DETERMINISTIC
+    BEGIN
+        RETURN (SELECT COUNT(`id`) FROM `rss`);
+    END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- function count_exercises
+-- -----------------------------------------------------
+
+USE `vlab`;
+DROP function IF EXISTS `vlab`.`count_exercises`;
+
+DELIMITER $$
+USE `vlab`$$
+
+
+
+CREATE FUNCTION count_exercises()
+    RETURNS INT DETERMINISTIC
+    BEGIN
+        RETURN (SELECT COUNT(`id`) FROM `exercise`);
+    END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- function count_local_users
+-- -----------------------------------------------------
+
+USE `vlab`;
+DROP function IF EXISTS `vlab`.`count_local_users`;
+
+DELIMITER $$
+USE `vlab`$$
+
+
+
+CREATE FUNCTION count_local_users()
+    RETURNS INT DETERMINISTIC
+    BEGIN
+        RETURN (SELECT COUNT(`id`) FROM `people` where `login_method`='vlab' AND `id`!='everybody');
+    END$$
 
 DELIMITER ;
 

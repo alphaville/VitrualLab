@@ -60,7 +60,7 @@ function createTokenForUser($user_id) {
     $create_token = "INSERT INTO `token` (`token_id`,`people_id`) VALUES ('$randomToken','$user_id')";
     mysql_query($create_token);
     mysql_close($con); //CLOSE CONNECTION : X001
-    setcookie("token", $token, time() + 36000, "/");
+    setcookie("token", $randomToken, time() + 36000, "/");
     mysql_close($con);
     return $randomToken;
 }

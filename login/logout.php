@@ -1,18 +1,26 @@
 <?php
 include('../global.php');
 include('../database.php');
-session_destroy();
+//session_destroy();
 
-$logging_out_user = $_COOKIE['id'];
+$logging_out_user = isset($_COOKIE['id'])?$_COOKIE['id']:null;
+if (is_null($logging_out_user)){
+    // No-one to log-out... 
+    // Go back to main page:
+    header('Location: ' . $__BASE_URI . '/');
+}
 clearToken($logging_out_user);
 
-setcookie("fn", "", time() - 3600, "/");
-setcookie("ln", "", time() - 3600, "/");
-setcookie("email", "", time() - 3600, "/");
-setcookie("auth", "", time() - 3600, "/");
-setcookie("hash", "", time() - 3600, "/");
-setcookie("id", "", time() - 3600, "/");
-setcookie("token", "", time() - 3600, "/");
+// unset cookies
+if (isset($_SERVER['HTTP_COOKIE'])) {
+    $cookies = explode(';', $_SERVER['HTTP_COOKIE']);
+    foreach($cookies as $cookie) {
+        $parts = explode('=', $cookie);
+        $name = trim($parts[0]);
+        setcookie($name, '', time()-1000);
+        setcookie($name, '', time()-1000, '/');
+    }
+}
 
 ?>
 <!DOCTYPE html>
@@ -53,10 +61,7 @@ setcookie("token", "", time() - 3600, "/");
                     <h1>
                         Logout Page
                     </h1>
-                    <h3>
-                        Your Profile
-                    </h3>
-                    <div>You are now logged out! Thanks for using vlab.mooo.info.</div>
+                    <div>You are now logged out! Thanks for using <?echo "<a href=\"/\">$__DOMAIN_NAME__</a>"?>.</div>
                 </div>
             </div>
             <div class="footer" id="footer">

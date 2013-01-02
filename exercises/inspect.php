@@ -6,7 +6,7 @@ require_once("./Status.php");
 
 doStartSession();
 
-$lang = $_GET['lang'];
+$lang = isset($_GET['lang'])?$_GET['lang']:null;
 // Get the language 
 if ($lang == NULL) {
     include('./en.php');
@@ -26,12 +26,16 @@ $token = $_COOKIE['token'];
 authoriseUser($un, $token, false, -1, 'login/composer.php');
 
 $xrc = Exercise::fetchExerciseByID($exercise_id);
+if (strcmp($un,$xrc->getUser_id())!=0){
+    die('<!DOCTYPE html><html><body><span style="color:red"><h1>Hahaha!</h1></span>
+        <p><em>Wow! What a hacker! Is this all you can do?</em></p></body></html>');
+}
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd" 
     >    
-<html lang="<? echo $lang; ?>"> 
+<html lang="<?= $lang; ?>"> 
     <head>
-        <title><? echo $page_title ?></title>
+        <title>VLab - Ex. <?=$exercise_id?></title>
         <meta name="keywords" content="Automatic Control Lab, Virtual Lab, Automatic Control Playground" >
         <meta name="description" content="Online automatic control lab." >
         <meta name="author" content="Pantelis Sopasakis">
@@ -100,16 +104,16 @@ $xrc = Exercise::fetchExerciseByID($exercise_id);
                                             <col>
                                         </colgroup>
                                         <tr>
-                                            <td>Exercise ID</td><td><? echo "<a href=\"\">$exercise_id</a>"; ?></td>
+                                            <td>Exercise ID</td><td><?="<a href=\"\">$exercise_id</a>"; ?></td>
                                         </tr>
                                         <tr>
-                                            <td>JSON Format</td><td><? echo "<a href=\"item.php?id=$exercise_id&user_id=$un\">Download</a>"; ?></td>
+                                            <td>JSON Format</td><td><?="<a href=\"item.php?id=$exercise_id&user_id=$un\">Download</a>"; ?></td>
                                         </tr>
                                         <tr>
-                                            <td>Author</td><td><? echo "<a href=\"/login/profile.php\">$fn $ln</a>"; ?></td>
+                                            <td>Author</td><td><?="<a href=\"/login/profile.php\">$fn $ln</a>"; ?></td>
                                         </tr>
                                         <tr>
-                                            <td>Type</td><td><? echo "<a href=\"/tuning\">Tuning Exercise</a>"; ?></td>
+                                            <td>Type</td><td><?="<a href=\"/tuning\">Tuning Exercise</a>"; ?></td>
                                         </tr>
                                     </table>
                                 </td>
@@ -125,16 +129,16 @@ $xrc = Exercise::fetchExerciseByID($exercise_id);
                                 <col>
                             </colgroup>
                             <tr>
-                                <td>Status</td><td><? echo $xrc->getStatus()->getStatusText(); ?></td>
+                                <td>Status</td><td><?= $xrc->getStatus()->getStatusText(); ?></td>
                             </tr>
                             <tr>
-                                <td>Created</td><td><? echo $xrc->getCreation_date(); ?></td>
+                                <td>Created</td><td><?= $xrc->getCreation_date(); ?></td>
                             </tr>
                             <tr>
-                                <td>Last Updated</td><td><? echo $xrc->getLast_update_time(); ?></td>
+                                <td>Last Updated</td><td><?= $xrc->getLast_update_time(); ?></td>
                             </tr>
                             <tr>
-                                <td>Submitted</td><td><? echo $xrc->getSumbission_time(); ?></td>
+                                <td>Submitted</td><td><?= $xrc->getSumbission_time(); ?></td>
                             </tr>
                         </table>                                
                     </div>

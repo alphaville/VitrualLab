@@ -20,16 +20,16 @@ function utf8_substr($str, $start) {
     }
 }
 
-$search_type = $_GET["t"] == "sent" ? "sent" : "received";
+$search_type =  (isset($_GET["t"])&&$_GET["t"] == "sent") ? "sent" : "received";
 $rowsPerPage = 10;
-$page = $_GET["page"] != null ? $_GET["page"] : 1;
+$page = (isset($_GET["page"])&& !is_null($_GET["page"])) ? $_GET["page"] : 1;
 $page--;
 $offset = $page * $rowsPerPage;
 ?>
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Message Composer</title>
+        <title>Messages</title>
         <meta name="robots" content="noindex,nofollow">
         <meta name="keywords" content="Automatic Control Lab, Virtual Lab, Automatic Control Playground" >
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -43,7 +43,6 @@ $offset = $page * $rowsPerPage;
         <link href="<?echo $FEED_ATOM;?>" rel="alternate" type="application/atom+xml" title="Atom 1.0" >
     </head>
     <body id="body" onload="loadMe();">    
-        <?if (!haveIReadThisMessage(85, "chung")){echo "I have not read this message";};?>
         <div id="wrap">
             <div id="background">
                 <img src="../images/background.jpg" class="stretch" alt="" >
@@ -78,6 +77,7 @@ $offset = $page * $rowsPerPage;
                                 echo '<tr><th>ID</th><th>Subject</th><th>From</th><th>Date</th></tr>';
                                 $query = "SELECT `id`,`from` as `peer`, `subject`, `creation_date` 
                                 from `message` where `rcpt_to`='" . mysql_real_escape_string($un) . "' or `rcpt_to`='everybody' 
+                                and `creation_date`>(select `creation_date` from `people` where `id`= '" . mysql_real_escape_string($un) . "') 
                                 order by `creation_date` desc limit " . mysql_real_escape_string($offset) . ", " . mysql_real_escape_string($rowsPerPage);
                             } else {
                                 echo '<tr><th>ID</th><th>Subject</th><th>To</th><th>Date</th></tr>';
@@ -86,6 +86,7 @@ $offset = $page * $rowsPerPage;
                                         mysql_real_escape_string($offset) . ", " . mysql_real_escape_string($rowsPerPage);
                             }
                             $result = mysql_query($query, $con);
+                            mysql_close($con); // Needs to be closed here! (The call 'haveIReadThisMessage' opens a new connection)                           
                             while ($row = mysql_fetch_array($result)) {
                                 $isThisNotRead = strcmp("sent",$search_type)!=0 && !haveIReadThisMessage($row['id'], $un);
                                 echo "<tr><td><a href=\"./message.php?id=" . $row['id'] . "\">#" .
@@ -93,8 +94,7 @@ $offset = $page * $rowsPerPage;
                                         (strlen($row['subject']) > 25 ? "..." : "") . 
                                         ($isThisNotRead?"</span>":""). "</td><td>" . getNameForId($row['peer']) . 
                                         "</td><td>" . $row['creation_date'] . "</td></tr>";
-                            }
-                            mysql_close($con);
+                            }                            
                             ?>
                         </table>
                     </div>

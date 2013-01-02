@@ -38,7 +38,10 @@ if ($type == "rss") {
 
 $con = connect();
 if ($con) {
-    $query = "SELECT `title`,`link`, `guid`, `author`, `description`, `pubDate` from `rss` where lang='" . $lang . "' order by `pubDate` desc limit 25";
+    $query = "SELECT `rss`.`title`,`rss`.`link`, `rss`.`guid`, `rss`.`author`, 
+    `rss`.`description`, `rss`.`pubDate`, `people`.`email` 
+    FROM `rss` INNER JOIN `people` ON `rss`.`user_id`=`people`.`id`
+    WHERE `rss`.`lang`='$lang' ORDER BY `rss`.`pubDate` DESC LIMIT 20";
     $result = mysql_query($query, $con);
     while ($row = mysql_fetch_array($result)) {
         //TODO: Modify to comply to ATOM standards
@@ -47,7 +50,7 @@ if ($con) {
                         <link>" . $row['link'] . "</link>
                         <guid isPermaLink=\"false\">" . $row['guid'] . "</guid>
                         <description><![CDATA[<p>" . $row['description'] . "<p>]]></description>
-                        <author>" . $row['author'] . "</author>
+                        <author>".$row['email']." (" .$row['author'] . ")</author>
                         <pubDate>" . date('r',strtotime($row['pubDate'])) . "</pubDate>
               </item>
               ";
