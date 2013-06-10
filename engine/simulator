@@ -41,7 +41,9 @@
 % -sim_horizon '10' -sim_points '1000' -frequency '100';
 
 warning("off");
-addpath('/usr/share/octave/packages/3.2/control-1.0.11/');
+addpath('/usr/share/octave/packages/control-2.3.52/');
+addpath('/usr/lib/x86_64-linux-gnu/octave/packages/control-2.3.52/x86_64-pc-linux-gnu-api-v48+/');
+% addpath('/usr/share/octave/packages/3.2/control-1.0.11/');
 %
 %JSONLAB Library for Octave/Matlab
 %Reference: http://iso2mesh.sourceforge.net/cgi-bin/index.cgi?jsonlab/savejson.m
@@ -163,21 +165,22 @@ try
 	
 	% Transfer Function Calculation
 	y=[];t=[];
+	
 	if (strcmp(excitation,'step'))
-		sys=tf(amplitude*P_,Q_);				
+		sys=tf(amplitude*P_,Q_);		
 	elseif (strcmp(excitation,'harmonic'))
 		sys=tf(amplitude*P_,conv(Q_,[1 0 frequency^2]));
 	elseif (strcmp(excitation,'impulse'))
 		sys=tf(conv(P_,[1 0]),Q_);
 	end
-
+	
 	% Simulation
 	if (auto_scale)
-		[y,t] = step(sys,1);
+		[y,t] = step(sys);
 	else
-		[y,t] = step(sys,1,sim_horizon,sim_points);
+		[y,t] = step(sys,sim_horizon,sim_horizon/sim_points);
 	end
-
+	y=y'; t=t';
 	% Open Loop + Delay = Translate the response.
 	if (closed_loop==0)
 		t=[0 t.+delay];
